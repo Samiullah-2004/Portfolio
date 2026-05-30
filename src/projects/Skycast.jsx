@@ -2,7 +2,7 @@ import React, { useState, useRef } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
-import SkyCastWeb from '../projects/images/SkyCastWeb.png'
+import SkycastWeb from "../projects/images/SkycastWeb.png"
 
 gsap.registerPlugin(useGSAP)
 
@@ -153,7 +153,7 @@ const Skycast = () => {
           </div>
 
           <div className="!mt-16 reveal">
-            <img src={SkyCastWeb} alt="Skycast Weather Preview" className="w-full object-cover rounded-lg border border-[#a0a0a0]/10" />
+            <img src={SkycastWeb} alt="Skycast Weather Preview" className="w-full object-cover rounded-lg border border-[#a0a0a0]/10" />
           </div>
 
         </div>
