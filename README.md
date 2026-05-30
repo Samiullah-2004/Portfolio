@@ -18,10 +18,10 @@ Showcasing real-world projects, skills, and a passion for clean, responsive UI.
 
 > *Home page with hero text, animated stats, and scroll-triggered transitions*
 
-![Portfolio Preview](WebView.png)
+![Portfolio Preview](Webview.png)
 
 ---
-
+git
 ## ✨ Features
 
 - 🎬 **Page transition curtain** — green wipe animation on every project page load
