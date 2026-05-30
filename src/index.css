@@ -1,0 +1,19 @@
+@import "tailwindcss";
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+
+body {
+  background-color: #111111;
+  font-family: var(--font-roboto-flex), sans-serif;
+}
+
+@import "tailwindcss";
+
+@theme {
+  --font-anton: 'Anton', sans-serif;
+  --font-roboto-flex: 'Roboto Flex', sans-serif;
+}
