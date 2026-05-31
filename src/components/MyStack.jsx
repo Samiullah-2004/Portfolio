@@ -78,16 +78,16 @@ const MyStack = () => {
   }, { scope: containerRef })
 
   return (
-    <div ref={containerRef} className='grid grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] h-[120vh] text-[#ffffff] overflow-hidden'>
+    <div ref={containerRef} className='grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[70vh] md:h-[120vh] text-[#ffffff] overflow-hidden'>
       <div></div>
 
-      <div className='sticky top-0 h-screen !mt-10 !pl-6 md:!pl-12 flex flex-col justify-center'>
+      <div className='relative md:sticky md:top-0 md:h-screen !mt-6 md:!mt-10 !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center py-10 md:py-0'>
 
         <div className='flex items-center gap-x-4 max-w-5xl slide-up-and-fade will-change-transform'>
-          <div className="relative w-10 h-10 md:w-12 md:h-12 animate-spin flex-shrink-0" style={{ animationDuration: '3s' }}>
+          <div className="relative w-8 h-8 md:w-12 md:h-12 animate-spin flex-shrink-0" style={{ animationDuration: '3s' }}>
             {[0, 60, 120, 180, 240, 300].map((angle) => (
               <div key={angle}
-                className="absolute w-2 h-5 bg-[#06f51ee6] rounded-full top-1/2 left-1/2"
+                className="absolute w-1.5 h-4 md:w-2 md:h-5 bg-[#06f51ee6] rounded-full top-1/2 left-1/2"
                 style={{
                   transform: `translate(-50%, -100%) rotate(${angle}deg)`,
                   transformOrigin: '50% 100%',
@@ -101,20 +101,21 @@ const MyStack = () => {
           </h2>
         </div>
 
-        <div className='w-[85vw] !my-4'>
+        <div className='w-[90%] md:w-[85vw] max-w-5xl !my-4'>
         </div>
 
-        <div className='flex flex-col gap-y-8 md:gap-y-12'>
+        <div className='flex flex-col gap-y-6 md:gap-y-12 max-w-5xl '>
           {categories.map((cat) => (
-            <div key={cat.label} className='grid grid-cols-1 md:grid-cols-2 gap-y-4 slide-up-and-fade will-change-transform'>
+
+            <div key={cat.label} className='grid grid-cols-1 md:grid-cols-[200px_1fr] lg:grid-cols-2 gap-y-3 md:gap-x-4 slide-up-and-fade will-change-transform'>
               <p className='text-[#d0cdcdde] text-[32px] md:text-[48px] tracking-tight font-anton leading-none'>
                 {cat.label}
               </p>
-              <div className='flex gap-x-8 md:gap-x-13 flex-wrap gap-y-6'>
+              <div className='flex gap-x-8 sm:gap-x-8 md:gap-x-5 flex-wrap gap-y-4 items-center md:!pl-14'>
                 {cat.techs.map((tech) => (
                   <div className="flex items-center gap-x-2" key={tech.id}>
                     <img src={tech.image} alt={tech.name}
-                      className="w-10 h-10 md:w-16 md:h-16 object-contain hover:scale-110 transition-transform duration-300" />
+                      className="w-8 h-8 sm:w-10 sm:h-10 md:w-16 md:h-16 object-contain hover:scale-110 transition-transform duration-300" />
                     <span className='text-[14px] md:text-[18px] font-roboto-flex font-normal text-[#a0a0a0]'>
                       {tech.name}
                     </span>

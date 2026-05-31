@@ -2,4 +2,8 @@ html {
   scroll-behavior: smooth;
 }
 
-/* Keep your existing styles below */
+@media (min-width: 768px) {
+  * {
+    cursor: none !important;
+  }
+}

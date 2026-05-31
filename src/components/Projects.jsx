@@ -98,11 +98,10 @@ const Projects = () => {
     <div
       id="projects"
       ref={containerRef}
-      className='relative grid grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] h-[100vh] text-[#ffffff] overflow-hidden'
+      className='relative grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[60vh] md:h-[100vh] text-[#ffffff] overflow-hidden'
     >
       <div></div>
 
-      {/* floating image preview */}
       <div
         ref={imageContainerRef}
         className="hidden md:block absolute right-16 top-0 z-20 pointer-events-none opacity-0 w-[350px] lg:w-[460px] xl:w-[700px] aspect-[16/10] overflow-hidden rounded-lg border border-white/10 shadow-2xl"
@@ -122,11 +121,11 @@ const Projects = () => {
         ))}
       </div>
 
-      <div className='sticky top-0 h-screen !pl-6 md:!pl-12 flex flex-col justify-center gap-y-8 md:gap-y-12'>
+      <div className='relative md:sticky md:top-0 md:h-screen !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center gap-y-6 md:gap-y-12 py-10 md:py-0'>
 
         <div className='flex items-center gap-x-4 max-w-5xl proj-item will-change-transform'>
           <div
-            className="relative w-10 h-10 md:w-12 md:h-12 animate-spin flex-shrink-0"
+            className="relative w-8 h-8 md:w-12 md:h-12 animate-spin flex-shrink-0"
             style={{ animationDuration: '6s' }}
           >
             {[0, 60, 120, 180, 240, 300].map((angle) => (
@@ -146,7 +145,7 @@ const Projects = () => {
           </h2>
         </div>
 
-        <div className="flex flex-col gap-y-8 md:gap-y-12 max-w-5xl">
+        <div className="flex flex-col gap-y-6 md:gap-y-12 max-w-5xl !pr-4 md:!pr-12">
           {projects.map((project) => (
             <div
               key={project.id}
@@ -158,7 +157,7 @@ const Projects = () => {
                 {project.id}
               </p>
 
-              <Link to={project.link} className="!pl-4 md:!pl-6 gap-y-3 flex flex-col flex-1 cursor-pointer">
+              <Link to={project.link} className="!pl-3 sm:!pl-6 gap-y-2 flex flex-col flex-1 cursor-pointer">
 
                 <h3 className="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight uppercase font-anton leading-none relative inline-flex items-center gap-3 cursor-pointer overflow-hidden">
                   <span className="text-[#d0cdcdde] flex items-center gap-3">
@@ -186,11 +185,11 @@ const Projects = () => {
                   </span>
                 </h3>
 
-                <div className="flex flex-wrap flex-row gap-x-6 md:gap-x-12 gap-y-2">
+                <div className="flex flex-wrap flex-row gap-x-4 sm:gap-x-12 gap-y-2">
                   {project.tags.map((tag, i) => (
                     <div key={i} className="flex items-center gap-x-2">
-                      <span className="w-2 h-2 rounded-full bg-[#a0a0a0] inline-block flex-shrink-0"></span>
-                      <span className="text-[13px] md:text-[14px] font-roboto-flex font-normal text-[#a0a0a0] tracking-wide">
+                      <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#a0a0a0] inline-block flex-shrink-0"></span>
+                      <span className="text-[12px] sm:text-[14px] font-roboto-flex font-normal text-[#a0a0a0] tracking-wide">
                         {tag}
                       </span>
                     </div>

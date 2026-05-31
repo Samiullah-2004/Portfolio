@@ -38,7 +38,7 @@ const Contact = () => {
   return (
     <div
       ref={containerRef}
-      className='grid grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] text-[#ffffff] h-[90vh] overflow-hidden'
+      className='grid grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] text-[#ffffff] min-h-[40vh] md:h-[90vh] overflow-hidden'
     >
       <div></div>
 

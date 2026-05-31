@@ -39,14 +39,14 @@ const Aboutme = () => {
     <div
       id="about-me"
       ref={containerRef}
-      className='grid grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] h-[120vh]  text-[#ffffff] overflow-hidden select-none'
+      className='grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] h-auto md:h-[120vh] text-[#ffffff] overflow-hidden select-none'
     >
       <div></div>
 
-      <div className='sticky top-0 h-screen !mt-10 !pl-6 md:!pl-12  flex flex-col justify-center'>
+      <div className='relative md:sticky md:top-0 md:h-screen !mt-6 md:!mt-10 !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center py-10 md:py-0'>
 
-        <div className='flex flex-col max-w-5xl gap-y-8 md:gap-y-16'>
-          <p className='text-[28px] sm:text-[36px] md:text-[68px] font-roboto-flex font-light tracking-tight text-[#ffffff] leading-[1.1] slide-up-and-fade will-change-transform'>
+        <div className='flex flex-col max-w-5xl gap-y-6 md:gap-y-16 !pr-4 md:!pr-12'>
+          <p className='text-[28px] sm:text-[36px] md:text-[68px] font-roboto-flex font-light tracking-tight text-[#ffffff] leading-[1.2] md:leading-[1.1] slide-up-and-fade will-change-transform'>
             I believe in a{' '}
             <span className='text-[#06f51ee6] font-roboto-flex font-medium tracking-wide'>USER-CENTERED</span>{' '}
             design approach, ensuring that every project I build is tailored to meet the specific needs of its users.
@@ -58,17 +58,17 @@ const Aboutme = () => {
           </div>
         </div>
 
-        <div className='w-[88vw] !my-6 md:!my-8'>
-          <div className='h-[1px] w-full bg-[#a0a0a0] opacity-20'></div>
+        <div className='w-[90%] md:w-[88vw] max-w-5xl !my-6 md:!my-8'>
+          <div className='h-[2px] w-full bg-[#ffffff] opacity-20'></div>
         </div>
 
-        <div className='grid grid-cols-1 w-[88vw] md:grid-cols-2 gap-x-8 gap-y-6'>
+        <div className='grid grid-cols-1 w-[90%] md:w-[88vw] max-w-5xl md:grid-cols-2 gap-x-8 gap-y-6'>
           <div>
-            <p className='text-[#ffffff] text-[36px] md:text-[48px] font-light tracking-tight leading-[1.05] slide-up-and-fade will-change-transform font-roboto-flex'>
+            <p className='text-[#ffffff] text-[36px] md:text-[48px] font-light tracking-tight leading-[1.1] slide-up-and-fade will-change-transform font-roboto-flex'>
               Hi, I'm Samiullah.
             </p>
           </div>
-          <div className='flex flex-col gap-y-5'>
+          <div className='flex flex-col gap-y-4 md:gap-y-5 md:!pl-14'>
             <p className='text-[15px] md:text-[18px] font-roboto-flex font-normal slide-up-and-fade leading-relaxed text-[#a0a0a0] will-change-transform'>
               I'm a frontend web developer dedicated to turning ideas into real,
               deployed web applications. I specialize in creating clean, responsive,

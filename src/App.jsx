@@ -11,6 +11,7 @@ import Skycast from './projects/Skycast'
 import { GridScan } from './GridScan'
 import Preloader from './assets/components/Preloader'
 import Emailbar from './components/Emailbar'
+import CustomCursor from './Cursor/CustomCursor'
 
 function App() {
   const router = createBrowserRouter([
@@ -70,6 +71,7 @@ function App() {
 
   return (
     <>
+      {/* Background Matrix Scanning Effect */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
         <GridScan
           sensitivity={0.55}
@@ -90,9 +92,11 @@ function App() {
         />
       </div>
 
-
       <div style={{ position: 'relative', zIndex: 10, pointerEvents: 'none' }} className="text-white">
-        <div style={{ pointerEvents: 'auto' }}>
+        <div style={{ pointerEvents: 'auto' }} className="md:cursor-none">
+          
+          <CustomCursor />
+          
           <RouterProvider router={router} />
         </div>
       </div>
