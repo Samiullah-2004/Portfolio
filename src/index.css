@@ -1,19 +1,27 @@
 @import "tailwindcss";
+
+@theme {
+  --font-anton: 'Anton', sans-serif;
+  --font-roboto-flex: 'Roboto Flex', sans-serif;
+}
+
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-
 body {
   background-color: #111111;
   font-family: var(--font-roboto-flex), sans-serif;
 }
 
-@import "tailwindcss";
+html::-webkit-scrollbar,
+body::-webkit-scrollbar {
+  display: none;
+}
 
-@theme {
-  --font-anton: 'Anton', sans-serif;
-  --font-roboto-flex: 'Roboto Flex', sans-serif;
+html, body {
+  -ms-overflow-style: none; 
+  scrollbar-width: none;     
 }

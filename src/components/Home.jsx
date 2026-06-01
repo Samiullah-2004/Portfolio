@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
@@ -35,44 +35,48 @@ const Home = () => {
     })
     tl.to('.slide-up-and-fade', { y: -150, opacity: 0, stagger: 0.02 })
   }, { scope: containerRef })
+  
+  useEffect(() => {
+    const event = new CustomEvent('navStateChange', { detail: { isOpen: navOpen } })
+    window.dispatchEvent(event)
+  }, [navOpen])
 
   return (
     <div
       id="home"
       ref={containerRef}
-      /* ✅ MERGED: Combined mobile responsive columns/height with your precise desktop values */
       className='grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr_auto] min-h-[70vh] md:h-[120vh] text-white overflow-hidden relative'
     >
       <div></div>
 
-      {/* ✅ MERGED: Mobile-friendly padding and vertical centering that shifts smoothly on desktop */}
       <div className="flex flex-col !pl-4 sm:!pl-6 md:!pl-10 justify-center py-10 md:py-0">
         <div className="flex flex-col gap-4 max-w-lg">
           <div className='slide-up-and-fade will-change-transform font-anton'>
-            {/* ✅ KEEPED: Code 1 exact typography scaling values */}
             <p className="text-[52px] sm:text-[65px] md:text-[80px] leading-[.95] text-[#06f51ee6] tracking-tight">FRONTEND</p>
             <p className="text-[52px] sm:text-[65px] md:text-[80px] leading-[.95] text-[#ffffff] tracking-tight !ml-5 md:!ml-7">DEVELOPER</p>
           </div>
 
-         <p className="font-roboto-flex font-normal text-[15px] !pr-10 md:!pr-0 md:text-[18px] text-[#a0a0a0] leading-relaxed slide-up-and-fade will-change-transform">
-            Hi! I'm Samiullah. A passionate Frontend Developer from Lahore, Pakistan —
-            building clean, responsive, and real-world web applications using React.js,
-            Tailwind CSS, and JavaScript.
+          <p className="font-roboto-flex font-normal text-[15px] !pr-10 md:!pr-0 md:text-[18px] text-[#a0a0a0] leading-relaxed slide-up-and-fade will-change-transform">
+            Hi! I'm Samiullah. A passionate Frontend Developer building clean, responsive, and high-performance web applications using React.js, Tailwind CSS, and JavaScript.
           </p>
 
           <div className="flex flex-col gap-1.5 !mt-2 slide-up-and-fade will-change-transform">
-            <button className="bg-[#06f51ee6] text-[#0a0a0a] font-black w-32 h-10 flex justify-center items-center hover:bg-[#ffffff] transition-colors duration-300 cursor-pointer tracking-wider text-[13px] font-anton">
+            <a 
+              href="https://www.upwork.com/freelancers/~01ffa5cf678d8eff63" 
+              target="_blank" 
+              rel="noopener noreferrer"
+              className="bg-[#06f51ee6] text-[#0a0a0a] font-black w-32 h-10 flex justify-center items-center hover:bg-[#ffffff] transition-colors duration-300 cursor-pointer tracking-wider text-[13px] font-anton"
+            >
               LET'S TALK
-            </button>
+            </a>
             <div className="flex items-center gap-2 text-[13px] md:text-[14px] text-[#a0a0a0] font-roboto-flex">
-              <span className="w-2 h-2 rounded-full bg-[#a0a0a0]"></span>
-              Available for full-time opportunities
+              <span className="w-3 h-3 rounded-full bg-[#ffffff]"></span>
+              <p className='!pt-1'> Available for full-time opportunities</p>
             </div>
           </div>
         </div>
       </div>
 
-      {/* ✅ KEEPED: Exact Right Column Desktop stats structure from Code 1 */}
       <div className='hidden md:grid grid-rows-[1fr_1fr] relative'>
         <div></div>
         <div className='flex flex-col justify-end items-end !mr-8 !pb-11'>
@@ -91,7 +95,6 @@ const Home = () => {
         </div>
       </div>
 
-      {/* ✅ MERGED: Universal Navigation Trigger Button (Accessible globally on mobile & desktop) */}
       <button
         onClick={() => setNavOpen(!navOpen)}
         className="fixed top-6 right-6 md:right-8 z-50 flex flex-col gap-[6px] cursor-pointer"
@@ -102,8 +105,7 @@ const Home = () => {
         <span className={`block w-7 h-[2px] bg-[#ffffff] transition-all duration-300 ${navOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
       </button>
 
-      {/* ✅ MERGED: Universal Navigation Overlay Menu (Extracted out of the grid column wrapper) */}
-      <div className={`fixed top-0 right-0 bottom-0 w-full sm:w-[460px] bg-[#0a0a0a] border-l border-[#a0a0a0]/20 shadow-2xl z-40 flex flex-col justify-center items-center !p-12 !pt-32 transition-transform duration-500 ease-in-out ${navOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+      <div className={`fixed top-0 right-0 bottom-0 w-[90vw] sm:w-[460px] bg-[#0a0a0a] border-l border-[#a0a0a0]/20 shadow-2xl z-40 flex flex-col justify-center items-center !p-8 sm:!p-12 !pt-32 transition-transform duration-500 ease-in-out ${navOpen ? 'translate-x-0' : 'translate-x-full'}`}>
         <div className="grid grid-cols-2 gap-8 items-start w-full">
           <div className="flex flex-col gap-6">
             <h3 className="text-[13px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase">Social</h3>
@@ -111,7 +113,7 @@ const Home = () => {
               {[
                 { label: 'GitHub', href: 'https://github.com/Samiullah-2004' },
                 { label: 'LinkedIn', href: 'https://www.linkedin.com/in/samiullah-akram-a28461404/' },
-                { label: 'Instagram', href: 'https://instagram.com/_s_a_m_i_u_l_l_a_h_' },
+                { label: 'UpWork', href: 'https://www.upwork.com/freelancers/~01ffa5cf678d8eff63' },
               ].map((s) => (
                 <a key={s.label} href={s.href} target="_blank" rel="noreferrer"
                   className="text-[18px] font-roboto-flex font-normal text-[#a0a0a0] hover:text-[#06f51ee6] transition-colors duration-300">

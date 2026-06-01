@@ -3,7 +3,6 @@ import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
-
 import PasteWeb   from '../projects/images/PasteWeb.png'
 import CryptoWeb  from '../projects/images/CryptoWeb.png'
 import SkycastWeb from '../projects/images/SkycastWeb.png'

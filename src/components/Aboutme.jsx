@@ -39,11 +39,11 @@ const Aboutme = () => {
     <div
       id="about-me"
       ref={containerRef}
-      className='grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] h-auto md:h-[120vh] text-[#ffffff] overflow-hidden select-none'
+      className='grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] h-auto md:h-[130vh] text-[#ffffff] overflow-hidden select-none'
     >
       <div></div>
 
-      <div className='relative md:sticky md:top-0 md:h-screen !mt-6 md:!mt-10 !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center py-10 md:py-0'>
+      <div className='relative md:sticky md:top-0 md:h-screen !mt-6 md:!mt-10 !pl-4 sm:!pl-6 md:!pl-12 !pt-15 flex flex-col justify-center py-10 md:py-0'>
 
         <div className='flex flex-col max-w-5xl gap-y-6 md:gap-y-16 !pr-4 md:!pr-12'>
           <p className='text-[28px] sm:text-[36px] md:text-[68px] font-roboto-flex font-light tracking-tight text-[#ffffff] leading-[1.2] md:leading-[1.1] slide-up-and-fade will-change-transform'>
@@ -76,7 +76,7 @@ const Aboutme = () => {
               and Tailwind CSS.
             </p>
             <p className='text-[15px] md:text-[18px] font-roboto-flex font-normal slide-up-and-fade leading-relaxed text-[#a0a0a0] will-change-transform'>
-              I'm currently studying BSCS at Alhamra University (NCBA&E), Lahore and
+              I'm currently pursuing a BSCS at Alhamra University (NCBA&E) and
               actively looking for frontend opportunities to grow and contribute to
               real-world digital products.
             </p>

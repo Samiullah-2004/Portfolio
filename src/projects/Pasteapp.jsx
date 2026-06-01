@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
@@ -27,6 +27,23 @@ const PasteApp = () => {
       )
   }, [])
 
+  useEffect(() => {
+    document.documentElement.style.scrollbarWidth = 'none'
+    const style = document.createElement('style')
+    style.innerHTML = `*::-webkit-scrollbar { display: none; }`
+    document.head.appendChild(style)
+
+    return () => {
+      document.documentElement.style.scrollbarWidth = ''
+      document.head.removeChild(style)
+    }
+  }, [])
+
+  useEffect(() => {
+    const event = new CustomEvent('navStateChange', { detail: { isOpen: navOpen } })
+    window.dispatchEvent(event)
+  }, [navOpen])
+
   const handleBack = () => {
     gsap.set(curtainRef.current, { yPercent: -100 })
     gsap.to(curtainRef.current, {
@@ -39,14 +56,14 @@ const PasteApp = () => {
 
   return (
     <div>
-  <div className="flex items-center !ml-40 !pt-6 reveal">
-  <button
-    onClick={() => navigate(-1)}
-    className="flex items-center gap-2 text-sm font-roboto-flex text-neutral-400 hover:text-[#06f51ee6] transition-colors duration-300 cursor-pointer bg-transparent border-none"
-  >
-    <span className="text-base">←</span> Back
-  </button>
-</div>
+      <div className="max-w-4xl mx-auto w-full !px-6 md:!px-12 !pt-8 reveal">
+        <button
+          onClick={handleBack}
+          className="flex items-center gap-2 text-sm font-roboto-flex text-neutral-400 hover:text-[#06f51ee6] transition-colors duration-300 cursor-pointer bg-transparent border-none"
+        >
+          <span className="text-base">←</span> Back
+        </button>
+      </div>
 
       <div className="flex flex-col justify-center items-center relative min-h-screen text-white overflow-x-hidden">
 
@@ -58,7 +75,7 @@ const PasteApp = () => {
           <span className={`block w-7 h-[2px] bg-white transition-all duration-300 ${navOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
         </button>
 
-        <div className={`fixed top-0 right-0 bottom-0 w-full sm:w-[460px] bg-[#0a0a0a] border-l border-[#a0a0a0]/20 shadow-2xl z-40 flex flex-col justify-center items-center !p-12 !pt-32 transition-transform duration-500 ease-in-out ${navOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className={`fixed top-0 right-0 bottom-0 w-[93vw] sm:w-[460px] bg-[#0a0a0a] border-l border-[#a0a0a0]/20 shadow-2xl z-40 flex flex-col justify-center items-center !p-12 !pt-32 transition-transform duration-500 ease-in-out ${navOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="grid grid-cols-2 gap-8 items-start w-full">
             <div className="flex flex-col gap-6">
               <h3 className="text-[13px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase">Social</h3>
@@ -66,7 +83,7 @@ const PasteApp = () => {
                 {[
                   { label: 'GitHub', href: 'https://github.com/Samiullah-2004' },
                   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/samiullah-akram-a28461404/' },
-                  { label: 'Instagram', href: 'https://instagram.com/_s_a_m_i_u_l_l_a_h_' },
+                  { label: 'UpWork', href: 'https://www.upwork.com/freelancers/~01ffa5cf678d8eff63' },
                 ].map((s) => (
                   <a key={s.label} href={s.href} target="_blank" rel="noreferrer"
                     className="text-[18px] font-roboto-flex text-[#a0a0a0] hover:text-[#06f51ee6] transition-colors duration-300">
@@ -104,13 +121,12 @@ const PasteApp = () => {
 
         <div ref={contentRef} className="max-w-4xl mx-auto !px-6 md:!px-12 pb-0">
 
-          {/* hero title */}
           <div className="flex flex-col !mt-24 md:!mt-36 reveal">
             <div className="flex items-center gap-x-4">
               <h1 className="text-[56px] md:text-[80px] xl:text-[100px] font-anton tracking-tight text-white uppercase leading-none">
                 Paste App
               </h1>
-              <a href="https://github.com/Samiullah-2004/paste-app" target="_blank" rel="noopener noreferrer"
+              <a href="https://paste-app-pied-iota.vercel.app/" target="_blank" rel="noopener noreferrer"
                 className="text-[#a0a0a0] hover:text-[#06f51ee6] transition-colors duration-300 self-end !mb-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />

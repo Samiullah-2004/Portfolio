@@ -12,6 +12,7 @@ import { GridScan } from './GridScan'
 import Preloader from './assets/components/Preloader'
 import Emailbar from './components/Emailbar'
 import CustomCursor from './Cursor/CustomCursor'
+import ScrollProgressIndicator from './assets/components/ScrollProgressIndicator'
 
 function App() {
   const router = createBrowserRouter([
@@ -19,8 +20,9 @@ function App() {
       path: "/",
       element: (
         <div>
+          <ScrollProgressIndicator />
           <Preloader />
-          <Emailbar /> 
+          <Emailbar />
           <Home />
           <Aboutme />
           <MyStack />
@@ -41,7 +43,8 @@ function App() {
       path: "/pasteapp",
       element: (
         <div>
-          <Emailbar /> 
+          <ScrollProgressIndicator />
+          <Emailbar />
           <Pasteapp />
           <Contact />
         </div>
@@ -51,7 +54,8 @@ function App() {
       path: "/cryptotracker",
       element: (
         <div>
-          <Emailbar /> 
+          <ScrollProgressIndicator />
+          <Emailbar />
           <Cryptotracker />
           <Contact />
         </div>
@@ -61,7 +65,8 @@ function App() {
       path: "/skycast",
       element: (
         <div>
-          <Emailbar /> 
+          <ScrollProgressIndicator />
+          <Emailbar />
           <Skycast />
           <Contact />
         </div>
@@ -71,15 +76,14 @@ function App() {
 
   return (
     <>
-      {/* Background Matrix Scanning Effect */}
       <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
         <GridScan
           sensitivity={0.55}
           lineThickness={1}
           linesColor="#2F293A"
           gridScale={0.1}
-          scanColor="white"
-          scanOpacity={0.1}
+          scanColor="#a0a0a0"
+          scanOpacity={0.25}
           enablePost
           bloomIntensity={0.6}
           chromaticAberration={0.002}
@@ -94,9 +98,9 @@ function App() {
 
       <div style={{ position: 'relative', zIndex: 10, pointerEvents: 'none' }} className="text-white">
         <div style={{ pointerEvents: 'auto' }} className="md:cursor-none">
-          
+
           <CustomCursor />
-          
+
           <RouterProvider router={router} />
         </div>
       </div>

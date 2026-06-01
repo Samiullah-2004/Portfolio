@@ -1,4 +1,4 @@
-import React, { useState, useRef } from 'react'
+import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
@@ -27,11 +27,41 @@ const Cryptotracker = () => {
       )
   }, [])
 
+  // Hide browser scrollbar visually while on this page
+  useEffect(() => {
+    document.documentElement.style.scrollbarWidth = 'none' // Firefox
+    const style = document.createElement('style')
+    style.innerHTML = `*::-webkit-scrollbar { display: none; }` // Chrome/Safari/Edge
+    document.head.appendChild(style)
+
+    return () => {
+      document.documentElement.style.scrollbarWidth = ''
+      document.head.removeChild(style)
+    }
+  }, [])
+
+  // Sync nav state with custom scrollbar (if used)
+  useEffect(() => {
+    const event = new CustomEvent('navStateChange', { detail: { isOpen: navOpen } })
+    window.dispatchEvent(event)
+  }, [navOpen])
+
+  const handleBack = () => {
+    gsap.set(curtainRef.current, { yPercent: -100 })
+    gsap.to(curtainRef.current, {
+      yPercent: 0,
+      duration: 0.9,
+      ease: 'power3.inOut',
+      onComplete: () => navigate(-1), 
+    })
+  }
+
   return (
     <div>
-      <div className="flex items-center !ml-40 !pt-6 reveal">
+      {/* FIXED: Uses max-w container instead of fixed margins to perfectly align with content on all screens */}
+      <div className="max-w-4xl mx-auto w-full !px-6 md:!px-12 !pt-8 reveal">
         <button
-          onClick={() => navigate(-1)}
+          onClick={handleBack}
           className="flex items-center gap-2 text-sm font-roboto-flex text-neutral-400 hover:text-[#06f51ee6] transition-colors duration-300 cursor-pointer bg-transparent border-none"
         >
           <span className="text-base">←</span> Back
@@ -48,7 +78,7 @@ const Cryptotracker = () => {
           <span className={`block w-7 h-[2px] bg-white transition-all duration-300 ${navOpen ? '-rotate-45 -translate-y-2' : ''}`}></span>
         </button>
 
-        <div className={`fixed top-0 right-0 bottom-0 w-full sm:w-[460px] bg-[#0a0a0a] border-l border-[#a0a0a0]/20 shadow-2xl z-40 flex flex-col justify-center items-center !p-12 !pt-32 transition-transform duration-500 ease-in-out ${navOpen ? 'translate-x-0' : 'translate-x-full'}`}>
+        <div className={`fixed top-0 right-0 bottom-0 w-[93vw] sm:w-[460px] bg-[#0a0a0a] border-l border-[#a0a0a0]/20 shadow-2xl z-40 flex flex-col justify-center items-center !p-12 !pt-32 transition-transform duration-500 ease-in-out ${navOpen ? 'translate-x-0' : 'translate-x-full'}`}>
           <div className="grid grid-cols-2 gap-8 items-start w-full">
             <div className="flex flex-col gap-6">
               <h3 className="text-[13px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase">Social</h3>
@@ -56,7 +86,7 @@ const Cryptotracker = () => {
                 {[
                   { label: 'GitHub', href: 'https://github.com/Samiullah-2004' },
                   { label: 'LinkedIn', href: 'https://www.linkedin.com/in/samiullah-akram-a28461404/' },
-                  { label: 'Instagram', href: 'https://instagram.com/_s_a_m_i_u_l_l_a_h_' },
+                  { label: 'UpWork', href: 'https://www.upwork.com/freelancers/~01ffa5cf678d8eff63' },
                 ].map((s) => (
                   <a key={s.label} href={s.href} target="_blank" rel="noreferrer"
                     className="text-[18px] font-roboto-flex text-[#a0a0a0] hover:text-[#06f51ee6] transition-colors duration-300">
@@ -138,7 +168,7 @@ const Cryptotracker = () => {
             <div className="flex flex-col gap-y-0">
               {[
                 { icon: '📈', title: 'Live Price Tracking', desc: 'Real-time prices for top 10 coins via CoinGecko API, auto-updating every 60 seconds.' },
-                { icon: '👁️', title: 'Watchlist & Portfolio', desc: 'Save your favourite coins to a personal watchlist and track your portfolio performance.' },
+                { icon: '👁', title: 'Watchlist & Portfolio', desc: 'Save your favourite coins to a personal watchlist and track your portfolio performance.' },
                 { icon: '📊', title: 'Market Overview', desc: 'Global market cap, 24H volume, BTC dominance, and per-coin 24H change displayed at a glance.' },
               ].map((f) => (
                 <div key={f.title} className="flex items-start gap-x-4 border-t border-[#a0a0a0]/10 !py-5">
