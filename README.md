@@ -2,10 +2,9 @@
 
 # 🧑‍💻 Samiullah — Frontend Developer Portfolio
 
-**A modern, animated portfolio built with React.js, GSAP, and Tailwind CSS.**  
-Showcasing real-world projects, skills, and a passion for clean, responsive UI.
+**A modern, animated portfolio built with React.js, GSAP, and Tailwind CSS.** Showcasing real-world projects, skills, and a passion for clean, responsive UI.
 
-[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Site-06f51e?style=for-the-badge)](https://your-portfolio-url.vercel.app)
+[![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Site-06f51e?style=for-the-badge)](https://samiullah-portfolio-orpin.vercel.app/)
 [![Made With React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
 [![Styled With Tailwind](https://img.shields.io/badge/Tailwind_CSS-3-38BDF8?style=for-the-badge&logo=tailwindcss)](https://tailwindcss.com)
 [![Animated With GSAP](https://img.shields.io/badge/GSAP-ScrollTrigger-88CE02?style=for-the-badge)](https://greensock.com/gsap)
@@ -26,6 +25,7 @@ Showcasing real-world projects, skills, and a passion for clean, responsive UI.
 
 - 🎬 **Page transition curtain** — green wipe animation on every project page load
 - 🖱️ **Custom Interactive Cursor** — high-performance, responsive custom pointer that reacts to clickable elements
+- 📈 **Scroll Progress Indicator** — top fixed progress bar tracing scroll depth
 - 🖼️ **Cursor-following image previews** — hover a project name to see a live screenshot float beside your cursor
 - 📜 **Scroll-triggered animations** — elements slide in and out as you scroll using GSAP ScrollTrigger
 - 🌐 **GridScan background** — interactive animated grid that reacts to mouse movement
@@ -39,7 +39,7 @@ Showcasing real-world projects, skills, and a passion for clean, responsive UI.
 
 ## 🚀 Live Demo
 
-**[→ View Portfolio](https://your-portfolio-url.vercel.app)**
+**[→ View Portfolio](https://samiullah-portfolio-orpin.vercel.app/)**
 
 ---
 
@@ -54,80 +54,40 @@ Portfolio/
 ├── src/
 │   ├── assets/
 │   │   └── components/
-│   │       └── Preloader.jsx          # Intro loading animation
+│   │       ├── Preloader.jsx               # Intro loading animation
+│   │       └── ScrollProgressIndicator.jsx # Fixed top scroll depth bar
 │   │
 │   ├── components/
-│   │   ├── Home.jsx                   # Hero section with stats
-│   │   ├── Aboutme.jsx                # About me section
-│   │   ├── MyStack.jsx                # Tech stack display
-│   │   ├── Projects.jsx               # Project list with hover previews
-│   │   ├── Contact.jsx                # Contact / CTA section
-│   │   └── Emailbar.jsx               # Fixed vertical email bar
+│   │   ├── Home.jsx                    # Hero section with stats
+│   │   ├── Aboutme.jsx                 # About me section
+│   │   ├── MyStack.jsx                 # Tech stack display
+│   │   ├── Projects.jsx                # Project list with hover previews
+│   │   ├── Contact.jsx                 # Contact / CTA section
+│   │   └── Emailbar.jsx                # Fixed vertical email bar
 │   │
 │   ├── Cursor/
-│   │   └── CustomCursor.jsx           # Interactive custom mouse pointer
+│   │   └── CustomCursor.jsx            # Interactive custom mouse pointer
 │   │
 │   ├── projects/
 │   │   ├── images/
-│   │   │   ├── PasteWeb.png           # Paste App screenshot
-│   │   │   ├── CryptoWeb.png          # Crypto Tracker screenshot
-│   │   │   └── SkycastWeb.png         # Skycast Weather screenshot
-│   │   ├── Pasteapp.jsx               # Paste App project page
-│   │   ├── Cryptotracker.jsx          # Crypto Tracker project page
-│   │   └── Skycast.jsx                # Skycast project page
+│   │   │   ├── PasteWeb.png            # Paste App screenshot
+│   │   │   ├── CryptoWeb.png           # Crypto Tracker screenshot
+│   │   │   └── SkycastWeb.png          # Skycast Weather screenshot
+│   │   ├── Pasteapp.jsx                # Paste App project page
+│   │   ├── Cryptotracker.jsx           # Crypto Tracker project page
+│   │   └── Skycast.jsx                 # Skycast project page
 │   │
-│   ├── GridScan.jsx                   # Interactive animated background
-│   ├── App.jsx                        # Router and layout setup
-│   └── main.jsx                       # App entry point
+│   ├── GridScan.jsx                    # Interactive animated background
+│   ├── App.jsx                         # Router and layout setup
+│   └── main.jsx                        # App entry point
 │
 ├── index.html
 ├── tailwind.config.js
+├── vercel.json                         # Vercel deployment config
 ├── vite.config.js
 └── README.md
 
-## 🛠️ Tech Stack
 
-| Technology | Purpose |
-|---|---|
-| **React.js** | UI components and SPA architecture |
-| **React Router v6** | Client-side page routing |
-| **GSAP + ScrollTrigger** | Scroll animations and page transitions |
-| **@gsap/react** | useGSAP hook for React integration |
-| **Tailwind CSS** | Utility-first styling and responsiveness |
-| **Vite** | Lightning-fast build tool and dev server |
-
----
-
-## 📦 Projects Featured
-
-### 📋 Paste App
-A multi-functional paste manager with Redux state management, real-time search, and clipboard actions.  
-**Stack:** React · Redux Toolkit · Tailwind CSS · Vercel
-
-### 📈 Crypto Tracker
-Live cryptocurrency price tracker powered by the Binance WebSocket API.  
-**Stack:** JavaScript · CSS · Binance API
-
-### 🌤️ Skycast Weather
-Clean weather app with location-based forecasts using the OpenWeather API.  
-**Stack:** JavaScript · CSS · OpenWeather API
-
----
-
-## 🏁 Getting Started
-
-```bash
-# 1. Clone the repository
-git clone https://github.com/Samiullah-2004/portfolio.git
-
-# 2. Navigate into the project
-cd portfolio
-
-# 3. Install dependencies
-npm install
-
-# 4. Start the development server
-npm run dev
 ```
 
 Then open [http://localhost:5173](http://localhost:5173) in your browser.

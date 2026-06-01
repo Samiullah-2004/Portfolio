@@ -51,7 +51,7 @@ const Contact = () => {
 
           <a
             href="mailto:samiullah.akram.3009@gmail.com"
-            className="font-anton tracking-tighter text-2xl sm:text-4xl md:text-[48px] lg:text-[45px] text-[#a0a0a0] hover:text-[#06f51ee6] hover:underline transition-colors duration-300 break-all"
+           className="font-anton tracking-tighter text-[24px] xs:text-[28px] sm:text-4xl md:text-[48px] lg:text-[45px] text-[#a0a0a0] hover:text-[#06f51ee6] hover:underline transition-colors duration-300 whitespace-nowrap"
           >
             samiullah.akram.3009@gmail.com
           </a>
