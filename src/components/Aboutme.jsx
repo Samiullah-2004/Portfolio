@@ -1,91 +1,99 @@
-import React, { useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useGSAP } from '@gsap/react'
-import Emailbar from './Emailbar'
+import React, { useRef } from "react";
+import { gsap } from "gsap";
+import { ScrollTrigger } from "gsap/ScrollTrigger";
+import { useGSAP } from "@gsap/react";
+import Emailbar from "./Emailbar";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP)
+gsap.registerPlugin(ScrollTrigger, useGSAP);
 
 const Aboutme = () => {
-  const containerRef = useRef(null)
+  const containerRef = useRef(null);
 
-  useGSAP(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        id: 'about-me-in',
-        trigger: containerRef.current,
-        start: 'top 70%',
-        end: 'bottom bottom',
-        scrub: 0.5,
-      },
-    })
-    tl.from('.slide-up-and-fade', { y: 150, opacity: 0, stagger: 0.05 })
-  }, { scope: containerRef })
+  useGSAP(
+    () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          id: "about-me-in",
+          trigger: containerRef.current,
+          start: "top 70%",
+          end: "bottom bottom",
+          scrub: 0.5,
+        },
+      });
+      tl.from(".slide-up-and-fade", { y: 150, opacity: 0, stagger: 0.05 });
+    },
+    { scope: containerRef },
+  );
 
-  useGSAP(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        id: 'about-me-out',
-        trigger: containerRef.current,
-        start: 'bottom 50%',
-        end: 'bottom 10%',
-        scrub: 0.5,
-      },
-    })
-    tl.to('.slide-up-and-fade', { y: -150, opacity: 0, stagger: 0.02 })
-  }, { scope: containerRef })
+  useGSAP(
+    () => {
+      const tl = gsap.timeline({
+        scrollTrigger: {
+          id: "about-me-out",
+          trigger: containerRef.current,
+          start: "bottom 50%",
+          end: "bottom 10%",
+          scrub: 0.5,
+        },
+      });
+      tl.to(".slide-up-and-fade", { y: -150, opacity: 0, stagger: 0.02 });
+    },
+    { scope: containerRef },
+  );
 
   return (
     <div
       id="about-me"
       ref={containerRef}
-      className='grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] h-auto md:h-[130vh] text-[#ffffff] overflow-hidden select-none'
+      className="grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] h-auto md:h-[130vh] text-[#ffffff] overflow-hidden select-none"
     >
       <div></div>
 
-      <div className='relative md:sticky md:top-0 md:h-screen !mt-6 md:!mt-10 !pl-4 sm:!pl-6 md:!pl-12 !pt-15 flex flex-col justify-center py-10 md:py-0'>
-
-        <div className='flex flex-col max-w-5xl gap-y-6 md:gap-y-16 !pr-4 md:!pr-12'>
-          <p className='text-[28px] sm:text-[36px] md:text-[68px] font-roboto-flex font-light tracking-tight text-[#ffffff] leading-[1.2] md:leading-[1.1] slide-up-and-fade will-change-transform'>
-            I believe in a{' '}
-            <span className='text-[#06f51ee6] font-roboto-flex font-medium tracking-wide'>USER-CENTERED</span>{' '}
-            design approach, ensuring that every project I build is tailored to meet the specific needs of its users.
+      <div className="relative md:sticky md:top-0 md:h-screen !mt-6 md:!mt-10 !pl-4 sm:!pl-6 md:!pl-12 !pt-15 flex flex-col justify-center py-10 md:py-0">
+        <div className="flex flex-col max-w-5xl gap-y-6 md:gap-y-16 !pr-4 md:!pr-12">
+          <p className="text-[28px] sm:text-[36px] md:text-[68px] font-roboto-flex font-light tracking-tight text-[#ffffff] leading-[1.2] md:leading-[1.1] slide-up-and-fade will-change-transform">
+            I build{" "}
+            <span className="text-[#06f51ee6] font-roboto-flex font-medium tracking-wide">
+              END-TO-END
+            </span>{" "}
+            web applications from database design and REST APIs to responsive,
+            performant frontends.
           </p>
-          <div className='self-start slide-up-and-fade will-change-transform'>
-            <h2 className='text-[36px] md:text-[36px] font-anton tracking-tight text-[#06f51ee6] uppercase leading-none'>
+          <div className="self-start slide-up-and-fade will-change-transform">
+            <h2 className="text-[36px] md:text-[36px] font-anton tracking-tight text-[#06f51ee6] uppercase leading-none">
               THIS IS ME
             </h2>
           </div>
         </div>
 
-        <div className='w-[90%] md:w-[88vw] max-w-5xl !my-6 md:!my-8'>
-          <div className='h-[2px] w-full bg-[#ffffff] opacity-20'></div>
+        <div className="w-[90%] md:w-[88vw] max-w-5xl !my-6 md:!my-8">
+          <div className="h-[2px] w-full bg-[#ffffff] opacity-20"></div>
         </div>
 
-        <div className='grid grid-cols-1 w-[90%] md:w-[88vw] max-w-5xl md:grid-cols-2 gap-x-8 gap-y-6'>
+        <div className="grid grid-cols-1 w-[90%] md:w-[88vw] max-w-5xl md:grid-cols-2 gap-x-8 gap-y-6">
           <div>
-            <p className='text-[#ffffff] text-[36px] md:text-[48px] font-light tracking-tight leading-[1.1] slide-up-and-fade will-change-transform font-roboto-flex'>
+            <p className="text-[#ffffff] text-[36px] md:text-[48px] font-light tracking-tight leading-[1.1] slide-up-and-fade will-change-transform font-roboto-flex">
               Hi, I'm Samiullah.
             </p>
           </div>
-          <div className='flex flex-col gap-y-4 md:gap-y-5 md:!pl-14'>
-            <p className='text-[15px] md:text-[18px] font-roboto-flex font-normal slide-up-and-fade leading-relaxed text-[#a0a0a0] will-change-transform'>
-              I'm a frontend web developer dedicated to turning ideas into real,
-              deployed web applications. I specialize in creating clean, responsive,
-              and intuitive user experiences using HTML, CSS, JavaScript, React.js,
-              and Tailwind CSS.
+          <div className="flex flex-col gap-y-4 md:gap-y-5 md:!pl-14">
+            <p className="text-[15px] md:text-[18px] font-roboto-flex font-normal slide-up-and-fade leading-relaxed text-[#a0a0a0] will-change-transform">
+              I'm a Full Stack Developer specializing in the MERN stack and
+              TypeScript. I build complete web applications REST APIs,
+              real-time systems with Socket.IO, authentication flows with JWT,
+              and clean responsive frontends with React and Tailwind CSS.
             </p>
-            <p className='text-[15px] md:text-[18px] font-roboto-flex font-normal slide-up-and-fade leading-relaxed text-[#a0a0a0] will-change-transform'>
+            <p className="text-[15px] md:text-[18px] font-roboto-flex font-normal slide-up-and-fade leading-relaxed text-[#a0a0a0] will-change-transform">
               I'm currently pursuing a BSCS at Alhamra University (NCBA&E) and
-              actively looking for frontend opportunities to grow and contribute to
-              real-world digital products.
+              doing a Frontend internship at Qwetrum Technologies, while
+              actively taking on freelance projects on Upwork and building
+              production-ready full stack applications.
             </p>
           </div>
         </div>
-
       </div>
     </div>
-  )
-}
+  );
+};
 
-export default Aboutme
+export default Aboutme;

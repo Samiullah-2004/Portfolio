@@ -155,7 +155,7 @@ const Skycast = () => {
             <p className="text-[17px] font-roboto-flex text-[#c0c0c0] leading-relaxed">
               A clean, minimal weather application that delivers real-time atmospheric data
               for any city in the world. Powered by the Open-Meteo API, Skycast gives you
-              instant access to live conditions — just search a city and go.
+              instant access to live conditions just search a city and go.
               Built with pure JavaScript and CSS, no frameworks, no bloat.
             </p>
           </div>

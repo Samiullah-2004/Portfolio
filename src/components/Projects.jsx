@@ -6,13 +6,19 @@ import { useGSAP } from '@gsap/react'
 import PasteWeb   from '../projects/images/PasteWeb.png'
 import CryptoWeb  from '../projects/images/CryptoWeb.png'
 import SkycastWeb from '../projects/images/SkycastWeb.png'
+import StoweWeb    from '../projects/images/StoweWeb.png'
+import ChessWeb    from '../projects/images/Onyxchess.png'
+import LivePinWeb  from '../projects/images/Livepin.png'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const projects = [
-  { id: '_01.', title: 'Paste App',       tags: ['React', 'Tailwind CSS', 'Vercel'],   link: '/pasteapp',      image: PasteWeb   },
-  { id: '_02.', title: 'Crypto Tracker',  tags: ['JavaScript', 'CSS', 'Binance API'],  link: '/cryptotracker', image: CryptoWeb  },
-  { id: '_03.', title: 'Skycast Weather', tags: ['JavaScript', 'CSS', 'OpenWeather'],  link: '/skycast',       image: SkycastWeb },
+  { id: '_01.', title: 'Stowe',           tags: ['MongoDB', 'Express', 'Node.js', 'JWT', 'Multer'],   link: '/stowe',         image: StoweWeb   },
+  { id: '_02.', title: 'OnyxChess',       tags: ['Socket.IO', 'chess.js', 'Node.js', 'Tailwind CSS'], link: '/onyxchess',     image: ChessWeb   },
+  { id: '_03.', title: 'LivePin',         tags: ['Socket.IO', 'Leaflet.js', 'Node.js', 'Express'],    link: '/livepin',       image: LivePinWeb },
+  { id: '_04.', title: 'Paste App',       tags: ['React', 'Redux', 'Tailwind CSS'],                   link: '/pasteapp',      image: PasteWeb   },
+  { id: '_05.', title: 'Crypto Tracker',  tags: ['JavaScript', 'CSS', 'Binance API'],                 link: '/cryptotracker', image: CryptoWeb  },
+  { id: '_06.', title: 'Skycast Weather', tags: ['JavaScript', 'CSS', 'OpenWeather'],                 link: '/skycast',       image: SkycastWeb },
 ]
 
 const Projects = () => {
@@ -97,7 +103,7 @@ const Projects = () => {
     <div
       id="projects"
       ref={containerRef}
-      className='relative grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[60vh] md:h-[100vh] text-[#ffffff] overflow-hidden'
+      className='relative grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[60vh] md:h-[150vh]  text-[#ffffff] overflow-hidden'
     >
       <div></div>
 
@@ -120,7 +126,7 @@ const Projects = () => {
         ))}
       </div>
 
-      <div className='relative md:sticky md:top-0 md:h-screen !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center gap-y-6 md:gap-y-12 py-10 md:py-0'>
+      <div className='relative md:sticky md:top-0 md:h-screen md:!mt-29 !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center gap-y-6 md:gap-y-12 py-10 md:py-0'>
 
         <div className='flex items-center gap-x-4 max-w-5xl proj-item will-change-transform'>
           <div

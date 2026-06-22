@@ -1,18 +1,22 @@
-import './App.css'
-import { createBrowserRouter, RouterProvider } from 'react-router-dom'
-import Home from './components/Home'
-import Aboutme from './components/Aboutme'
-import Projects from './components/Projects'
-import MyStack from './components/MyStack'
-import Contact from './components/Contact'
-import Pasteapp from './projects/Pasteapp'
-import Cryptotracker from './projects/Cryptotracker'
-import Skycast from './projects/Skycast'
-import { GridScan } from './GridScan'
-import Preloader from './assets/components/Preloader'
-import Emailbar from './components/Emailbar'
-import CustomCursor from './Cursor/CustomCursor'
-import ScrollProgressIndicator from './assets/components/ScrollProgressIndicator'
+import "./App.css";
+import { createBrowserRouter, RouterProvider } from "react-router-dom";
+import Home from "./components/Home";
+import Aboutme from "./components/Aboutme";
+import Projects from "./components/Projects";
+import MyStack from "./components/MyStack";
+import Contact from "./components/Contact";
+import Pasteapp from "./projects/Pasteapp";
+import Cryptotracker from "./projects/Cryptotracker";
+import Skycast from "./projects/Skycast";
+import Stowe from "./projects/Stowe";
+import Oxyn from "./projects/Onyx";
+import Livepin from "./projects/Livepin";
+
+import { GridScan } from "./GridScan";
+import Preloader from "./assets/components/Preloader";
+import Emailbar from "./components/Emailbar";
+import CustomCursor from "./Cursor/CustomCursor";
+import ScrollProgressIndicator from "./assets/components/ScrollProgressIndicator";
 
 function App() {
   const router = createBrowserRouter([
@@ -33,11 +37,11 @@ function App() {
     },
     {
       path: "/aboutme",
-      element: <Aboutme />
+      element: <Aboutme />,
     },
     {
       path: "/projects",
-      element: <Projects />
+      element: <Projects />,
     },
     {
       path: "/pasteapp",
@@ -71,12 +75,45 @@ function App() {
           <Contact />
         </div>
       ),
-    }
-  ])
+    },
+    {
+      path: "/stowe",
+      element: (
+        <div>
+          <ScrollProgressIndicator />
+          <Emailbar />
+          <Stowe />
+          <Contact />
+        </div>
+      ),
+    },
+    {
+      path: "/onyxchess",
+      element: (
+        <div>
+          <ScrollProgressIndicator />
+          <Emailbar />
+          <Oxyn />
+          <Contact />
+        </div>
+      ),
+    },
+    {
+      path: "/livepin",
+      element: (
+        <div>
+          <ScrollProgressIndicator />
+          <Emailbar />
+          <Livepin />
+          <Contact />
+        </div>
+      ),
+    },
+  ]);
 
   return (
     <>
-      <div style={{ position: 'fixed', inset: 0, zIndex: 0 }}>
+      <div style={{ position: "fixed", inset: 0, zIndex: 0 }}>
         <GridScan
           sensitivity={0.55}
           lineThickness={1}
@@ -96,16 +133,18 @@ function App() {
         />
       </div>
 
-      <div style={{ position: 'relative', zIndex: 10, pointerEvents: 'none' }} className="text-white">
-        <div style={{ pointerEvents: 'auto' }} className="md:cursor-none">
-
+      <div
+        style={{ position: "relative", zIndex: 10, pointerEvents: "none" }}
+        className="text-white"
+      >
+        <div style={{ pointerEvents: "auto" }} className="md:cursor-none">
           <CustomCursor />
 
           <RouterProvider router={router} />
         </div>
       </div>
     </>
-  )
+  );
 }
 
-export default App
+export default App;

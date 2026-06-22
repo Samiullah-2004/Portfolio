@@ -8,11 +8,14 @@ import github from '/src/logo/github.png'
 import html5 from '/src/logo/html5.svg'
 import css from '/src/logo/css3.svg'
 import js from '/src/logo/js.png'
+import ts from '/src/logo/typescript.svg'
 import react from '/src/logo/react.png'
-import reacthookform from '/src/logo/reacthookform.svg'
-import reactrouter from '/src/logo/reactrouter.svg'
-import tailwind from '/src/logo/tailwind.png'
+import tailwind from '/src/logo/tailwind.svg'
 import redux from '/src/logo/redux.svg'
+import nodejs from '/src/logo/nodejs.svg'
+import express from '/src/logo/express.svg'
+import mongodb from '/src/logo/mongodb.svg'
+import socketio from '/src/logo/socketio.svg'
 import vscode from '/src/logo/vscode.svg'
 import vercel from '/src/logo/vercel.svg'
 
@@ -25,20 +28,23 @@ const categories = [
       { id: 'html5', image: html5, name: 'HTML5' },
       { id: 'css', image: css, name: 'CSS3' },
       { id: 'js', image: js, name: 'JavaScript' },
+      { id: 'ts', image: ts, name: 'TypeScript' },
       { id: 'react', image: react, name: 'React.js' },
       { id: 'tailwind', image: tailwind, name: 'Tailwind CSS' },
-    ],
-  },
-  {
-    label: 'State',
-    techs: [
       { id: 'redux', image: redux, name: 'Redux' },
-      { id: 'reactrouter', image: reactrouter, name: 'React Router' },
-      { id: 'reacthookform', image: reacthookform, name: 'React Hook Form' },
     ],
   },
   {
-    label: 'Tools',
+    label: 'BACKEND',
+    techs: [
+      { id: 'nodejs', image: nodejs, name: 'Node.js' },
+      { id: 'express', image: express, name: 'Express.js' },
+      { id: 'mongodb', image: mongodb, name: 'MongoDB' },
+      { id: 'socketio', image: socketio, name: 'Socket.IO' },
+    ],
+  },
+  {
+    label: 'TOOLS',
     techs: [
       { id: 'git', image: git, name: 'Git' },
       { id: 'github', image: github, name: 'GitHub' },
@@ -78,10 +84,10 @@ const MyStack = () => {
   }, { scope: containerRef })
 
   return (
-    <div ref={containerRef} className='grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[70vh] md:h-[120vh] text-[#ffffff] overflow-hidden'>
+    <div ref={containerRef} className='grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[70vh] md:h-[140vh]  text-[#ffffff] overflow-hidden'>
       <div></div>
 
-      <div className='relative md:sticky md:top-0 md:h-screen !mt-6 md:!mt-10 !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center py-10 md:py-0'>
+      <div className='relative md:sticky md:top-0 md:h-screen !mt-6 md:!mt-14 !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center py-10 md:py-0'>
 
         <div className='flex items-center gap-x-4 max-w-5xl slide-up-and-fade will-change-transform'>
           <div className="relative w-8 h-8 md:w-12 md:h-12 animate-spin flex-shrink-0" style={{ animationDuration: '3s' }}>
@@ -96,17 +102,15 @@ const MyStack = () => {
               />
             ))}
           </div>
-          <h2 className='text-[40px] sm:text-[50px] md:text-[36px] leading-[.95] tracking-tight text-[#06f51ee6]  uppercase font-anton'>
+          <h2 className='text-[40px] sm:text-[50px] md:text-[36px] leading-[.95] tracking-tight text-[#06f51ee6] uppercase font-anton'>
             My Stack
           </h2>
         </div>
 
-        <div className='w-[90%] md:w-[85vw] max-w-5xl !my-4'>
-        </div>
+        <div className='w-[90%] md:w-[85vw] max-w-5xl !my-4'></div>
 
-        <div className='flex flex-col gap-y-6 md:gap-y-12 max-w-5xl '>
+        <div className='flex flex-col gap-y-6 md:gap-y-12 max-w-5xl'>
           {categories.map((cat) => (
-
             <div key={cat.label} className='grid grid-cols-1 md:grid-cols-[200px_1fr] lg:grid-cols-2 gap-y-3 md:gap-x-4 slide-up-and-fade will-change-transform'>
               <p className='text-[#d0cdcdde] text-[32px] md:text-[48px] tracking-tight font-anton leading-none'>
                 {cat.label}

@@ -2,11 +2,12 @@ import React, { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
-import CryptoWeb from '../projects/images/CryptoWeb.png'
+import StoweWeb from '../projects/images/StoweWeb.png'
+
 
 gsap.registerPlugin(useGSAP)
 
-const Cryptotracker = () => {
+const Stowe = () => {
   const [navOpen, setNavOpen] = useState(false)
   const curtainRef = useRef(null)
   const contentRef = useRef(null)
@@ -15,11 +16,7 @@ const Cryptotracker = () => {
   useGSAP(() => {
     const tl = gsap.timeline()
     tl.set(curtainRef.current, { yPercent: 0 })
-      .to(curtainRef.current, {
-        yPercent: -100,
-        duration: 0.9,
-        ease: 'power3.inOut',
-      })
+      .to(curtainRef.current, { yPercent: -100, duration: 0.9, ease: 'power3.inOut' })
       .from(
         contentRef.current.querySelectorAll('.reveal'),
         { y: 40, opacity: 0, stagger: 0.08, duration: 0.7, ease: 'power3.out' },
@@ -27,20 +24,17 @@ const Cryptotracker = () => {
       )
   }, [])
 
-  // Hide browser scrollbar visually while on this page
   useEffect(() => {
-    document.documentElement.style.scrollbarWidth = 'none' // Firefox
+    document.documentElement.style.scrollbarWidth = 'none'
     const style = document.createElement('style')
-    style.innerHTML = `*::-webkit-scrollbar { display: none; }` // Chrome/Safari/Edge
+    style.innerHTML = `*::-webkit-scrollbar { display: none; }`
     document.head.appendChild(style)
-
     return () => {
       document.documentElement.style.scrollbarWidth = ''
       document.head.removeChild(style)
     }
   }, [])
 
-  // Sync nav state with custom scrollbar (if used)
   useEffect(() => {
     const event = new CustomEvent('navStateChange', { detail: { isOpen: navOpen } })
     window.dispatchEvent(event)
@@ -52,13 +46,12 @@ const Cryptotracker = () => {
       yPercent: 0,
       duration: 0.9,
       ease: 'power3.inOut',
-      onComplete: () => navigate(-1), 
+      onComplete: () => navigate(-1),
     })
   }
 
   return (
     <div>
-      {/* FIXED: Uses max-w container instead of fixed margins to perfectly align with content on all screens */}
       <div className="max-w-4xl mx-auto w-full !px-6 md:!px-12 !pt-8 reveal">
         <button
           onClick={handleBack}
@@ -115,21 +108,21 @@ const Cryptotracker = () => {
           </div>
           <div className="flex flex-col gap-3 border-t border-[#a0a0a0]/20 w-full !mt-12 !pt-8">
             <h3 className="text-[13px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase">Get In Touch</h3>
-            <a href="mailto:samiullahmuhammadakram@gmail.com"
+            <a href="mailto:samiullah.akram.3009@gmail.com"
               className="text-[14px] font-roboto-flex text-[#a0a0a0] hover:text-[#06f51ee6] transition-colors duration-300">
               samiullah.akram.3009@gmail.com
             </a>
           </div>
         </div>
 
-        <div ref={contentRef} className="max-w-4xl mx-auto !px-6 md:!px-12 !pb-0">
+        <div ref={contentRef} className="max-w-4xl mx-auto !px-6 md:!px-12 pb-0">
 
           <div className="flex flex-col !mt-24 md:!mt-36 reveal">
             <div className="flex items-center gap-x-4">
               <h1 className="text-[56px] md:text-[80px] xl:text-[100px] font-anton tracking-tight text-white uppercase leading-none">
-                CryptoTrack
+                Stowe
               </h1>
-              <a href="https://samiullah-2004.github.io/Crypto-Price-Tracker/" target="_blank" rel="noopener noreferrer"
+              <a href="https://stowe-bags.up.railway.app/" target="_blank" rel="noopener noreferrer"
                 className="text-[#a0a0a0] hover:text-[#06f51ee6] transition-colors duration-300 self-end !mb-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
@@ -141,10 +134,10 @@ const Cryptotracker = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 !mt-10 reveal">
             {[
-              { label: 'Year', value: '2025' },
-              { label: 'Role', value: 'Frontend Developer' },
-              { label: 'Stack', value: 'JavaScript · CSS · CoinGecko API' },
-              { label: 'Deployed', value: 'GitHub Pages' },
+              { label: 'Year',     value: '2025' },
+              { label: 'Role',     value: 'Full Stack Developer' },
+              { label: 'Stack',    value: 'MongoDB · Express · Node.js · EJS' },
+              { label: 'Deployed', value: 'Railway' },
             ].map((m) => (
               <div key={m.label} className="flex flex-col gap-2">
                 <h2 className="text-[11px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase">{m.label}</h2>
@@ -156,10 +149,10 @@ const Cryptotracker = () => {
           <div className="!mt-12 reveal">
             <h2 className="text-[11px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase !mb-4">About</h2>
             <p className="text-[17px] font-roboto-flex text-[#c0c0c0] leading-relaxed">
-              A real-time cryptocurrency dashboard tracking live prices, market caps, 24H changes,
-              and trading volume for the top 10 cryptocurrencies. Data is fetched directly from the
-              CoinGecko API and auto-refreshes every 60 seconds  keeping you ahead of the market
-              without lifting a finger.
+              A full-featured e-commerce platform built end-to-end with the MERN stack. Stowe handles 
+              the complete shopping lifecycle product listings, image uploads, user authentication, 
+              and order management all backed by a RESTful Node.js/Express API and deployed on Railway 
+              with a bold black and lime brand identity.
             </p>
           </div>
 
@@ -167,9 +160,9 @@ const Cryptotracker = () => {
             <h2 className="text-[11px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase !mb-6">Key Features</h2>
             <div className="flex flex-col gap-y-0">
               {[
-                { icon: '📈', title: 'Live Price Tracking', desc: 'Real-time prices for top 10 coins via CoinGecko API, auto-updating every 60 seconds.' },
-                { icon: '👁', title: 'Watchlist & Portfolio', desc: 'Save your favourite coins to a personal watchlist and track your portfolio performance.' },
-                { icon: '📊', title: 'Market Overview', desc: 'Global market cap, 24H volume, BTC dominance, and per-coin 24H change displayed at a glance.' },
+                { icon: '🔐', title: 'JWT Authentication', desc: 'Secure user registration and login with hashed passwords via bcrypt and token-based session management.' },
+                { icon: '📦', title: 'Product & Image Management', desc: 'Full CRUD for products with Multer handling multi-part file uploads stored on the server.' },
+                { icon: '🛒', title: 'End-to-End Shopping Flow', desc: 'Cart management, order placement, and order history — complete purchase lifecycle handled server-side.' },
               ].map((f) => (
                 <div key={f.title} className="flex items-start gap-x-4 border-t border-[#a0a0a0]/10 !py-5">
                   <span className="text-xl flex-shrink-0">{f.icon}</span>
@@ -183,7 +176,7 @@ const Cryptotracker = () => {
           </div>
 
           <div className="!mt-16 reveal">
-            <img src={CryptoWeb} alt="CryptoTrack Preview" className="w-full object-cover rounded-lg border border-[#a0a0a0]/10" />
+            <img src={StoweWeb} alt="Stowe Preview" className="w-full object-cover rounded-lg border border-[#a0a0a0]/10" />
           </div>
 
         </div>
@@ -192,4 +185,4 @@ const Cryptotracker = () => {
   )
 }
 
-export default Cryptotracker
+export default Stowe

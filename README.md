@@ -1,8 +1,8 @@
 <div align="center">
 
-# 🧑‍💻 Samiullah — Frontend Developer Portfolio
+# 🧑‍💻 Samiullah — Full Stack Developer Portfolio
 
-**A modern, animated portfolio built with React.js, GSAP, and Tailwind CSS.** Showcasing real-world projects, skills, and a passion for clean, responsive UI.
+**A modern, animated portfolio built with React.js, GSAP, and Tailwind CSS.** Showcasing full stack MERN projects, real-time applications, and a passion for clean, performant web development.
 
 [![Live Demo](https://img.shields.io/badge/🌐_Live_Demo-Visit_Site-06f51e?style=for-the-badge)](https://samiullah-portfolio-orpin.vercel.app/)
 [![Made With React](https://img.shields.io/badge/React-18-61DAFB?style=for-the-badge&logo=react)](https://react.dev)
@@ -70,9 +70,15 @@ Portfolio/
 │   │
 │   ├── projects/
 │   │   ├── images/
+│   │   │   ├── StoweWeb.png            # Stowe screenshot
+│   │   │   ├── OnyxWeb.png             # OnyxChess screenshot
+│   │   │   ├── LivePinWeb.png          # LivePin screenshot
 │   │   │   ├── PasteWeb.png            # Paste App screenshot
 │   │   │   ├── CryptoWeb.png           # Crypto Tracker screenshot
 │   │   │   └── SkycastWeb.png          # Skycast Weather screenshot
+│   │   ├── Stowe.jsx                   # Stowe project page
+│   │   ├── OnyxChess.jsx               # OnyxChess project page
+│   │   ├── LivePin.jsx                 # LivePin project page
 │   │   ├── Pasteapp.jsx                # Paste App project page
 │   │   ├── Cryptotracker.jsx           # Crypto Tracker project page
 │   │   └── Skycast.jsx                 # Skycast project page
@@ -86,83 +92,7 @@ Portfolio/
 ├── vercel.json                         # Vercel deployment config
 ├── vite.config.js
 └── README.md
-
-
 ```
-
-Then open [http://localhost:5173](http://localhost:5173) in your browser.
-
----
-
-## 🚢 Deployment
-
-This site is deployed on **Vercel**.
-
-```bash
-# Build for production
-npm run build
-
-# Preview production build locally
-npm run preview
-```
-
-To deploy, push to your GitHub repo and connect it to [Vercel](https://vercel.com) — it auto-deploys on every push to `main`.
-
----
-
-## 👤 Author
-
-**Samiullah Akram**  
-Frontend Developer from Lahore, Pakistan 🇵🇰
-
-[![GitHub](https://img.shields.io/badge/GitHub-Samiullah--2004-181717?style=flat-square&logo=github)](https://github.com/Samiullah-2004)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-samiullah--akram-0A66C2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/samiullah-akram-a28461404/)
-[![Instagram](https://img.shields.io/badge/Instagram-@_s_a_m_i_u_l_l_a_h_-E4405F?style=flat-square&logo=instagram)](https://instagram.com/_s_a_m_i_u_l_l_a_h_)
-[![Email](https://img.shields.io/badge/Email-samiullah.akram.3009@gmail.com-06f51e?style=flat-square&logo=gmail)](mailto:samiullah.akram.3009@gmail.com)
-
----
-
-## 📄 License
-
-This project is open source and free to use for personal and educational purposes.  
-If you use this as a reference or template, a credit would be appreciated! 🙏
-
----
-
-<div align="center">
-
-**Built with 💚 by Samiullah — 2026**
-
-</div>
-
----
-
-## 🛠️ Tech Stack
-
-| Technology | Purpose |
-|---|---|
-| **React.js** | UI components and SPA architecture |
-| **React Router v6** | Client-side page routing |
-| **GSAP + ScrollTrigger** | Scroll animations and page transitions |
-| **@gsap/react** | useGSAP hook for React integration |
-| **Tailwind CSS** | Utility-first styling and responsiveness |
-| **Vite** | Lightning-fast build tool and dev server |
-
----
-
-## 📦 Projects Featured
-
-### 📋 Paste App
-A multi-functional paste manager with Redux state management, real-time search, and clipboard actions.  
-**Stack:** React · Redux Toolkit · Tailwind CSS · Vercel
-
-### 📈 Crypto Tracker
-Live cryptocurrency price tracker powered by the Binance WebSocket API.  
-**Stack:** JavaScript · CSS · Binance API
-
-### 🌤️ Skycast Weather
-Clean weather app with location-based forecasts using the OpenWeather API.  
-**Stack:** JavaScript · CSS · OpenWeather API
 
 ---
 
@@ -205,7 +135,7 @@ To deploy, push to your GitHub repo and connect it to [Vercel](https://vercel.co
 ## 👤 Author
 
 **Samiullah Akram**  
-Frontend Developer from Lahore, Pakistan 🇵🇰
+Full Stack Developer (MERN) from Lahore, Pakistan 🇵🇰
 
 [![GitHub](https://img.shields.io/badge/GitHub-Samiullah--2004-181717?style=flat-square&logo=github)](https://github.com/Samiullah-2004)
 [![LinkedIn](https://img.shields.io/badge/LinkedIn-samiullah--akram-0A66C2?style=flat-square&logo=linkedin)](https://www.linkedin.com/in/samiullah-akram-a28461404/)
@@ -218,6 +148,47 @@ Frontend Developer from Lahore, Pakistan 🇵🇰
 
 This project is open source and free to use for personal and educational purposes.  
 If you use this as a reference or template, a credit would be appreciated! 🙏
+
+---
+
+## 🛠️ Tech Stack
+
+| Technology | Purpose |
+|---|---|
+| **React.js** | UI components and SPA architecture |
+| **React Router v6** | Client-side page routing |
+| **GSAP + ScrollTrigger** | Scroll animations and page transitions |
+| **@gsap/react** | useGSAP hook for React integration |
+| **Tailwind CSS** | Utility-first styling and responsiveness |
+| **Vite** | Lightning-fast build tool and dev server |
+
+---
+
+## 📦 Projects Featured
+
+### 🛍️ Stowe
+A full-featured e-commerce platform built end-to-end with the MERN stack. Handles product listings, image uploads, JWT authentication, and order management — deployed on Railway.  
+**Stack:** MongoDB · Express · Node.js · EJS · JWT · Multer · Tailwind CSS · Railway
+
+### ♟️ OnyxChess
+A real-time multiplayer chess app where two players share a room and play live. Features automatic board flip, full move validation, and instant sync via Socket.IO.  
+**Stack:** Node.js · Express · Socket.IO · chess.js · EJS · Tailwind CSS
+
+### 📍 LivePin
+A real-time multi-user location tracker that renders every connected user's live position on an interactive map. Markers update instantly and disappear on disconnect.  
+**Stack:** Node.js · Express · Socket.IO · Leaflet.js · EJS
+
+### 📋 Paste App
+A multi-functional paste manager with Redux state management, real-time search, and clipboard actions.  
+**Stack:** React · Redux Toolkit · Tailwind CSS · Vercel
+
+### 📈 Crypto Tracker
+Live cryptocurrency price tracker powered by the Binance WebSocket API.  
+**Stack:** JavaScript · CSS · Binance API
+
+### 🌤️ Skycast Weather
+Clean weather app with location-based forecasts using the OpenWeather API.  
+**Stack:** JavaScript · CSS · OpenWeather API
 
 ---
 
