@@ -18,6 +18,17 @@ import mongodb from '/src/logo/mongodb.svg'
 import socketio from '/src/logo/socketio.svg'
 import vscode from '/src/logo/vscode.svg'
 import vercel from '/src/logo/vercel.svg'
+import nextjs from '/src/logo/nextjs.svg'
+import postgresql from '/src/logo/postgresql.svg'
+import prisma from '/src/logo/prisma.svg'
+import supabase from '/src/logo/supabase.svg'
+import railway from '/src/logo/railway.svg'
+import postman from '/src/logo/postman.svg'
+import mongoose from '/src/logo/mongoose.svg'
+import jwt from '/src/logo/jwt.svg'
+import vite from '/src/logo/vite.svg'
+import sql from '/src/logo/sqldeveloper.svg'
+import ejs from '/src/logo/ejs.svg'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -30,8 +41,10 @@ const categories = [
       { id: 'js', image: js, name: 'JavaScript' },
       { id: 'ts', image: ts, name: 'TypeScript' },
       { id: 'react', image: react, name: 'React.js' },
+      { id: 'nextjs', image: nextjs, name: 'Next.js' },
       { id: 'tailwind', image: tailwind, name: 'Tailwind CSS' },
       { id: 'redux', image: redux, name: 'Redux' },
+      { id: 'vite', image: vite, name: 'Vite' },
     ],
   },
   {
@@ -40,7 +53,14 @@ const categories = [
       { id: 'nodejs', image: nodejs, name: 'Node.js' },
       { id: 'express', image: express, name: 'Express.js' },
       { id: 'mongodb', image: mongodb, name: 'MongoDB' },
+      { id: 'mongoose', image: mongoose, name: 'Mongoose' },
+      { id: 'postgresql', image: postgresql, name: 'PostgreSQL' },
+      { id: 'sqldeveloper', image: sql, name: 'SQL Developer' },
+      { id: 'prisma', image: prisma, name: 'Prisma ORM' },
+      { id: 'supabase', image: supabase, name: 'Supabase' },
       { id: 'socketio', image: socketio, name: 'Socket.IO' },
+      { id: 'jwt', image: jwt, name: 'JWT Auth' },
+      { id: 'ejs', image: ejs, name: 'EJS' },
     ],
   },
   {
@@ -50,6 +70,8 @@ const categories = [
       { id: 'github', image: github, name: 'GitHub' },
       { id: 'vscode', image: vscode, name: 'VS Code' },
       { id: 'vercel', image: vercel, name: 'Vercel' },
+      { id: 'railway', image: railway, name: 'Railway' },
+      { id: 'postman', image: postman, name: 'Postman' },
     ],
   },
 ]
@@ -84,10 +106,10 @@ const MyStack = () => {
   }, { scope: containerRef })
 
   return (
-    <div ref={containerRef} className='grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[70vh] md:h-[140vh]  text-[#ffffff] overflow-hidden'>
+    <div ref={containerRef} className='grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[90vh] md:h-[170vh]  text-[#ffffff] overflow-hidden'>
       <div></div>
 
-      <div className='relative md:sticky md:top-0 md:h-screen !mt-6 md:!mt-14 !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center py-10 md:py-0'>
+      <div className='relative md:sticky md:top-0 md:h-screen !mt-6 md:!mt-35 !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center py-10 md:py-0'>
 
         <div className='flex items-center gap-x-4 max-w-5xl slide-up-and-fade will-change-transform'>
           <div className="relative w-8 h-8 md:w-12 md:h-12 animate-spin flex-shrink-0" style={{ animationDuration: '3s' }}>
@@ -119,8 +141,8 @@ const MyStack = () => {
                 {cat.techs.map((tech) => (
                   <div className="flex items-center gap-x-2" key={tech.id}>
                     <img src={tech.image} alt={tech.name}
-                      className="w-8 h-8 sm:w-10 sm:h-10 md:w-16 md:h-16 object-contain hover:scale-110 transition-transform duration-300" />
-                    <span className='text-[14px] md:text-[18px] font-roboto-flex font-normal text-[#a0a0a0]'>
+                      className="w-8 h-8 sm:w-10 sm:h-10 md:w-14 md:h-14 object-contain hover:scale-110 transition-transform duration-300" />
+                    <span className='text-[14px] md:text-[16px] font-roboto-flex font-normal text-[#a0a0a0]'>
                       {tech.name}
                     </span>
                   </div>

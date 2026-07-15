@@ -51,13 +51,13 @@ const Aboutme = () => {
 
       <div className="relative md:sticky md:top-0 md:h-screen !mt-6 md:!mt-10 !pl-4 sm:!pl-6 md:!pl-12 !pt-15 flex flex-col justify-center py-10 md:py-0">
         <div className="flex flex-col max-w-5xl gap-y-6 md:gap-y-16 !pr-4 md:!pr-12">
-          <p className="text-[28px] sm:text-[36px] md:text-[68px] font-roboto-flex font-light tracking-tight text-[#ffffff] leading-[1.2] md:leading-[1.1] slide-up-and-fade will-change-transform">
+          <p className="text-[28px] sm:text-[36px] md:text-[54px] font-roboto-flex font-light tracking-tight text-[#ffffff] leading-[1.2] md:leading-[1.1] slide-up-and-fade will-change-transform">
             I build{" "}
             <span className="text-[#06f51ee6] font-roboto-flex font-medium tracking-wide">
               END-TO-END
             </span>{" "}
-            web applications from database design and REST APIs to responsive,
-            performant frontends.
+            web applications, from AI-powered SaaS products and REST APIs to
+            real-time systems and responsive, performant frontends.
           </p>
           <div className="self-start slide-up-and-fade will-change-transform">
             <h2 className="text-[36px] md:text-[36px] font-anton tracking-tight text-[#06f51ee6] uppercase leading-none">
@@ -78,16 +78,17 @@ const Aboutme = () => {
           </div>
           <div className="flex flex-col gap-y-4 md:gap-y-5 md:!pl-14">
             <p className="text-[15px] md:text-[18px] font-roboto-flex font-normal slide-up-and-fade leading-relaxed text-[#a0a0a0] will-change-transform">
-              I'm a Full Stack Developer specializing in the MERN stack and
-              TypeScript. I build complete web applications REST APIs,
-              real-time systems with Socket.IO, authentication flows with JWT,
-              and clean responsive frontends with React and Tailwind CSS.
+              I'm a Full Stack Developer specializing in Next.js, TypeScript,
+              Node.js, and PostgreSQL. I build complete web applications
+              including AI tools, REST APIs, real-time systems with Socket.IO,
+              JWT authentication, and clean frontends with React and Tailwind
+              CSS.
             </p>
             <p className="text-[15px] md:text-[18px] font-roboto-flex font-normal slide-up-and-fade leading-relaxed text-[#a0a0a0] will-change-transform">
-              I'm currently pursuing a BSCS at Alhamra University (NCBA&E) and
-              doing a Frontend internship at Qwetrum Technologies, while
-              actively taking on freelance projects on Upwork and building
-              production-ready full stack applications.
+              I'm currently pursuing a BSCS at Alhamra University (NCBA&E),
+              recently completed a Web Development Internship at Qwetrum
+              Technologies, and actively taking on freelance projects on Upwork
+              while shipping production-ready applications.
             </p>
           </div>
         </div>

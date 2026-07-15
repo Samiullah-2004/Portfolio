@@ -5,6 +5,7 @@ import Aboutme from "./components/Aboutme";
 import Projects from "./components/Projects";
 import MyStack from "./components/MyStack";
 import Contact from "./components/Contact";
+import AllProjects from "./components/AllProjects";
 import Pasteapp from "./projects/Pasteapp";
 import Cryptotracker from "./projects/Cryptotracker";
 import Skycast from "./projects/Skycast";
@@ -17,6 +18,10 @@ import Preloader from "./assets/components/Preloader";
 import Emailbar from "./components/Emailbar";
 import CustomCursor from "./Cursor/CustomCursor";
 import ScrollProgressIndicator from "./assets/components/ScrollProgressIndicator";
+import ChatSpark from "./projects/ChatSpark";
+import BillMate from "./projects/BillMate";
+import ResumeForge from "./projects/ResumeForge";
+import MovieBrowser from "./projects/MovieBrowser";
 
 function App() {
   const router = createBrowserRouter([
@@ -109,6 +114,61 @@ function App() {
         </div>
       ),
     },
+    {
+      path: "/chatspark",
+      element: (
+        <div>
+          <ScrollProgressIndicator />
+          <Emailbar />
+          <ChatSpark />
+          <Contact />
+        </div>
+      ),
+    },
+    {
+      path: "/billmate",
+      element: (
+        <div>
+          <ScrollProgressIndicator />
+          <Emailbar />
+          <BillMate />
+          <Contact />
+        </div>
+      ),
+    },
+    {
+      path: "/resumeforge",
+      element: (
+        <div>
+          <ScrollProgressIndicator />
+          <Emailbar />
+          <ResumeForge />
+          <Contact />
+        </div>
+      ),
+    },
+    {
+      path: "/moviebrowser",
+      element: (
+        <div>
+          <ScrollProgressIndicator />
+          <Emailbar />
+          <MovieBrowser />
+          <Contact />
+        </div>
+      ),
+    },
+    {
+      path: "/all-projects",
+      element: (
+        <div>
+          <ScrollProgressIndicator />
+          <Emailbar />
+          <AllProjects />
+          <Contact />
+        </div>
+      ),
+    }
   ]);
 
   return (

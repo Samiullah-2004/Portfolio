@@ -53,7 +53,7 @@ const Home = () => {
     <div
       id="home"
       ref={containerRef}
-      className="grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr_auto] min-h-[65vh] md:h-[120vh]  text-white overflow-hidden relative"
+      className="grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr_auto] min-h-[60vh] md:h-[120vh]  text-white overflow-hidden relative"
     >
       <div></div>
       <div className="flex flex-col !pl-4 sm:!pl-6 md:!pl-10 justify-center py-10 md:py-0">
@@ -68,9 +68,10 @@ const Home = () => {
           </div>
 
           <p className="font-roboto-flex font-normal text-[15px] !pr-10 md:!pr-0 md:text-[18px] text-[#a0a0a0] leading-relaxed slide-up-and-fade will-change-transform">
-            Hi! I'm Samiullah. A Full Stack Developer building scalable,
-            high-performance web applications using the MERN stack, TypeScript,
-            and modern tooling from REST APIs to real-time systems.
+            Hi! I'm Samiullah. A Full Stack Developer building and shipping
+            production-ready web applications, from AI-powered SaaS products to
+            real-time systems, using Next.js, TypeScript, Node.js, PostgreSQL,
+            and modern full stack tooling.
           </p>
 
           <div className="flex flex-col gap-1.5 !mt-2 slide-up-and-fade will-change-transform">
@@ -84,7 +85,7 @@ const Home = () => {
             </a>
             <div className="flex items-center gap-2 text-[13px] md:text-[14px] text-[#a0a0a0] font-roboto-flex">
               <span className="w-3 h-3 rounded-full bg-[#ffffff]"></span>
-              <p className="!pt-1">Available for full-time opportunities</p>
+              <p className="!pt-1">Available for Remote & Freelance Work</p>
             </div>
           </div>
         </div>
@@ -95,9 +96,9 @@ const Home = () => {
         <div className="flex flex-col justify-end items-end !mr-8 !pb-11">
           <div className="flex flex-col gap-y-6 !p-6">
             {[
-              { num: "4+", label: "Projects Completed" },
+              { num: "8+", label: "Projects Completed" },
               { num: "2+", label: "Years of Experience" },
-              { num: "5K+", label: "Lines of Code Written" },
+              { num: "3", label: "AI Apps Shipped" },
             ].map((s) => (
               <div
                 key={s.label}

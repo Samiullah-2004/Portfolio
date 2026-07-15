@@ -3,22 +3,23 @@ import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
-import PasteWeb   from '../projects/images/PasteWeb.png'
-import CryptoWeb  from '../projects/images/CryptoWeb.png'
-import SkycastWeb from '../projects/images/SkycastWeb.png'
 import StoweWeb    from '../projects/images/StoweWeb.png'
 import ChessWeb    from '../projects/images/Onyxchess.png'
 import LivePinWeb  from '../projects/images/Livepin.png'
+import ChatSparkWeb  from '../projects/images/ChatSpark.png'
+import BillMateWeb   from '../projects/images/BillMate.png'
+import ResumeForgeWeb from '../projects/images/ResumeForge.png'
+
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const projects = [
-  { id: '_01.', title: 'Stowe',           tags: ['MongoDB', 'Express', 'Node.js', 'JWT', 'Multer'],   link: '/stowe',         image: StoweWeb   },
-  { id: '_02.', title: 'OnyxChess',       tags: ['Socket.IO', 'chess.js', 'Node.js', 'Tailwind CSS'], link: '/onyxchess',     image: ChessWeb   },
-  { id: '_03.', title: 'LivePin',         tags: ['Socket.IO', 'Leaflet.js', 'Node.js', 'Express'],    link: '/livepin',       image: LivePinWeb },
-  { id: '_04.', title: 'Paste App',       tags: ['React', 'Redux', 'Tailwind CSS'],                   link: '/pasteapp',      image: PasteWeb   },
-  { id: '_05.', title: 'Crypto Tracker',  tags: ['JavaScript', 'CSS', 'Binance API'],                 link: '/cryptotracker', image: CryptoWeb  },
-  { id: '_06.', title: 'Skycast Weather', tags: ['JavaScript', 'CSS', 'OpenWeather'],                 link: '/skycast',       image: SkycastWeb },
+  { id: '_01.', title: 'ChatSpark AI',    tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'pgvector', 'Groq', 'NextAuth.js'], link: '/chatspark',     image: ChatSparkWeb   },
+  { id: '_02.', title: 'BillMate',        tags: ['React', 'Node.js', 'Express', 'TypeScript', 'PostgreSQL', 'Prisma'],      link: '/billmate',      image: BillMateWeb    },
+  { id: '_03.', title: 'ResumeForge AI',  tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'Groq', 'JWT'],           link: '/resumeforge',   image: ResumeForgeWeb },
+  { id: '_04.', title: 'Stowe',           tags: ['MongoDB', 'Express', 'Node.js', 'JWT', 'Multer'],                         link: '/stowe',         image: StoweWeb       },
+  { id: '_05.', title: 'OnyxChess',       tags: ['Socket.IO', 'chess.js', 'Node.js', 'Tailwind CSS'],                       link: '/onyxchess',     image: ChessWeb       },
+  { id: '_06.', title: 'LivePin',         tags: ['Socket.IO', 'Leaflet.js', 'Node.js', 'Express'],                          link: '/livepin',       image: LivePinWeb     },
 ]
 
 const Projects = () => {
@@ -103,13 +104,13 @@ const Projects = () => {
     <div
       id="projects"
       ref={containerRef}
-      className='relative grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[60vh] md:h-[150vh]  text-[#ffffff] overflow-hidden'
+      className='relative grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[90vh] md:h-[170vh]  text-[#ffffff] overflow-hidden'
     >
       <div></div>
 
       <div
         ref={imageContainerRef}
-        className="hidden md:block absolute right-16 top-0 z-20 pointer-events-none opacity-0 w-[350px] lg:w-[460px] xl:w-[700px] aspect-[16/10] overflow-hidden rounded-lg border border-white/10 shadow-2xl"
+        className="hidden md:block absolute right-16 top-0 z-20 pointer-events-none opacity-0 w-[350px] lg:w-[460px] xl:w-[600px] aspect-[16/10] overflow-hidden rounded-lg border border-white/10 shadow-2xl"
         style={{ willChange: 'transform, opacity' }}
       >
         {projects.map((p) => (
@@ -126,7 +127,7 @@ const Projects = () => {
         ))}
       </div>
 
-      <div className='relative md:sticky md:top-0 md:h-screen md:!mt-29 !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center gap-y-6 md:gap-y-12 py-10 md:py-0'>
+      <div className='relative md:sticky md:top-0 md:h-screen md:!mt-40 !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center gap-y-6 md:gap-y-12 py-10 md:py-0'>
 
         <div className='flex items-center gap-x-4 max-w-5xl proj-item will-change-transform'>
           <div
@@ -190,7 +191,7 @@ const Projects = () => {
                   </span>
                 </h3>
 
-                <div className="flex flex-wrap flex-row gap-x-4 sm:gap-x-12 gap-y-2">
+                <div className="flex flex-wrap flex-row gap-x-4 sm:gap-x-8 gap-y-2">
                   {project.tags.map((tag, i) => (
                     <div key={i} className="flex items-center gap-x-2">
                       <span className="w-1.5 h-1.5 sm:w-2 sm:h-2 rounded-full bg-[#a0a0a0] inline-block flex-shrink-0"></span>
@@ -204,6 +205,31 @@ const Projects = () => {
               </Link>
             </div>
           ))}
+        </div>
+
+        {/* See All Button */}
+        <div className="max-w-5xl !pr-4 md:!pr-12 proj-item will-change-transform">
+          <Link
+            to="/all-projects"
+            className="group inline-flex items-center gap-x-3 border border-[#06f51ee6] !px-6 !py-3 text-[#06f51ee6] font-roboto-flex text-[14px] tracking-widest uppercase hover:bg-[#06f51ee6] hover:text-black transition-all duration-300"
+          >
+            See All Projects
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              width="16"
+              height="16"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              strokeWidth="2"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              className="transition-transform duration-300 group-hover:translate-x-1"
+            >
+              <line x1="5" y1="12" x2="19" y2="12" />
+              <polyline points="12 5 19 12 12 19" />
+            </svg>
+          </Link>
         </div>
 
       </div>
