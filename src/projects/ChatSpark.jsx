@@ -5,6 +5,7 @@ import { useGSAP } from '@gsap/react'
 import ChatSparkWeb1 from '../projects/images/ChatSpark.png'
 import ChatSparkWeb2 from '../projects/images/ChatSparkWeb2.png'
 import ChatSparkWeb3 from '../projects/images/ChatSparkWeb3.png'
+import ScrollStack, { ScrollStackItem } from "./ScrollStack/ScrollStack.jsx";
 
 gsap.registerPlugin(useGSAP)
 
@@ -173,10 +174,30 @@ const ChatSpark = () => {
             </div>
           </div>
 
-          <div className="!mt-16 flex flex-col gap-6 reveal">
-            <img src={ChatSparkWeb2} alt="ChatSpark AI Preview 2" className="w-full object-cover rounded-lg border border-[#a0a0a0]/10" />
-            <img src={ChatSparkWeb3} alt="ChatSpark AI Preview 3" className="w-full object-cover rounded-lg border border-[#a0a0a0]/10" />
-            <img src={ChatSparkWeb1} alt="ChatSpark AI Preview 1" className="w-full object-cover rounded-lg border border-[#a0a0a0]/10" />
+          <div className="!mt-16 reveal">
+            <ScrollStack useWindowScroll>
+              <ScrollStackItem>
+                <img
+                  src={ChatSparkWeb2}
+                  alt="CodeMeet AI Preview 2"
+                  className="absolute inset-0 w-full h-full object-cover rounded-[40px]"
+                />
+              </ScrollStackItem>
+              <ScrollStackItem>
+                <img
+                  src={ChatSparkWeb3}
+                  alt="CodeMeet AI Preview 1"
+                  className="absolute inset-0 w-full h-full object-cover rounded-[40px]"
+                />
+              </ScrollStackItem>
+              <ScrollStackItem>
+                <img
+                  src={ChatSparkWeb1}
+                  alt="CodeMeet AI Preview 3"
+                  className="absolute inset-0 w-full h-full object-cover rounded-[40px]"
+                />
+              </ScrollStackItem>
+            </ScrollStack>
           </div>
 
         </div>

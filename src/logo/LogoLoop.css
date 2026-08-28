@@ -1,0 +1,91 @@
+.logoloop {
+  position: relative;
+  overflow: hidden;
+  width: 100%;
+}
+
+.logoloop--fade {
+  -webkit-mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to right,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+
+.logoloop--vertical.logoloop--fade {
+  -webkit-mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+  mask-image: linear-gradient(
+    to bottom,
+    transparent 0%,
+    #000 8%,
+    #000 92%,
+    transparent 100%
+  );
+}
+
+.logoloop__track {
+  display: flex;
+  width: max-content;
+  will-change: transform;
+}
+
+.logoloop--vertical .logoloop__track {
+  flex-direction: column;
+}
+
+.logoloop__list {
+  display: flex;
+  align-items: center;
+  gap: var(--logoloop-gap, 32px);
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  flex-shrink: 0;
+}
+
+.logoloop--vertical .logoloop__list {
+  flex-direction: column;
+}
+
+.logoloop__item {
+  flex-shrink: 0;
+  display: flex;
+  align-items: center;
+}
+
+.logoloop__item img,
+.logoloop__node img {
+  height: var(--logoloop-logoHeight, 28px);
+  width: auto;
+  display: block;
+}
+
+.logoloop__link {
+  display: flex;
+  align-items: center;
+  text-decoration: none;
+  color: inherit;
+}
+
+.logoloop--scale-hover .logoloop__item {
+  transition: transform 0.3s ease;
+}
+
+.logoloop--scale-hover .logoloop__item:hover {
+  transform: scale(1.1);
+}

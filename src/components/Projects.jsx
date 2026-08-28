@@ -5,8 +5,8 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import StoweWeb    from '../projects/images/StoweWeb.png'
 import ChessWeb    from '../projects/images/Onyxchess.png'
-import LivePinWeb  from '../projects/images/Livepin.png'
 import ChatSparkWeb  from '../projects/images/ChatSpark.png'
+import CodeMeetWeb  from '../projects/images/CodeMeetWeb.png'
 import BillMateWeb   from '../projects/images/BillMate.png'
 import ResumeForgeWeb from '../projects/images/ResumeForge.png'
 
@@ -14,12 +14,12 @@ import ResumeForgeWeb from '../projects/images/ResumeForge.png'
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
 const projects = [
-  { id: '_01.', title: 'ChatSpark AI',    tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'pgvector', 'Groq', 'NextAuth.js'], link: '/chatspark',     image: ChatSparkWeb   },
-  { id: '_02.', title: 'BillMate',        tags: ['React', 'Node.js', 'Express', 'TypeScript', 'PostgreSQL', 'Prisma'],      link: '/billmate',      image: BillMateWeb    },
-  { id: '_03.', title: 'ResumeForge AI',  tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'Groq', 'JWT'],           link: '/resumeforge',   image: ResumeForgeWeb },
-  { id: '_04.', title: 'Stowe',           tags: ['MongoDB', 'Express', 'Node.js', 'JWT', 'Multer'],                         link: '/stowe',         image: StoweWeb       },
-  { id: '_05.', title: 'OnyxChess',       tags: ['Socket.IO', 'chess.js', 'Node.js', 'Tailwind CSS'],                       link: '/onyxchess',     image: ChessWeb       },
-  { id: '_06.', title: 'LivePin',         tags: ['Socket.IO', 'Leaflet.js', 'Node.js', 'Express'],                          link: '/livepin',       image: LivePinWeb     },
+  { id: '_01.', title: 'CodeMeet AI',    tags: ['Next.js', 'TypeScript', 'WebRTC', 'Socket.IO', 'DynamoDB', 'Gemini AI'],   link: '/codemeet',      image: CodeMeetWeb    },
+  { id: '_02.', title: 'ChatSpark AI',    tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'pgvector', 'Groq', 'NextAuth.js'], link: '/chatspark',     image: ChatSparkWeb   },
+  { id: '_03.', title: 'BillMate',        tags: ['React', 'Node.js', 'Express', 'TypeScript', 'PostgreSQL', 'Prisma'],      link: '/billmate',      image: BillMateWeb    },
+  { id: '_04.', title: 'ResumeForge AI',  tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'Groq', 'JWT'],           link: '/resumeforge',   image: ResumeForgeWeb },
+  { id: '_05.', title: 'Stowe',           tags: ['MongoDB', 'Express', 'Node.js', 'JWT', 'Multer'],                         link: '/stowe',         image: StoweWeb       },
+  { id: '_06.', title: 'OnyxChess',       tags: ['Socket.IO', 'chess.js', 'Node.js', 'Tailwind CSS'],                       link: '/onyxchess',     image: ChessWeb       },
 ]
 
 const Projects = () => {

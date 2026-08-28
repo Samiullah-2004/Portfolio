@@ -96,7 +96,7 @@ const Home = () => {
         <div className="flex flex-col justify-end items-end !mr-8 !pb-11">
           <div className="flex flex-col gap-y-6 !p-6">
             {[
-              { num: "8+", label: "Projects Completed" },
+              { num: "7+", label: "Projects Completed" },
               { num: "2+", label: "Years of Experience" },
               { num: "3", label: "AI Apps Shipped" },
             ].map((s) => (

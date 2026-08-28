@@ -22,6 +22,7 @@ import ChatSpark from "./projects/ChatSpark";
 import BillMate from "./projects/BillMate";
 import ResumeForge from "./projects/ResumeForge";
 import MovieBrowser from "./projects/MovieBrowser";
+import CodeMeet from "./projects/CodeMeet";
 
 function App() {
   const router = createBrowserRouter([
@@ -121,6 +122,17 @@ function App() {
           <ScrollProgressIndicator />
           <Emailbar />
           <ChatSpark />
+          <Contact />
+        </div>
+      ),
+    },
+    {
+      path: "/codemeet",
+      element: (
+        <div>
+          <ScrollProgressIndicator />
+          <Emailbar />
+          <CodeMeet/>
           <Contact />
         </div>
       ),
