@@ -56,14 +56,16 @@ const useImageLoader = (seqRef, onLoad, dependencies) => {
   }, [onLoad, seqRef, dependencies]);
 };
 
-const useAnimationLoop = (trackRef, targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical) => {
+const useAnimationLoop = (trackRef, containerRef, targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical) => {
   const rafRef = useRef(null);
   const lastTimestampRef = useRef(null);
   const offsetRef = useRef(0);
   const velocityRef = useRef(0);
+  const isVisibleRef = useRef(true);
 
   useEffect(() => {
     const track = trackRef.current;
+    const container = containerRef?.current;
     if (!track) return;
 
     const seqSize = isVertical ? seqHeight : seqWidth;
@@ -81,7 +83,7 @@ const useAnimationLoop = (trackRef, targetVelocity, seqWidth, seqHeight, isHover
         lastTimestampRef.current = timestamp;
       }
 
-      const deltaTime = Math.max(0, timestamp - lastTimestampRef.current) / 1000;
+      const deltaTime = Math.max(0, Math.min(timestamp - lastTimestampRef.current, 100)) / 1000;
       lastTimestampRef.current = timestamp;
 
       const target = isHovered && hoverSpeed !== undefined ? hoverSpeed : targetVelocity;
@@ -103,16 +105,51 @@ const useAnimationLoop = (trackRef, targetVelocity, seqWidth, seqHeight, isHover
       rafRef.current = requestAnimationFrame(animate);
     };
 
-    rafRef.current = requestAnimationFrame(animate);
+    const startRaf = () => {
+      if (rafRef.current === null && isVisibleRef.current && !document.hidden) {
+        lastTimestampRef.current = null;
+        rafRef.current = requestAnimationFrame(animate);
+      }
+    };
 
-    return () => {
+    const stopRaf = () => {
       if (rafRef.current !== null) {
         cancelAnimationFrame(rafRef.current);
         rafRef.current = null;
       }
       lastTimestampRef.current = null;
     };
-  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, trackRef]);
+
+    const handleVisibility = () => {
+      if (document.hidden) {
+        stopRaf();
+      } else {
+        startRaf();
+      }
+    };
+    document.addEventListener('visibilitychange', handleVisibility);
+
+    let observer = null;
+    if (container && window.IntersectionObserver) {
+      observer = new IntersectionObserver(([entry]) => {
+        isVisibleRef.current = entry.isIntersecting;
+        if (entry.isIntersecting) {
+          startRaf();
+        } else {
+          stopRaf();
+        }
+      }, { rootMargin: '100px' });
+      observer.observe(container);
+    }
+
+    startRaf();
+
+    return () => {
+      stopRaf();
+      document.removeEventListener('visibilitychange', handleVisibility);
+      observer?.disconnect();
+    };
+  }, [targetVelocity, seqWidth, seqHeight, isHovered, hoverSpeed, isVertical, trackRef, containerRef]);
 };
 
 export const LogoLoop = memo(
@@ -192,7 +229,7 @@ export const LogoLoop = memo(
 
     useImageLoader(seqRef, updateDimensions, [logos, gap, logoHeight, isVertical]);
 
-    useAnimationLoop(trackRef, targetVelocity, seqWidth, seqHeight, isHovered, effectiveHoverSpeed, isVertical);
+    useAnimationLoop(trackRef, containerRef, targetVelocity, seqWidth, seqHeight, isHovered, effectiveHoverSpeed, isVertical);
 
     const cssVariables = useMemo(
       () => ({

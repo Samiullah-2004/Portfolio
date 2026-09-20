@@ -1,56 +1,35 @@
-import React, { useRef, useState } from 'react'
+import { useRef } from 'react'
 import { Link } from 'react-router-dom'
 import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
+import { useSectionReveal } from '../hooks/useSectionReveal'
 import StoweWeb    from '../projects/images/StoweWeb.png'
-import ChessWeb    from '../projects/images/Onyxchess.png'
 import ChatSparkWeb  from '../projects/images/ChatSpark.png'
 import CodeMeetWeb  from '../projects/images/CodeMeetWeb.png'
+import ComptoirWeb from '../projects/images/Comptoir1.png'
 import BillMateWeb   from '../projects/images/BillMate.png'
 import ResumeForgeWeb from '../projects/images/ResumeForge.png'
 
-
-gsap.registerPlugin(ScrollTrigger, useGSAP)
+gsap.registerPlugin(useGSAP)
 
 const projects = [
-  { id: '_01.', title: 'CodeMeet AI',    tags: ['Next.js', 'TypeScript', 'WebRTC', 'Socket.IO', 'DynamoDB', 'Gemini AI'],   link: '/codemeet',      image: CodeMeetWeb    },
-  { id: '_02.', title: 'ChatSpark AI',    tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'pgvector', 'Groq', 'NextAuth.js'], link: '/chatspark',     image: ChatSparkWeb   },
-  { id: '_03.', title: 'BillMate',        tags: ['React', 'Node.js', 'Express', 'TypeScript', 'PostgreSQL', 'Prisma'],      link: '/billmate',      image: BillMateWeb    },
-  { id: '_04.', title: 'ResumeForge AI',  tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'Groq', 'JWT'],           link: '/resumeforge',   image: ResumeForgeWeb },
-  { id: '_05.', title: 'Stowe',           tags: ['MongoDB', 'Express', 'Node.js', 'JWT', 'Multer'],                         link: '/stowe',         image: StoweWeb       },
-  { id: '_06.', title: 'OnyxChess',       tags: ['Socket.IO', 'chess.js', 'Node.js', 'Tailwind CSS'],                       link: '/onyxchess',     image: ChessWeb       },
+  { id: '_01.', title: 'ChatSpark AI',    tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'pgvector', 'Groq', 'NextAuth.js'], link: '/chatspark',     image: ChatSparkWeb   },
+  { id: '_02.', title: 'CodeMeet AI',    tags: ['Next.js', 'TypeScript', 'WebRTC', 'Socket.IO', 'DynamoDB', 'Gemini AI'],   link: '/codemeet',      image: CodeMeetWeb    },
+  { id: '_03.', title: 'Comptoir',        tags: ['React', 'TypeScript', 'GraphQL', 'PostgreSQL', 'Socket.IO', 'Stripe'],      link: '/comptoir',      image: ComptoirWeb    },
+  { id: '_04.', title: 'BillMate',        tags: ['React', 'Node.js', 'Express', 'TypeScript', 'PostgreSQL', 'Prisma'],      link: '/billmate',      image: BillMateWeb    },
+  { id: '_05.', title: 'ResumeForge AI',  tags: ['Next.js', 'TypeScript', 'PostgreSQL', 'Prisma', 'Groq', 'JWT'],           link: '/resumeforge',   image: ResumeForgeWeb },
+  { id: '_06.', title: 'Stowe',           tags: ['MongoDB', 'Express', 'Node.js', 'JWT', 'Multer'],                         link: '/stowe',         image: StoweWeb       },
 ]
 
 const Projects = () => {
   const containerRef      = useRef(null)
   const imageContainerRef = useRef(null)
-  const [hoveredProject, setHoveredProject] = useState(null)
+  // Track hovered project via ref — no setState on mousemove
+  const hoveredProjectRef = useRef(null)
 
-  useGSAP(() => {
-    gsap.timeline({
-      scrollTrigger: {
-        id: 'projects-in',
-        trigger: containerRef.current,
-        start: 'top 70%',
-        end: 'bottom bottom',
-        scrub: 0.5,
-      },
-    }).from('.proj-item', { y: 150, opacity: 0, stagger: 0.05 })
-  }, { scope: containerRef })
+  useSectionReveal({ id: 'projects', selector: '.proj-item', containerRef })
 
-  useGSAP(() => {
-    gsap.timeline({
-      scrollTrigger: {
-        id: 'projects-out',
-        trigger: containerRef.current,
-        start: 'bottom 50%',
-        end: 'bottom 10%',
-        scrub: 0.5,
-      },
-    }).to('.proj-item', { y: -150, opacity: 0, stagger: 0.02 })
-  }, { scope: containerRef })
-
+  // Mousemove: update preview position (no React state, passive listener)
   useGSAP((context, contextSafe) => {
     if (window.innerWidth < 768) return
 
@@ -73,23 +52,28 @@ const Projects = () => {
       })
     })
 
-    window.addEventListener('mousemove', handleMouseMove)
+    window.addEventListener('mousemove', handleMouseMove, { passive: true })
     return () => window.removeEventListener('mousemove', handleMouseMove)
   }, { scope: containerRef })
 
   const handleMouseEnter = (projectTitle) => {
     if (window.innerWidth < 768) return
-    gsap.killTweensOf(imageContainerRef.current)
-    setHoveredProject(projectTitle)
-    gsap.to(imageContainerRef.current, {
-      opacity:  1,
-      scale:    1,
-      duration: 0.2,
-      ease:     'power2.out',
-    })
+    hoveredProjectRef.current = projectTitle
+
+    // Swap image directly via data-title — no React re-render
+    if (imageContainerRef.current) {
+      imageContainerRef.current.querySelectorAll('img[data-title]').forEach((img) => {
+        img.style.opacity = img.dataset.title === projectTitle ? '1' : '0'
+      })
+      gsap.killTweensOf(imageContainerRef.current)
+      gsap.to(imageContainerRef.current, {
+        opacity: 1, scale: 1, duration: 0.2, ease: 'power2.out',
+      })
+    }
   }
 
   const handleMouseLeave = () => {
+    hoveredProjectRef.current = null
     gsap.killTweensOf(imageContainerRef.current)
     gsap.to(imageContainerRef.current, {
       opacity:  0,
@@ -97,14 +81,13 @@ const Projects = () => {
       duration: 0.2,
       ease:     'power2.in',
     })
-    setHoveredProject(null)
   }
 
   return (
     <div
       id="projects"
       ref={containerRef}
-      className='relative grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[90vh] md:h-[170vh]  text-[#ffffff] overflow-hidden'
+      className='relative grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[75vh] md:h-[140vh] text-[#ffffff] overflow-clip'
     >
       <div></div>
 
@@ -118,20 +101,18 @@ const Projects = () => {
             key={p.title}
             src={p.image}
             alt={p.title}
+            data-title={p.title}
             className="absolute inset-0 w-full h-full object-cover object-top"
-            style={{
-              opacity:    hoveredProject === p.title ? 1 : 0,
-              transition: 'opacity 0.15s ease',
-            }}
+            style={{ opacity: 0, transition: 'opacity 0.15s ease' }}
           />
         ))}
       </div>
 
-      <div className='relative md:sticky md:top-0 md:h-screen md:!mt-40 !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center gap-y-6 md:gap-y-12 py-10 md:py-0'>
+      <div className='relative md:sticky md:top-0 md:h-[130vh] !pl-4 sm:!pl-6 md:!pl-12 md:!pt-12 flex flex-col justify-center gap-y-4 md:gap-y-4 lg:gap-y-5 xl:gap-y-6 py-10 md:py-4'>
 
-        <div className='flex items-center gap-x-4 max-w-5xl proj-item will-change-transform'>
+        <div className='flex items-center gap-x-4 max-w-5xl proj-item'>
           <div
-            className="relative w-8 h-8 md:w-12 md:h-12 animate-spin flex-shrink-0"
+            className="relative w-8 h-8 md:w-10 md:h-10 animate-spin flex-shrink-0"
             style={{ animationDuration: '6s' }}
           >
             {[0, 60, 120, 180, 240, 300].map((angle) => (
@@ -146,26 +127,26 @@ const Projects = () => {
               />
             ))}
           </div>
-          <h2 className='text-[36px] sm:text-[48px] md:text-[36px] leading-[.95] tracking-tight text-[#06f51ee6] uppercase font-anton'>
+          <h2 className='text-[32px] sm:text-[40px] md:text-[34px] lg:text-[40px] leading-[.95] tracking-tight text-[#06f51ee6] uppercase font-anton'>
             SELECTED PROJECTS
           </h2>
         </div>
 
-        <div className="flex flex-col gap-y-6 md:gap-y-12 max-w-5xl !pr-4 md:!pr-12">
+        <div className="flex flex-col gap-y-3.5 sm:gap-y-4 md:gap-y-2.5 lg:gap-y-3.5 xl:gap-y-4 max-w-5xl !pr-4 md:!pr-12">
           {projects.map((project) => (
             <div
               key={project.id}
-              className="flex flex-row group select-none items-start proj-item will-change-transform"
+              className="flex flex-row group select-none items-start proj-item"
               onMouseEnter={() => handleMouseEnter(project.title)}
               onMouseLeave={handleMouseLeave}
             >
-              <p className="text-[15px] md:text-[18px] font-roboto-flex font-normal text-[#a0a0a0] tracking-tighter !pt-1 md:!pt-2 flex-shrink-0">
+              <p className="text-[14px] md:text-[16px] font-roboto-flex font-normal text-[#a0a0a0] tracking-tighter !pt-1 md:!pt-1.5 flex-shrink-0">
                 {project.id}
               </p>
 
-              <Link to={project.link} className="!pl-3 sm:!pl-6 gap-y-2 flex flex-col flex-1 cursor-pointer">
+              <Link to={project.link} className="!pl-3 sm:!pl-6 gap-y-1 md:gap-y-1.5 flex flex-col flex-1 cursor-pointer">
 
-                <h3 className="text-[32px] sm:text-[40px] md:text-[48px] tracking-tight uppercase font-anton leading-none relative inline-flex items-center gap-3 cursor-pointer overflow-hidden">
+                <h3 className="text-[28px] sm:text-[36px] md:text-[30px] lg:text-[38px] xl:text-[44px] tracking-tight uppercase font-anton leading-none relative inline-flex items-center gap-3 cursor-pointer overflow-hidden">
                   <span className="text-[#d0cdcdde] flex items-center gap-3">
                     {project.title}
                   </span>
@@ -174,8 +155,8 @@ const Projects = () => {
                     {project.title}
                     <svg
                       xmlns="http://www.w3.org/2000/svg"
-                      width="26"
-                      height="26"
+                      width="24"
+                      height="24"
                       viewBox="0 0 24 24"
                       fill="none"
                       stroke="currentColor"
@@ -208,7 +189,7 @@ const Projects = () => {
         </div>
 
         {/* See All Button */}
-        <div className="max-w-5xl !pr-4 md:!pr-12 proj-item will-change-transform">
+        <div className="max-w-5xl !pr-4 md:!pr-12 proj-item">
           <Link
             to="/all-projects"
             className="group inline-flex items-center gap-x-3 border border-[#06f51ee6] !px-6 !py-3 text-[#06f51ee6] font-roboto-flex text-[14px] tracking-widest uppercase hover:bg-[#06f51ee6] hover:text-black transition-all duration-300"

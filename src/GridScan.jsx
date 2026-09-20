@@ -404,7 +404,7 @@ export const GridScan = ({
         Math.max(0, snapBackDelay || 0)
       );
     };
-window.addEventListener('mousemove', onMove);
+window.addEventListener('mousemove', onMove, { passive: true });
 el.addEventListener('mouseenter', onEnter);
 if (scanOnClick) el.addEventListener('click', onClick);
 el.addEventListener('mouseleave', onLeave);
@@ -423,7 +423,8 @@ return () => {
 
     const renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
     rendererRef.current = renderer;
-    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 2));
+    // Cap pixel ratio at 1.25 — high-DPI screens at 2x cost ~4x the fragment shader work
+    renderer.setPixelRatio(Math.min(window.devicePixelRatio || 1, 1.25));
     renderer.setSize(container.clientWidth, container.clientHeight);
     renderer.outputColorSpace = THREE.SRGBColorSpace;
     renderer.toneMapping = THREE.NoToneMapping;
@@ -473,9 +474,14 @@ return () => {
     const quad = new THREE.Mesh(new THREE.PlaneGeometry(2, 2), material);
     scene.add(quad);
 
-    let composer = null;
-    if (enablePost) {
-      composer = new EffectComposer(renderer);
+    // Skip postprocessing on coarse-pointer (touch) devices or low-end CPUs
+    // to prevent the extra GPU pass from competing with scroll animations.
+    const isLowEnd =
+      window.matchMedia('(pointer: coarse)').matches ||
+      (navigator.hardwareConcurrency != null && navigator.hardwareConcurrency <= 4);
+
+    if (enablePost && !isLowEnd) {
+      const composer = new EffectComposer(renderer);
       composerRef.current = composer;
       const renderPass = new RenderPass(scene, camera);
       composer.addPass(renderPass);
@@ -505,7 +511,22 @@ return () => {
       material.uniforms.iResolution.value.set(container.clientWidth, container.clientHeight, renderer.getPixelRatio());
       if (composerRef.current) composerRef.current.setSize(container.clientWidth, container.clientHeight);
     };
-    window.addEventListener('resize', onResize);
+    window.addEventListener('resize', onResize, { passive: true });
+
+    // ── Pause rendering when the tab is hidden ────────────────────────────────
+    const onVisibility = () => {
+      if (document.hidden) {
+        if (rafRef.current) {
+          cancelAnimationFrame(rafRef.current);
+          rafRef.current = null;
+        }
+      } else {
+        // Resume — reset `last` so we don't get a huge dt spike
+        last = performance.now();
+        rafRef.current = requestAnimationFrame(tick);
+      }
+    };
+    document.addEventListener('visibilitychange', onVisibility);
 
     let last = performance.now();
     const tick = () => {
@@ -539,8 +560,11 @@ return () => {
       yawCurrent.current = yawSm.value;
       yawVel.current = yawSm.v;
 
-      const skew = new THREE.Vector2(lookCurrent.current.x * skewScale, -lookCurrent.current.y * yBoost * skewScale);
-      material.uniforms.uSkew.value.set(skew.x, skew.y);
+      // Reuse a cached Vector2 — avoid allocating a new object every frame
+      material.uniforms.uSkew.value.set(
+        lookCurrent.current.x * skewScale,
+        -lookCurrent.current.y * yBoost * skewScale
+      );
       material.uniforms.uTilt.value = tiltCurrent.current * tiltScale;
       material.uniforms.uYaw.value = THREE.MathUtils.clamp(yawCurrent.current * yawScale, -0.6, 0.6);
 
@@ -557,6 +581,7 @@ return () => {
 
     return () => {
       if (rafRef.current) cancelAnimationFrame(rafRef.current);
+      document.removeEventListener('visibilitychange', onVisibility);
       window.removeEventListener('resize', onResize);
       material.dispose();
       quad.geometry.dispose();

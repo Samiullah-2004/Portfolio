@@ -2,11 +2,17 @@ import { useState, useRef, useEffect } from 'react'
 import { useNavigate } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
-import BillMateWeb from '../projects/images/BillMate.png'
+import Comptoir1 from '../projects/images/Comptoir1.png'
+import Comptoir2 from '../projects/images/Comptoir2.png'
+import Comptoir3 from '../projects/images/Comptoir3.png'
+import Comptoir4 from '../projects/images/Comptoir4.png'
+import Comptoir5 from '../projects/images/Comptoir5.png'
+import Comptoir6 from '../projects/images/Comptoir6.png'
+import ScrollStack, { ScrollStackItem } from "./ScrollStack/ScrollStack.jsx";
 
 gsap.registerPlugin(useGSAP)
 
-const BillMate = () => {
+const Comptoir = () => {
   const [navOpen, setNavOpen] = useState(false)
   const curtainRef = useRef(null)
   const contentRef = useRef(null)
@@ -119,9 +125,9 @@ const BillMate = () => {
           <div className="flex flex-col !mt-24 md:!mt-36 reveal">
             <div className="flex items-center gap-x-4">
               <h1 className="text-[56px] md:text-[80px] xl:text-[100px] font-anton tracking-tight text-white uppercase leading-none">
-                BillMate
+                Comptoir
               </h1>
-              <a href="https://bill-mate-three.vercel.app/" target="_blank" rel="noopener noreferrer"
+              <a href="https://comptoir-food.vercel.app" target="_blank" rel="noopener noreferrer"
                 className="text-[#a0a0a0] hover:text-[#06f51ee6] transition-colors duration-300 self-end !mb-2">
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
@@ -133,10 +139,10 @@ const BillMate = () => {
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 !mt-10 reveal">
             {[
-              { label: 'Year',     value: '2025' },
+              { label: 'Year',     value: '2026' },
               { label: 'Role',     value: 'Full Stack Developer' },
-              { label: 'Stack',    value: 'Node.js · Express · TypeScript · PostgreSQL · Prisma · React' },
-              { label: 'Deployed', value: 'Vercel & Railway' },
+              { label: 'Stack',    value: 'React · Apollo GraphQL · PostgreSQL · Socket.IO · Stripe' },
+              { label: 'Deployed', value: 'Vercel · Supabase' },
             ].map((m) => (
               <div key={m.label} className="flex flex-col gap-2">
                 <h2 className="text-[11px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase">{m.label}</h2>
@@ -148,7 +154,7 @@ const BillMate = () => {
           <div className="!mt-12 reveal">
             <h2 className="text-[11px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase !mb-4">About</h2>
             <p className="text-[17px] font-roboto-flex text-[#c0c0c0] leading-relaxed">
-              A full-stack invoicing SaaS built for freelancers. BillMate handles client management, invoice creation with auto-numbering, payment status tracking, and a live earnings dashboard. The REST API is built with Express and TypeScript following MVC architecture, Prisma ORM on PostgreSQL for the database layer, and a clean React frontend with Tailwind CSS deployed on Vercel.
+              A full-stack restaurant and pizza ordering platform, built and deployed live with production-grade software engineering. Features live GraphQL-driven menu browsing with zero login friction for customer orders, a seamless cart and checkout flow via Stripe, and instantaneous real-time order status tracking pushed over Socket.IO. On the operational side, Comptoir features an admin dashboard with complete menu CRUD, Cloudinary asset uploads, role-based owner authentication, and Recharts sales analytics. Additionally, an embedded AI ordering concierge powered by a self-built RAG pipeline (ChatSpark AI) assists customers in real-time. Containerized with Docker, covered by Vitest, Supertest, and Playwright tests, and automated through GitHub Actions CI/CD.
             </p>
           </div>
 
@@ -156,9 +162,10 @@ const BillMate = () => {
             <h2 className="text-[11px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase !mb-6">Key Features</h2>
             <div className="flex flex-col gap-y-0">
               {[
-                { icon: '🧾', title: 'Invoice Management', desc: 'Create, edit, and track invoices with auto-generated invoice numbers, due dates, and payment status updates.' },
-                { icon: '📊', title: 'Live Earnings Dashboard', desc: 'Real-time overview of total earnings, pending payments, and paid invoices with client-level breakdowns.' },
-                { icon: '🔐', title: 'JWT Multi-User Auth', desc: 'Secure registration and login with JWT-based session management. Each user has fully isolated client and invoice data.' },
+                { icon: '🍕', title: 'Live GraphQL Menu & Instant Ordering', desc: 'Real-time menu browsing driven by Apollo Client and Apollo Server v5 (GraphQL) with instant cart management and zero account friction to place orders.' },
+                { icon: '⚡', title: 'Stripe Checkout & Socket.IO Order Tracking', desc: 'Secure card payments processed via Stripe test mode, with live order states (preparing, baking, out for delivery) pushed dynamically via Socket.IO.' },
+                { icon: '📊', title: 'Admin Dashboard & Sales Analytics', desc: 'Full menu item management with Cloudinary image uploads, role-based owner authentication, and interactive sales and revenue analytics visualized with Recharts.' },
+                { icon: '🤖', title: 'AI Concierge & Production Engineering', desc: 'An embedded AI chatbot concierge powered by a custom RAG pipeline, backed by Docker, Vitest/Supertest unit tests, Playwright E2E tests, and GitHub Actions CI/CD.' },
               ].map((f) => (
                 <div key={f.title} className="flex items-start gap-x-4 border-t border-[#a0a0a0]/10 !py-5">
                   <span className="text-xl flex-shrink-0">{f.icon}</span>
@@ -172,7 +179,50 @@ const BillMate = () => {
           </div>
 
           <div className="!mt-16 reveal">
-            <img src={BillMateWeb} alt="BillMate Preview" className="w-full object-cover rounded-lg border border-[#a0a0a0]/10" />
+            <ScrollStack useWindowScroll>
+              <ScrollStackItem>
+                <img
+                  src={Comptoir1}
+                  alt="Comptoir Preview 1"
+                  className="absolute inset-0 w-full h-full object-cover rounded-[40px]"
+                />
+              </ScrollStackItem>
+              <ScrollStackItem>
+                <img
+                  src={Comptoir2}
+                  alt="Comptoir Preview 2"
+                  className="absolute inset-0 w-full h-full object-cover rounded-[40px]"
+                />
+              </ScrollStackItem>
+              <ScrollStackItem>
+                <img
+                  src={Comptoir3}
+                  alt="Comptoir Preview 3"
+                  className="absolute inset-0 w-full h-full object-cover rounded-[40px]"
+                />
+              </ScrollStackItem>
+              <ScrollStackItem>
+                <img
+                  src={Comptoir4}
+                  alt="Comptoir Preview 4"
+                  className="absolute inset-0 w-full h-full object-cover rounded-[40px]"
+                />
+              </ScrollStackItem>
+              <ScrollStackItem>
+                <img
+                  src={Comptoir5}
+                  alt="Comptoir Preview 5"
+                  className="absolute inset-0 w-full h-full object-cover rounded-[40px]"
+                />
+              </ScrollStackItem>
+              <ScrollStackItem>
+                <img
+                  src={Comptoir6}
+                  alt="Comptoir Preview 6"
+                  className="absolute inset-0 w-full h-full object-cover rounded-[40px]"
+                />
+              </ScrollStackItem>
+            </ScrollStack>
           </div>
 
         </div>
@@ -181,4 +231,4 @@ const BillMate = () => {
   )
 }
 
-export default BillMate
+export default Comptoir

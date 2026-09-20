@@ -1,57 +1,22 @@
-import React, { useRef } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import Emailbar from "./Emailbar";
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+import { useRef } from "react";
+import { useSectionReveal } from "../hooks/useSectionReveal";
 
 const Aboutme = () => {
   const containerRef = useRef(null);
 
-  useGSAP(
-    () => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          id: "about-me-in",
-          trigger: containerRef.current,
-          start: "top 70%",
-          end: "bottom bottom",
-          scrub: 0.5,
-        },
-      });
-      tl.from(".slide-up-and-fade", { y: 150, opacity: 0, stagger: 0.05 });
-    },
-    { scope: containerRef },
-  );
-
-  useGSAP(
-    () => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          id: "about-me-out",
-          trigger: containerRef.current,
-          start: "bottom 50%",
-          end: "bottom 10%",
-          scrub: 0.5,
-        },
-      });
-      tl.to(".slide-up-and-fade", { y: -150, opacity: 0, stagger: 0.02 });
-    },
-    { scope: containerRef },
-  );
+  useSectionReveal({ id: "about-me", selector: ".slide-up-and-fade", containerRef });
 
   return (
     <div
       id="about-me"
       ref={containerRef}
-      className="grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] h-auto md:h-[130vh] text-[#ffffff] overflow-hidden select-none"
+      className="grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] h-[80vh] md:h-[130vh] text-[#ffffff] overflow-clip select-none"
     >
       <div></div>
 
-      <div className="relative md:sticky md:top-0 md:h-screen !mt-6 md:!mt-10 !pl-4 sm:!pl-6 md:!pl-12 !pt-15 flex flex-col justify-center py-10 md:py-0">
+      <div className="relative md:sticky md:top-0 md:h-[120vh] !mt-6 md:!mt-10 !pl-4 sm:!pl-6 md:!pl-12 !pt-15 flex flex-col justify-center py-10 md:py-0">
         <div className="flex flex-col max-w-5xl gap-y-6 md:gap-y-16 !pr-4 md:!pr-12">
-          <p className="text-[28px] sm:text-[36px] md:text-[54px] font-roboto-flex font-light tracking-tight text-[#ffffff] leading-[1.2] md:leading-[1.1] slide-up-and-fade will-change-transform">
+          <p className="text-[28px] sm:text-[36px] md:text-[54px] font-roboto-flex font-light tracking-tight text-[#ffffff] leading-[1.2] md:leading-[1.1] slide-up-and-fade">
             I build{" "}
             <span className="text-[#06f51ee6] font-roboto-flex font-medium tracking-wide">
               END-TO-END
@@ -59,7 +24,7 @@ const Aboutme = () => {
             web applications, from AI-powered SaaS products and REST APIs to
             real-time systems and responsive, performant frontends.
           </p>
-          <div className="self-start slide-up-and-fade will-change-transform">
+          <div className="self-start slide-up-and-fade">
             <h2 className="text-[36px] md:text-[36px] font-anton tracking-tight text-[#06f51ee6] uppercase leading-none">
               THIS IS ME
             </h2>
@@ -72,19 +37,19 @@ const Aboutme = () => {
 
         <div className="grid grid-cols-1 w-[90%] md:w-[88vw] max-w-5xl md:grid-cols-2 gap-x-8 gap-y-6">
           <div>
-            <p className="text-[#ffffff] text-[36px] md:text-[48px] font-light tracking-tight leading-[1.1] slide-up-and-fade will-change-transform font-roboto-flex">
+            <p className="text-[#ffffff] text-[36px] md:text-[48px] font-light tracking-tight leading-[1.1] slide-up-and-fade font-roboto-flex">
               Hi, I'm Samiullah.
             </p>
           </div>
           <div className="flex flex-col gap-y-4 md:gap-y-5 md:!pl-14">
-            <p className="text-[15px] md:text-[18px] font-roboto-flex font-normal slide-up-and-fade leading-relaxed text-[#a0a0a0] will-change-transform">
+            <p className="text-[15px] md:text-[18px] font-roboto-flex font-normal slide-up-and-fade leading-relaxed text-[#a0a0a0]">
               I'm a Full Stack Developer specializing in Next.js, TypeScript,
               Node.js, and PostgreSQL. I build complete web applications
               including AI tools, REST APIs, real-time systems with Socket.IO,
               JWT authentication, and clean frontends with React and Tailwind
               CSS.
             </p>
-            <p className="text-[15px] md:text-[18px] font-roboto-flex font-normal slide-up-and-fade leading-relaxed text-[#a0a0a0] will-change-transform">
+            <p className="text-[15px] md:text-[18px] font-roboto-flex font-normal slide-up-and-fade leading-relaxed text-[#a0a0a0]">
               I'm currently pursuing a BSCS at Alhamra University (NCBA&E),
               recently completed a Web Development Internship at Qwetrum
               Technologies, and actively taking on freelance projects on Upwork

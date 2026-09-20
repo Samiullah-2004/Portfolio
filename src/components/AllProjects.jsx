@@ -1,7 +1,6 @@
-import React, { useRef, useState, useEffect } from "react";
+import { useRef, useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
 import { useGSAP } from "@gsap/react";
 import { Link } from "react-router-dom";
 import PasteWeb from "../projects/images/PasteWeb.png";
@@ -14,27 +13,30 @@ import BillMateWeb from "../projects/images/BillMate.png";
 import ResumeForgeWeb from "../projects/images/ResumeForge.png";
 import MovieWeb from "../projects/images/MovieBrowser.png";
 import CodeMeetWeb  from '../projects/images/CodeMeetWeb.png'
+import ComptoirWeb from "../projects/images/Comptoir1.png";
 
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+gsap.registerPlugin(useGSAP);
 
 const allProjects = [
-  { id: '_01.', title: 'CodeMeet AI',    tags: ['Next.js', 'TypeScript', 'WebRTC', 'Socket.IO', 'DynamoDB', 'Gemini AI'],   link: '/codemeet',      image: CodeMeetWeb    },
-  { id: "_02.", title: "ChatSpark AI",    tags: ["Next.js", "TypeScript", "PostgreSQL", "pgvector", "Groq", "NextAuth.js"], link: "/chatspark",     image: ChatSparkWeb   },
-  { id: "_03.", title: "BillMate",        tags: ["React", "Node.js", "Express", "TypeScript", "PostgreSQL", "Prisma"],      link: "/billmate",      image: BillMateWeb    },
-  { id: "_04.", title: "ResumeForge AI",  tags: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Groq", "JWT"],           link: "/resumeforge",   image: ResumeForgeWeb },
-  { id: "_05.", title: "Stowe",           tags: ["MongoDB", "Express", "Node.js", "JWT", "Multer"],                         link: "/stowe",         image: StoweWeb       },
-  { id: "_06.", title: "OnyxChess",       tags: ["Socket.IO", "chess.js", "Node.js", "Tailwind CSS"],                       link: "/onyxchess",     image: ChessWeb       },
-  { id: "_07.", title: "LivePin",         tags: ["Socket.IO", "Leaflet.js", "Node.js", "Express"],                          link: "/livepin",       image: LivePinWeb     },
-  { id: "_08.", title: "Movie Browser",   tags: ["React", "JavaScript", "TMDB API", "Tailwind CSS"],                        link: "/moviebrowser",  image: MovieWeb       },
-  { id: "_09.", title: "Paste App",       tags: ["React", "Redux", "Tailwind CSS"],                                         link: "/pasteapp",      image: PasteWeb       },
-  { id: "_10.", title: "Crypto Tracker",  tags: ["JavaScript", "CSS", "Binance API"],                                       link: "/cryptotracker", image: CryptoWeb      }
+  { id: "_01.", title: "ChatSpark AI",    tags: ["Next.js", "TypeScript", "PostgreSQL", "pgvector", "Groq", "NextAuth.js"], link: "/chatspark",     image: ChatSparkWeb   },
+  { id: "_02.", title: "CodeMeet AI",    tags: ["Next.js", "TypeScript", "WebRTC", "Socket.IO", "DynamoDB", "Gemini AI"],   link: "/codemeet",      image: CodeMeetWeb    },
+  { id: "_03.", title: "Comptoir",        tags: ["React", "TypeScript", "GraphQL", "PostgreSQL", "Socket.IO", "Stripe"],      link: "/comptoir",      image: ComptoirWeb    },
+  { id: "_04.", title: "BillMate",        tags: ["React", "Node.js", "Express", "TypeScript", "PostgreSQL", "Prisma"],      link: "/billmate",      image: BillMateWeb    },
+  { id: "_05.", title: "ResumeForge AI",  tags: ["Next.js", "TypeScript", "PostgreSQL", "Prisma", "Groq", "JWT"],           link: "/resumeforge",   image: ResumeForgeWeb },
+  { id: "_06.", title: "Stowe",           tags: ["MongoDB", "Express", "Node.js", "JWT", "Multer"],                         link: "/stowe",         image: StoweWeb       },
+  { id: "_07.", title: "OnyxChess",       tags: ["Socket.IO", "chess.js", "Node.js", "Tailwind CSS"],                       link: "/onyxchess",     image: ChessWeb       },
+  { id: "_08.", title: "LivePin",         tags: ["Socket.IO", "Leaflet.js", "Node.js", "Express"],                          link: "/livepin",       image: LivePinWeb     },
+  { id: "_09.", title: "Movie Browser",   tags: ["React", "JavaScript", "TMDB API", "Tailwind CSS"],                        link: "/moviebrowser",  image: MovieWeb       },
+  { id: "_10.", title: "Paste App",       tags: ["React", "Redux", "Tailwind CSS"],                                         link: "/pasteapp",      image: PasteWeb       },
+  { id: "_11.", title: "Crypto Tracker",  tags: ["JavaScript", "CSS", "Binance API"],                                       link: "/cryptotracker", image: CryptoWeb      }
 ];
 
 const AllProjects = () => {
   const containerRef      = useRef(null);
   const imageContainerRef = useRef(null);
   const curtainRef        = useRef(null);
-  const [hoveredProject, setHoveredProject] = useState(null);
+  // Track hover via ref — no setState on mousemove (eliminates re-renders)
+  const hoveredProjectRef = useRef(null);
   const [navOpen, setNavOpen]               = useState(false);
   const navigate = useNavigate();
 
@@ -71,21 +73,28 @@ const AllProjects = () => {
       const clampedY = Math.min(Math.max(offsetTop - imgRect.height / 2, 0), rect.height - imgRect.height);
       gsap.to(imageContainerRef.current, { y: clampedY, duration: 0.35, ease: "power2.out" });
     });
-    window.addEventListener("mousemove", handleMouseMove);
+    // passive: true — cannot call preventDefault, but scroll perf improves
+    window.addEventListener("mousemove", handleMouseMove, { passive: true });
     return () => window.removeEventListener("mousemove", handleMouseMove);
   }, { scope: containerRef });
 
   const handleMouseEnter = (projectTitle) => {
     if (window.innerWidth < 768) return;
-    gsap.killTweensOf(imageContainerRef.current);
-    setHoveredProject(projectTitle);
-    gsap.to(imageContainerRef.current, { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" });
+    hoveredProjectRef.current = projectTitle;
+    // Swap image directly — no React state, no re-render
+    if (imageContainerRef.current) {
+      imageContainerRef.current.querySelectorAll('img[data-title]').forEach((img) => {
+        img.style.opacity = img.dataset.title === projectTitle ? '1' : '0';
+      });
+      gsap.killTweensOf(imageContainerRef.current);
+      gsap.to(imageContainerRef.current, { opacity: 1, scale: 1, duration: 0.2, ease: "power2.out" });
+    }
   };
 
   const handleMouseLeave = () => {
+    hoveredProjectRef.current = null;
     gsap.killTweensOf(imageContainerRef.current);
     gsap.to(imageContainerRef.current, { opacity: 0, scale: 0.95, duration: 0.2, ease: "power2.in" });
-    setHoveredProject(null);
   };
 
   const handleBack = () => {
@@ -185,8 +194,9 @@ const AllProjects = () => {
                 key={p.title}
                 src={p.image}
                 alt={p.title}
+                data-title={p.title}
                 className="absolute inset-0 w-full h-full object-cover object-top"
-                style={{ opacity: hoveredProject === p.title ? 1 : 0, transition: "opacity 0.15s ease" }}
+                style={{ opacity: 0, transition: "opacity 0.15s ease" }}
               />
             ))}
           </div>
@@ -194,7 +204,7 @@ const AllProjects = () => {
           <div className="!pl-4 sm:!pl-6 md:!pl-12 flex flex-col gap-y-6 md:gap-y-12 !pr-4 md:!pr-12">
 
             {/* Header */}
-            <div className="flex items-center gap-x-4 max-w-5xl proj-item will-change-transform !pt-4">
+            <div className="flex items-center gap-x-4 max-w-5xl proj-item !pt-4">
               <div className="relative w-8 h-8 md:w-12 md:h-12 animate-spin flex-shrink-0" style={{ animationDuration: "6s" }}>
                 {[0, 60, 120, 180, 240, 300].map((angle) => (
                   <div key={angle} className="absolute w-1.5 h-4 bg-[#06f51ee6] rounded-full top-1/2 left-1/2"
@@ -212,7 +222,7 @@ const AllProjects = () => {
           {allProjects.map((project) => (
             <div
               key={project.id}
-              className="flex flex-row group select-none items-start proj-item will-change-transform"
+              className="flex flex-row group select-none items-start proj-item"
               onMouseEnter={() => handleMouseEnter(project.title)}
               onMouseLeave={handleMouseLeave}
             >
