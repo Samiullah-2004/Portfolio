@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import { useEffect, useState } from 'react';
 
 let hasShownPreloader = false;
 
@@ -24,6 +24,7 @@ const Preloader = () => {
       clearTimeout(exitTimer);
       clearTimeout(hiddenTimer);
     };
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   if (phase === 'hidden') return null;

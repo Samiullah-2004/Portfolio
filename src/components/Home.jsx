@@ -1,46 +1,12 @@
-import React, { useState, useRef, useEffect } from "react";
-import { gsap } from "gsap";
-import { ScrollTrigger } from "gsap/ScrollTrigger";
-import { useGSAP } from "@gsap/react";
-import Emailbar from "./Emailbar";
-
-gsap.registerPlugin(ScrollTrigger, useGSAP);
+import { useState, useRef, useEffect } from "react";
+import { useSectionReveal } from "../hooks/useSectionReveal";
 
 const Home = () => {
   const [navOpen, setNavOpen] = useState(false);
   const containerRef = useRef(null);
 
-  useGSAP(
-    () => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          id: "home-in",
-          trigger: containerRef.current,
-          start: "top 70%",
-          end: "bottom bottom",
-          scrub: 0.5,
-        },
-      });
-      tl.from(".slide-up-and-fade", { y: 150, opacity: 0, stagger: 0.05 });
-    },
-    { scope: containerRef },
-  );
-
-  useGSAP(
-    () => {
-      const tl = gsap.timeline({
-        scrollTrigger: {
-          id: "home-out",
-          trigger: containerRef.current,
-          start: "bottom 50%",
-          end: "bottom 10%",
-          scrub: 0.5,
-        },
-      });
-      tl.to(".slide-up-and-fade", { y: -150, opacity: 0, stagger: 0.02 });
-    },
-    { scope: containerRef },
-  );
+  // One shared hook replaces the two separate scroll-trigger blocks
+  useSectionReveal({ id: "home", selector: ".slide-up-and-fade", containerRef });
 
   useEffect(() => {
     const event = new CustomEvent("navStateChange", {
@@ -53,12 +19,12 @@ const Home = () => {
     <div
       id="home"
       ref={containerRef}
-      className="grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr_auto] min-h-[60vh] md:h-[120vh]  text-white overflow-hidden relative"
+      className="grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr_auto] min-h-[60vh] md:h-[120vh]  text-white overflow-clip relative"
     >
       <div></div>
       <div className="flex flex-col !pl-4 sm:!pl-6 md:!pl-10 justify-center py-10 md:py-0">
         <div className="flex flex-col gap-4 max-w-lg">
-          <div className="slide-up-and-fade will-change-transform font-anton">
+          <div className="slide-up-and-fade font-anton">
             <p className="text-[52px] sm:text-[65px] md:text-[80px] leading-[.95] text-[#06f51ee6] tracking-tight">
               FULL STACK
             </p>
@@ -67,14 +33,14 @@ const Home = () => {
             </p>
           </div>
 
-          <p className="font-roboto-flex font-normal text-[15px] !pr-10 md:!pr-0 md:text-[18px] text-[#a0a0a0] leading-relaxed slide-up-and-fade will-change-transform">
+          <p className="font-roboto-flex font-normal text-[15px] !pr-10 md:!pr-0 md:text-[18px] text-[#a0a0a0] leading-relaxed slide-up-and-fade">
             Hi! I'm Samiullah. A Full Stack Developer building and shipping
             production-ready web applications, from AI-powered SaaS products to
             real-time systems, using Next.js, TypeScript, Node.js, PostgreSQL,
             and modern full stack tooling.
           </p>
 
-          <div className="flex flex-col gap-1.5 !mt-2 slide-up-and-fade will-change-transform">
+          <div className="flex flex-col gap-1.5 !mt-2 slide-up-and-fade">
             <a
               href="https://www.upwork.com/freelancers/~01ffa5cf678d8eff63"
               target="_blank"
@@ -85,7 +51,7 @@ const Home = () => {
             </a>
             <div className="flex items-center gap-2 text-[13px] md:text-[14px] text-[#a0a0a0] font-roboto-flex">
               <span className="w-3 h-3 rounded-full bg-[#ffffff]"></span>
-              <p className="!pt-1">Available for Remote & Freelance Work</p>
+              <p className="!pt-1">Available for Remote &amp; Freelance Work</p>
             </div>
           </div>
         </div>
@@ -102,7 +68,7 @@ const Home = () => {
             ].map((s) => (
               <div
                 key={s.label}
-                className="flex flex-col items-end text-right slide-up-and-fade will-change-transform"
+                className="flex flex-col items-end text-right slide-up-and-fade"
               >
                 <div className="text-[36px] text-[#06f51ee6] leading-[.95] font-anton">
                   {s.num}

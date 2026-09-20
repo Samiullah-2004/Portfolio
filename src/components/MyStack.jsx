@@ -1,9 +1,6 @@
-import React, { useRef } from 'react'
-import { gsap } from 'gsap'
-import { ScrollTrigger } from 'gsap/ScrollTrigger'
-import { useGSAP } from '@gsap/react'
+import { useRef } from 'react'
 import LogoLoop from '../logo/LogoLoop'
-import Emailbar from './Emailbar'
+import { useSectionReveal } from '../hooks/useSectionReveal'
 
 // Languages
 import js from '/src/logo/Languages/js.svg'
@@ -28,6 +25,11 @@ import webrtc from '/src/logo/Backend/webrtc.svg'
 import jwt from '/src/logo/Backend/jwt.svg'
 import zod from '/src/logo/Backend/zod.svg'
 import ejs from '/src/logo/Backend/ejs.svg'
+import flutterwave from '/src/logo/Backend/flutterwave.svg'
+import stripe from '/src/logo/Backend/stripe.svg'
+import oauth from '/src/logo/Backend/oauth.svg'
+import graphql from '/src/logo/Backend/graphql.svg'
+import nextauth from '/src/logo/Backend/nextauth.png'
 
 // Databases
 import postgresql from '/src/logo/Databases/postgresql.svg'
@@ -48,6 +50,7 @@ import claude from '/src/logo/AI And RAG/claude.svg'
 
 // Animation
 import gsapIcon from '/src/logo/Animation/gsap.svg'
+import framermotion from '/src/logo/Animation/framermotion.svg'
 
 // Version Control
 import git from '/src/logo/Version Control/git.svg'
@@ -70,15 +73,16 @@ import nginx from '/src/logo/Cloud & Containers/nginx.svg'
 import vercel from '/src/logo/Deployment/vercel.svg'
 import railway from '/src/logo/Deployment/railway.svg'
 import render from '/src/logo/Deployment/render.svg'
+import hostinger from '/src/logo/Deployment/hostinger.svg'
 
 // Tools
 import postman from '/src/logo/Tools/postman.svg'
 import vscode from '/src/logo/Tools/vscode.svg'
+import cloudinary from '/src/logo/Tools/cloudinary.svg'
 
 // Testing
 import jest from '/src/logo/Testing/jest.svg'
-
-gsap.registerPlugin(ScrollTrigger, useGSAP)
+import playwright from '/src/logo/Testing/playwright.svg'
 
 const categories = [
   {
@@ -112,6 +116,11 @@ const categories = [
       { id: 'jwt', image: jwt, name: 'JWT Auth' },
       { id: 'zod', image: zod, name: 'Zod' },
       { id: 'ejs', image: ejs, name: 'EJS' },
+      { id: 'flutterwave', image: flutterwave, name: 'Flutterwave' },
+      { id: 'stripe', image: stripe, name: 'Stripe' },
+      { id: 'oauth', image: oauth, name: 'OAuth' },
+      { id: 'graphql', image: graphql, name: 'GraphQL' },
+      { id: 'nextauth', image: nextauth, name: 'NextAuth.js' },
     ],
   },
   {
@@ -141,6 +150,7 @@ const categories = [
     label: 'ANIMATION',
     techs: [
       { id: 'gsap', image: gsapIcon, name: '' },
+      { id: 'framermotion', image: framermotion, name: 'Framer Motion' },
     ],
   },
   {
@@ -174,7 +184,8 @@ const categories = [
     techs: [
       { id: 'vercel', image: vercel, name: 'Vercel' },
       { id: 'railway', image: railway, name: 'Railway' },
-      { id: 'render', image: render, name: 'Render' }
+      { id: 'render', image: render, name: 'Render' },
+      { id: 'hostinger', image: hostinger, name: 'Hostinger' },
     ],
   },
   {
@@ -182,12 +193,14 @@ const categories = [
     techs: [
       { id: 'postman', image: postman, name: 'Postman' },
       { id: 'vscode', image: vscode, name: 'VS Code' },
+      { id: 'cloudinary', image: cloudinary, name: 'Cloudinary' },
     ],
   },
   {
     label: 'TESTING',
     techs: [
       { id: 'jest', image: jest, name: 'Jest' },
+      { id: 'playwright', image: playwright, name: 'Playwright' },
     ],
   },
 ]
@@ -195,39 +208,15 @@ const categories = [
 const MyStack = () => {
   const containerRef = useRef(null)
 
-  useGSAP(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        id: 'mystack-in',
-        trigger: containerRef.current,
-        start: 'top 70%',
-        end: 'bottom bottom',
-        scrub: 0.5,
-      },
-    })
-    tl.from('.slide-up-and-fade', { y: 150, opacity: 0, stagger: 0.05 })
-  }, { scope: containerRef })
-
-  useGSAP(() => {
-    const tl = gsap.timeline({
-      scrollTrigger: {
-        id: 'mystack-out',
-        trigger: containerRef.current,
-        start: 'bottom 50%',
-        end: 'bottom 10%',
-        scrub: 0.5,
-      },
-    })
-    tl.to('.slide-up-and-fade', { y: -150, opacity: 0, stagger: 0.02 })
-  }, { scope: containerRef })
+  useSectionReveal({ id: 'mystack', selector: '.slide-up-and-fade', containerRef })
 
   return (
-    <div ref={containerRef} className='grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[90vh] md:h-[230vh]  text-[#ffffff] overflow-hidden'>
+    <div ref={containerRef} className='grid grid-cols-[16px_1fr] sm:grid-cols-[28px_1fr] md:grid-cols-[35px_1fr] min-h-[170vh] md:h-[270vh]  text-[#ffffff] overflow-clip'>
       <div></div>
 
-      <div className='relative md:sticky md:top-0 md:h-[180vh] !mt-6 md:!mt-35 !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center py-10 md:py-0'>
+      <div className='relative md:sticky md:top-0 md:h-[230vh] !mt-50 md:!mt-25 !pl-4 sm:!pl-6 md:!pl-12 flex flex-col justify-center py-10 md:py-0'>
 
-        <div className='flex items-center gap-x-4 max-w-5xl slide-up-and-fade will-change-transform'>
+        <div className='flex items-center gap-x-4 max-w-5xl slide-up-and-fade'>
           <div className="relative w-8 h-8 md:w-12 md:h-12 animate-spin flex-shrink-0" style={{ animationDuration: '3s' }}>
             {[0, 60, 120, 180, 240, 300].map((angle) => (
               <div key={angle}
@@ -249,7 +238,7 @@ const MyStack = () => {
 
         <div className='flex flex-col gap-y-6 md:gap-y-10 max-w-5xl'>
           {categories.map((cat) => (
-            <div key={cat.label} className='grid grid-cols-1 md:grid-cols-[200px_1fr] lg:grid-cols-[500px_1fr] gap-y-3 md:gap-x-4 slide-up-and-fade will-change-transform items-center'>
+            <div key={cat.label} className='grid grid-cols-1 md:grid-cols-[200px_1fr] lg:grid-cols-[500px_1fr] gap-y-3 md:gap-x-4 slide-up-and-fade items-center'>
               <p className='text-[#d0cdcdde] text-[32px] md:text-[40px] tracking-tight font-anton leading-none'>
                 {cat.label}
               </p>

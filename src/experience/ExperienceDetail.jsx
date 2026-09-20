@@ -1,12 +1,12 @@
 import { useState, useRef, useEffect } from 'react'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, Link } from 'react-router-dom'
 import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
-import BillMateWeb from '../projects/images/BillMate.png'
+import ScrollStack, { ScrollStackItem } from '../projects/ScrollStack/ScrollStack.jsx'
 
 gsap.registerPlugin(useGSAP)
 
-const BillMate = () => {
+const ExperienceDetail = ({ company, link, meta, about, features, related, images = [] }) => {
   const [navOpen, setNavOpen] = useState(false)
   const curtainRef = useRef(null)
   const contentRef = useRef(null)
@@ -93,6 +93,7 @@ const BillMate = () => {
                 {[
                   { name: 'Home', color: 'bg-[#b4ff39]' },
                   { name: 'About Me', color: 'bg-[#ffffff]' },
+                  { name: 'Experience', color: 'bg-[#06f51ee6]' },
                   { name: 'Projects', color: 'bg-[#a0a0a0]' },
                 ].map((item) => (
                   <a key={item.name} href={'/#' + item.name.toLowerCase().replace(' ', '-')}
@@ -118,26 +119,23 @@ const BillMate = () => {
 
           <div className="flex flex-col !mt-24 md:!mt-36 reveal">
             <div className="flex items-center gap-x-4">
-              <h1 className="text-[56px] md:text-[80px] xl:text-[100px] font-anton tracking-tight text-white uppercase leading-none">
-                BillMate
+              <h1 className="text-[44px] md:text-[64px] xl:text-[80px] font-anton tracking-tight text-white uppercase leading-none">
+                {company}
               </h1>
-              <a href="https://bill-mate-three.vercel.app/" target="_blank" rel="noopener noreferrer"
-                className="text-[#a0a0a0] hover:text-[#06f51ee6] transition-colors duration-300 self-end !mb-2">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
-                </svg>
-              </a>
+              {link && (
+                <a href={link} target="_blank" rel="noopener noreferrer"
+                  className="text-[#a0a0a0] hover:text-[#06f51ee6] transition-colors duration-300 self-end !mb-2">
+                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={2} stroke="currentColor" className="w-8 h-8 md:w-10 md:h-10">
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 6H5.25A2.25 2.25 0 0 0 3 8.25v10.5A2.25 2.25 0 0 0 5.25 21h10.5A2.25 2.25 0 0 0 18 18.75V10.5m-10.5 6L21 3m0 0h-5.25M21 3v5.25" />
+                  </svg>
+                </a>
+              )}
             </div>
             <div className="w-full h-[1px] bg-[#a0a0a0]/20 !mt-6" />
           </div>
 
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8 !mt-10 reveal">
-            {[
-              { label: 'Year',     value: '2025' },
-              { label: 'Role',     value: 'Full Stack Developer' },
-              { label: 'Stack',    value: 'Node.js · Express · TypeScript · PostgreSQL · Prisma · React' },
-              { label: 'Deployed', value: 'Vercel & Railway' },
-            ].map((m) => (
+            {meta.map((m) => (
               <div key={m.label} className="flex flex-col gap-2">
                 <h2 className="text-[11px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase">{m.label}</h2>
                 <p className="text-[15px] font-roboto-flex text-white">{m.value}</p>
@@ -148,18 +146,14 @@ const BillMate = () => {
           <div className="!mt-12 reveal">
             <h2 className="text-[11px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase !mb-4">About</h2>
             <p className="text-[17px] font-roboto-flex text-[#c0c0c0] leading-relaxed">
-              A full-stack invoicing SaaS built for freelancers. BillMate handles client management, invoice creation with auto-numbering, payment status tracking, and a live earnings dashboard. The REST API is built with Express and TypeScript following MVC architecture, Prisma ORM on PostgreSQL for the database layer, and a clean React frontend with Tailwind CSS deployed on Vercel.
+              {about}
             </p>
           </div>
 
           <div className="!mt-12 reveal">
-            <h2 className="text-[11px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase !mb-6">Key Features</h2>
+            <h2 className="text-[11px] font-roboto-flex font-semibold tracking-[0.2em] text-[#a0a0a0] uppercase !mb-6">Key Contributions</h2>
             <div className="flex flex-col gap-y-0">
-              {[
-                { icon: '🧾', title: 'Invoice Management', desc: 'Create, edit, and track invoices with auto-generated invoice numbers, due dates, and payment status updates.' },
-                { icon: '📊', title: 'Live Earnings Dashboard', desc: 'Real-time overview of total earnings, pending payments, and paid invoices with client-level breakdowns.' },
-                { icon: '🔐', title: 'JWT Multi-User Auth', desc: 'Secure registration and login with JWT-based session management. Each user has fully isolated client and invoice data.' },
-              ].map((f) => (
+              {features.map((f) => (
                 <div key={f.title} className="flex items-start gap-x-4 border-t border-[#a0a0a0]/10 !py-5">
                   <span className="text-xl flex-shrink-0">{f.icon}</span>
                   <div>
@@ -171,9 +165,49 @@ const BillMate = () => {
             </div>
           </div>
 
-          <div className="!mt-16 reveal">
-            <img src={BillMateWeb} alt="BillMate Preview" className="w-full object-cover rounded-lg border border-[#a0a0a0]/10" />
-          </div>
+          {related && (
+            <div className="!mt-12 reveal">
+              <Link
+                to={related.to}
+                className="group inline-flex items-center gap-x-3 border border-[#06f51ee6] !px-6 !py-3 text-[#06f51ee6] font-roboto-flex text-[14px] tracking-widest uppercase hover:bg-[#06f51ee6] hover:text-black transition-all duration-300"
+              >
+                {related.label}
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="16"
+                  height="16"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="transition-transform duration-300 group-hover:translate-x-1"
+                >
+                  <line x1="5" y1="12" x2="19" y2="12" />
+                  <polyline points="12 5 19 12 12 19" />
+                </svg>
+              </Link>
+            </div>
+          )}
+
+          {images.length > 0 ? (
+            <div className="!mt-16 reveal">
+              <ScrollStack useWindowScroll>
+                {images.map((src, i) => (
+                  <ScrollStackItem key={src}>
+                    <img
+                      src={src}
+                      alt={`${company} Preview ${i + 1}`}
+                      className="absolute inset-0 w-full h-full object-cover rounded-[40px]"
+                    />
+                  </ScrollStackItem>
+                ))}
+              </ScrollStack>
+            </div>
+          ) : (
+            <div className="!h-16" />
+          )}
 
         </div>
       </div>
@@ -181,4 +215,4 @@ const BillMate = () => {
   )
 }
 
-export default BillMate
+export default ExperienceDetail

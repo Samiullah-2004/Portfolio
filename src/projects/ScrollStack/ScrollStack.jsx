@@ -1,5 +1,15 @@
+/**
+ * ScrollStack — stacked card scroll effect.
+ *
+ * The internal Lenis instance has been removed. Card transforms are now driven
+ * by the global Lenis/ScrollTrigger scroll events (one scroll engine for the
+ * whole app). When useWindowScroll=true the component subscribes to the global
+ * lenis 'scroll' event. The wrapper-scroller mode (useWindowScroll=false)
+ * uses a plain scroll listener on the inner div.
+ */
+
 import { useLayoutEffect, useRef, useCallback } from 'react';
-import Lenis from 'lenis';
+import { globalLenis } from '../../hooks/useLenis.jsx';
 import './ScrollStack.css';
 
 export const ScrollStackItem = ({ children, itemClassName = '' }) => (
@@ -23,11 +33,11 @@ const ScrollStack = ({
 }) => {
   const scrollerRef = useRef(null);
   const stackCompletedRef = useRef(false);
-  const animationFrameRef = useRef(null);
-  const lenisRef = useRef(null);
   const cardsRef = useRef([]);
   const lastTransformsRef = useRef(new Map());
   const isUpdatingRef = useRef(false);
+  // Unsubscribe function stored in ref so cleanup always has the latest
+  const unsubscribeRef = useRef(null);
 
   const calculateProgress = useCallback((scrollTop, start, end) => {
     if (scrollTop < start) return 0;
@@ -100,6 +110,7 @@ const ScrollStack = ({
       const scale = 1 - scaleProgress * (1 - targetScale);
       const rotation = rotationAmount ? i * rotationAmount * scaleProgress : 0;
 
+      // Blur is expensive (GPU filter); skip if blurAmount === 0 (default)
       let blur = 0;
       if (blurAmount) {
         let topCardIndex = 0;
@@ -143,6 +154,7 @@ const ScrollStack = ({
 
       if (hasChanged) {
         const transform = `translate3d(0, ${newTransform.translateY}px, 0) scale(${newTransform.scale}) rotate(${newTransform.rotation}deg)`;
+        // Only set filter when there is actual blur (avoids GPU layer for blur=0)
         const filter = newTransform.blur > 0 ? `blur(${newTransform.blur}px)` : '';
 
         card.style.transform = transform;
@@ -179,69 +191,6 @@ const ScrollStack = ({
     getElementOffset
   ]);
 
-  const handleScroll = useCallback(() => {
-    updateCardTransforms();
-  }, [updateCardTransforms]);
-
-  const setupLenis = useCallback(() => {
-    if (useWindowScroll) {
-      const lenis = new Lenis({
-        duration: 1.2,
-        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        touchMultiplier: 2,
-        infinite: false,
-        wheelMultiplier: 1,
-        lerp: 0.1,
-        syncTouch: true,
-        syncTouchLerp: 0.075
-      });
-
-      lenis.on('scroll', handleScroll);
-
-      const raf = time => {
-        lenis.raf(time);
-        animationFrameRef.current = requestAnimationFrame(raf);
-      };
-      animationFrameRef.current = requestAnimationFrame(raf);
-
-      lenisRef.current = lenis;
-      return lenis;
-    } else {
-      const scroller = scrollerRef.current;
-      if (!scroller) return;
-
-      const lenis = new Lenis({
-        wrapper: scroller,
-        content: scroller.querySelector('.scroll-stack-inner'),
-        duration: 1.2,
-        easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)),
-        smoothWheel: true,
-        touchMultiplier: 2,
-        infinite: false,
-        gestureOrientationHandler: true,
-        normalizeWheel: true,
-        wheelMultiplier: 1,
-        touchInertiaMultiplier: 35,
-        lerp: 0.1,
-        syncTouch: true,
-        syncTouchLerp: 0.075,
-        touchInertia: 0.6
-      });
-
-      lenis.on('scroll', handleScroll);
-
-      const raf = time => {
-        lenis.raf(time);
-        animationFrameRef.current = requestAnimationFrame(raf);
-      };
-      animationFrameRef.current = requestAnimationFrame(raf);
-
-      lenisRef.current = lenis;
-      return lenis;
-    }
-  }, [handleScroll, useWindowScroll]);
-
   useLayoutEffect(() => {
     const scroller = scrollerRef.current;
     if (!scroller) return;
@@ -255,30 +204,46 @@ const ScrollStack = ({
     cardsRef.current = cards;
     const transformsCache = lastTransformsRef.current;
 
-    cards.forEach((card, i) => {
-      if (i < cards.length - 1) {
-        card.style.marginBottom = `${itemDistance}px`;
-      }
-      card.style.willChange = 'transform, filter';
+    cards.forEach((card) => {
+      card.style.willChange = 'transform';
       card.style.transformOrigin = 'top center';
       card.style.backfaceVisibility = 'hidden';
       card.style.transform = 'translateZ(0)';
-      card.style.webkitTransform = 'translateZ(0)';
       card.style.perspective = '1000px';
-      card.style.webkitPerspective = '1000px';
     });
 
-    setupLenis();
+    // Set initial bottom-margin for spacing (last card has none)
+    cards.slice(0, -1).forEach((card) => {
+      card.style.marginBottom = `${itemDistance}px`;
+    });
+
+    // ── Subscribe to scroll events ────────────────────────────────────────────
+    if (useWindowScroll) {
+      // Prefer the global Lenis 'scroll' event so there's one engine.
+      // If Lenis isn't mounted yet (SSR/reduced-motion), fall back to window.
+      if (globalLenis) {
+        const handler = () => updateCardTransforms();
+        globalLenis.on('scroll', handler);
+        unsubscribeRef.current = () => globalLenis.off('scroll', handler);
+      } else {
+        const handler = () => updateCardTransforms();
+        window.addEventListener('scroll', handler, { passive: true });
+        unsubscribeRef.current = () =>
+          window.removeEventListener('scroll', handler);
+      }
+    } else {
+      // Wrapper-scroller mode: listen on the div itself
+      const handler = () => updateCardTransforms();
+      scroller.addEventListener('scroll', handler, { passive: true });
+      unsubscribeRef.current = () =>
+        scroller.removeEventListener('scroll', handler);
+    }
 
     updateCardTransforms();
 
     return () => {
-      if (animationFrameRef.current) {
-        cancelAnimationFrame(animationFrameRef.current);
-      }
-      if (lenisRef.current) {
-        lenisRef.current.destroy();
-      }
+      unsubscribeRef.current?.();
+      unsubscribeRef.current = null;
       stackCompletedRef.current = false;
       cardsRef.current = [];
       transformsCache.clear();
@@ -296,7 +261,6 @@ const ScrollStack = ({
     blurAmount,
     useWindowScroll,
     onStackComplete,
-    setupLenis,
     updateCardTransforms
   ]);
 
