@@ -1,16 +1,17 @@
+import { site } from '../data/site'
 
-const Emailbar = () => {
-  return (
-    <div className="flex fixed top-1/2 -translate-y-1/2 left-0 sm:top-auto sm:bottom-32 sm:translate-y-0 sm:left-2 z-50 flex-col justify-center items-center">
-      <a  
-        href="mailto:samiullah.akram.3009@gmail.com"
-        style={{ writingMode: 'vertical-rl', textOrientation: 'mixed' }}
-        className="tracking-widest font-anton text-[10px] sm:text-sm text-neutral-400 hover:text-[#06f51ee6] transition-colors duration-300 px-2 sm:px-3"
-      >
-        samiullah.akram.3009@gmail.com
-      </a>
-    </div>
-  )
-}
+// Vertical email rail on the left edge — desktop only (on phones the email lives in the menu and contact section).
+const Emailbar = () => (
+  <div className="pointer-events-none fixed bottom-0 left-5 z-40 hidden flex-col items-center gap-5 md:flex xl:left-8">
+    <a
+      href={`mailto:${site.email}`}
+      style={{ writingMode: 'vertical-rl' }}
+      className="pointer-events-auto font-anton text-[13px] tracking-[0.18em] text-neutral-500 transition-colors duration-300 hover:text-neon"
+    >
+      {site.email}
+    </a>
+    <span className="h-24 w-px bg-gradient-to-b from-neutral-600 to-transparent" />
+  </div>
+)
 
 export default Emailbar

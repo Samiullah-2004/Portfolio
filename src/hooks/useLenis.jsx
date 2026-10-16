@@ -2,87 +2,116 @@
 /**
  * useLenis — one global smooth-scroll engine for the entire app.
  *
- * • Lenis drives the scroll; GSAP ticker drives Lenis (no second RAF).
- * • lenis.on('scroll', ScrollTrigger.update) keeps all triggers in sync.
- * • prefers-reduced-motion: Lenis is destroyed; native scroll takes over.
- * • The instance is exposed via useSyncExternalStore AND a module-level ref so
- *   non-React consumers (e.g. ScrollStack) can read it without prop-drilling.
+ * • Lenis drives the scroll; the GSAP ticker drives Lenis (no second rAF loop).
+ * • lenis.on('scroll', ScrollTrigger.update) keeps every trigger in sync.
+ * • prefers-reduced-motion: Lenis is never created and native scroll takes over.
+ * • The instance is exposed through `globalLenis` (non-React code) and
+ *   `useLenis()` (React code). `scrollToTarget` / `lockScroll` wrap it so callers
+ *   never need to care whether Lenis is running.
  */
 
-import Lenis from 'lenis';
-import { useEffect, useSyncExternalStore } from 'react';
-import { gsap } from 'gsap';
-import { ScrollTrigger } from 'gsap/ScrollTrigger';
+import Lenis from 'lenis'
+import { useEffect, useSyncExternalStore } from 'react'
+import { gsap } from 'gsap'
+import { ScrollTrigger } from 'gsap/ScrollTrigger'
 
-gsap.registerPlugin(ScrollTrigger);
+gsap.registerPlugin(ScrollTrigger)
 
-// ─── Module-level singleton ref (accessible outside React) ───────────────────
-export let globalLenis = null;
+export let globalLenis = null
 
-const listeners = new Set();
-function subscribe(callback) {
-  listeners.add(callback);
-  return () => listeners.delete(callback);
+const listeners = new Set()
+const subscribe = (cb) => {
+  listeners.add(cb)
+  return () => listeners.delete(cb)
 }
-function getSnapshot() {
-  return globalLenis;
+const getSnapshot = () => globalLenis
+const notify = () => listeners.forEach((l) => l())
+
+// Height of the fixed header, so anchored sections don't sit underneath it.
+export const HEADER_OFFSET = 72
+
+export const prefersReducedMotion = () =>
+  typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
+
+/** Scroll to a y position, an element, or an element id. */
+export function scrollToTarget(target, { immediate = false, offset = -HEADER_OFFSET, duration = 1.2 } = {}) {
+  let el = target
+  if (typeof target === 'string') el = document.getElementById(target)
+  if (target !== 0 && !el && typeof target !== 'number') return false
+
+  if (globalLenis) {
+    // Lenis caches the scrollable height; after a route change it can still hold the previous
+    // page's limit and would clamp the jump short. Re-measure first.
+    globalLenis.resize()
+    globalLenis.scrollTo(el ?? target, {
+      offset: typeof target === 'number' ? 0 : offset,
+      immediate,
+      duration,
+      force: true,
+      easing: (t) => 1 - Math.pow(1 - t, 4),
+    })
+  } else {
+    const y = typeof target === 'number' ? target : el.getBoundingClientRect().top + window.scrollY + offset
+    window.scrollTo({ top: y, behavior: immediate || prefersReducedMotion() ? 'auto' : 'smooth' })
+  }
+  return true
+}
+
+// Remembered so a Lenis instance created while the page is locked (preloader) starts paused.
+let scrollLocked = false
+
+/** Pause / resume page scrolling (used by the menu and the preloader). */
+export function lockScroll(locked) {
+  scrollLocked = locked
+  if (globalLenis) {
+    if (locked) globalLenis.stop()
+    else globalLenis.start()
+  }
+  document.documentElement.style.overflow = locked ? 'hidden' : ''
 }
 
 export function LenisProvider({ children }) {
   useEffect(() => {
-    // Respect prefers-reduced-motion — skip smooth scroll entirely
-    const reducedMotion = window.matchMedia(
-      '(prefers-reduced-motion: reduce)'
-    ).matches;
+    ScrollTrigger.config({ ignoreMobileResize: true })
+    if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
 
-    // Global ScrollTrigger hygiene
-    ScrollTrigger.config({ ignoreMobileResize: true });
+    if (prefersReducedMotion()) return
 
-    if (reducedMotion) {
-      // Still need ST to work; just use native scroll
-      ScrollTrigger.normalizeScroll(false);
-      return;
-    }
-
-    // ── Create the single Lenis instance ─────────────────────────────────────
     const lenis = new Lenis({
-      lerp: 0.09,          // momentum feel (0 = instant, 1 = infinite lag)
-      syncTouch: false,    // native momentum on touch; no double-smoothing
-      autoRaf: false,      // we drive it from gsap.ticker — no second loop
+      lerp: 0.1, // momentum feel (lower = floatier)
+      smoothWheel: true,
+      syncTouch: false, // keep native momentum on touch devices
+      autoRaf: false, // driven by gsap.ticker below
       overscroll: false,
-    });
+    })
 
-    globalLenis = lenis;
-    listeners.forEach((l) => l());
+    globalLenis = lenis
+    if (scrollLocked) lenis.stop()
+    if (import.meta.env.DEV) window.__lenis = lenis
+    notify()
 
-    // ── Drive Lenis from the GSAP ticker ─────────────────────────────────────
-    // gsap.ticker time is in seconds; lenis.raf expects milliseconds
-    gsap.ticker.lagSmoothing(0); // don't let GSAP catch up after a lag spike
-    const tickerFn = (time) => lenis.raf(time * 1000);
-    gsap.ticker.add(tickerFn);
+    // Keep GSAP's default lag smoothing: after a long frame (e.g. WebGL shader compile)
+    // animations pause briefly instead of jumping ahead and skipping frames.
+    gsap.ticker.lagSmoothing(500, 33)
+    const tick = (time) => lenis.raf(time * 1000)
+    gsap.ticker.add(tick)
+    lenis.on('scroll', ScrollTrigger.update)
 
-    // ── Keep ScrollTrigger positions in sync with Lenis scroll ───────────────
-    lenis.on('scroll', ScrollTrigger.update);
-
-    // ── Refresh triggers after fonts are ready ────────────────────────────────
-    document.fonts.ready.then(() => {
-      ScrollTrigger.refresh();
-    });
+    document.fonts?.ready.then(() => ScrollTrigger.refresh())
 
     return () => {
-      gsap.ticker.remove(tickerFn);
-      lenis.destroy();
-      globalLenis = null;
-      listeners.forEach((l) => l());
-    };
-  }, []);
+      gsap.ticker.remove(tick)
+      lenis.destroy()
+      globalLenis = null
+      if (import.meta.env.DEV) delete window.__lenis
+      notify()
+    }
+  }, [])
 
-  return children;
+  return children
 }
 
-/**
- * Hook — returns the current Lenis instance (null until mounted).
- */
+/** Returns the current Lenis instance (null until mounted, or always null with reduced motion). */
 export function useLenis() {
-  return useSyncExternalStore(subscribe, getSnapshot, () => null);
+  return useSyncExternalStore(subscribe, getSnapshot, () => null)
 }
