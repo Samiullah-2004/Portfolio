@@ -27,9 +27,10 @@
 - ✍️ **Text reveals** — SplitText character / line reveals on headings, a word-by-word highlight on the About statement
 - 🖼️ **Cursor-following previews** — hover a project or job to see its screenshot float beside the cursor; phones get inline thumbnails instead
 - 🗂️ **Stacked screenshot galleries** — sticky cards that scale back as the next one slides over
-- 🌐 **GridScan background** — an interactive WebGL grid (lazy-loaded, ~30 fps on touch devices, paused in background tabs)
+- 🎬 **Intro on every visit** — the name draws in and fills green while a counter loads, on every open and refresh (a click or key press fast-forwards it)
+- 🌐 **Grid background** — an interactive WebGL grid in ~200 lines of plain WebGL (no three.js), ~30 fps on touch devices, paused in background tabs
 - 🔙 **Scroll restoration** — Back returns you to exactly where you were
-- ♿ **Accessible** — skip link, keyboard-friendly menu (Esc to close), visible focus rings, `prefers-reduced-motion` support
+- ♿ **Accessible** — skip link, keyboard-friendly menu (Esc to close), visible focus rings, and an **Animations on/off** switch in the menu and footer (visitors whose device asks for reduced motion are offered it once)
 - 📱 **Responsive** — tested from 320 px phones to 1920 px desktops
 - 🔎 **SEO ready** — meta description, Open Graph / Twitter cards, JSON-LD and per-page titles
 
@@ -50,7 +51,7 @@ src/
 ├── pages/                   # HomePage, AllProjects, DetailPage (projects + experience), NotFound
 ├── layout/RootLayout.jsx    # Navbar, page transitions, scroll restoration, footer
 ├── components/              # Navbar, GlassCursor, Preloader, HoverList, StackGallery, buttons…
-│   └── background/GridScan.jsx
+│   └── background/GridBackground.jsx
 ├── hooks/                   # useLenis (smooth scroll), useReveal (scroll animations), …
 ├── assets/images/           # Optimised WebP screenshots
 └── logo/                    # Tech logos + LogoLoop marquee

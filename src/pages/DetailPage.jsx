@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useReveal } from '../hooks/useReveal'
-import { prefersReducedMotion } from '../hooks/useLenis.jsx'
+import { isReducedMotion } from '../lib/motion'
 import { usePageTransition, TLink } from '../components/TransitionLink'
 import { ButtonLink } from '../components/Buttons'
 import StackGallery from '../components/StackGallery'
@@ -38,7 +38,7 @@ const DetailPage = ({ entry }) => {
   // Cover image: the frame opens up from an inset as it scrolls in (nothing is cropped at rest)
   useGSAP(
     () => {
-      if (prefersReducedMotion()) return
+      if (isReducedMotion()) return
       const frame = ref.current.querySelector('[data-cover]')
       if (!frame) return
       gsap.fromTo(

@@ -57,9 +57,49 @@
       href="https://fonts.googleapis.com/css2?family=Anton&family=Roboto+Flex:opsz,wght@8..144,100..900&display=swap"
       rel="stylesheet"
     />
+    <!-- Paint the dark theme and a loading line before any JavaScript arrives (removed by the intro) -->
+    <style>
+      html,
+      body {
+        background: #0a0a0b;
+      }
+      #boot {
+        position: fixed;
+        inset: 0;
+        z-index: 299;
+        background: #0a0a0b;
+        pointer-events: none;
+      }
+      #boot::after {
+        content: '';
+        position: absolute;
+        left: 0;
+        right: 0;
+        bottom: 0;
+        height: 2px;
+        background: linear-gradient(90deg, #2ef06a 0 18%, rgba(255, 255, 255, 0.1) 18%);
+        transform-origin: left;
+        animation: boot-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      @keyframes boot-in {
+        from {
+          clip-path: inset(0 100% 0 0);
+        }
+        to {
+          clip-path: inset(0 0 0 0);
+        }
+      }
+    </style>
   </head>
   <body>
+    <div id="boot" aria-hidden="true"></div>
     <div id="root"></div>
+    <noscript>
+      <p style="color: #ededed; font: 16px/1.6 system-ui, sans-serif; padding: 2rem; position: relative; z-index: 300">
+        Samiullah Akram — Full-Stack Developer. This portfolio needs JavaScript. Contact:
+        <a href="mailto:samiullah.akram.3009@gmail.com" style="color: #2ef06a">samiullah.akram.3009@gmail.com</a>
+      </p>
+    </noscript>
     <script type="module" src="/src/main.jsx"></script>
   </body>
 </html>

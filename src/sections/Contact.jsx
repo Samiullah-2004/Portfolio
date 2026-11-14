@@ -5,6 +5,7 @@ import { useCopyEmail } from '../hooks/useCopyEmail'
 import { scrollToTarget } from '../hooks/useLenis.jsx'
 import { site, socials } from '../data/site'
 import { socialIcon } from '../components/BrandIcons'
+import { MotionToggle } from '../components/MotionControls'
 
 const Contact = () => {
   const ref = useRef(null)
@@ -107,6 +108,8 @@ const Contact = () => {
             </a>
             .
           </p>
+          <div className="flex flex-wrap items-center gap-x-8 gap-y-4">
+          <MotionToggle />
           <button
             type="button"
             onClick={() => scrollToTarget(0, { duration: 1.6 })}
@@ -117,6 +120,7 @@ const Contact = () => {
               <ArrowUp className="h-3.5 w-3.5 transition-transform duration-300 group-hover:-translate-y-0.5" />
             </span>
           </button>
+          </div>
         </div>
       </div>
     </footer>

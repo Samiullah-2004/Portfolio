@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://samiullah-portfolio-orpin.vercel.app/sitemap.xml

@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { gsap } from 'gsap'
-import { prefersReducedMotion } from '../hooks/useLenis.jsx'
+import { isReducedMotion } from '../lib/motion'
 import './GlassCursor.css'
 
 /**
@@ -30,7 +30,6 @@ const GlassCursor = () => {
     const html = document.documentElement
     html.classList.add('has-glass-cursor')
 
-    const reduce = prefersReducedMotion()
     const root = rootRef.current
     const ring = ringRef.current
     const dot = dotRef.current
@@ -81,6 +80,7 @@ const GlassCursor = () => {
     const onLeaveWindow = () => show(false)
 
     const tick = () => {
+      const reduce = isReducedMotion() // read live so the menu switch applies immediately
       const follow = reduce ? 1 : 0.2
       const dx = pos.mx - pos.rx
       const dy = pos.my - pos.ry

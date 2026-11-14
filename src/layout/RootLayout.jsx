@@ -8,7 +8,10 @@ import ScrollProgress from '../components/ScrollProgress'
 import Preloader from '../components/Preloader'
 import Contact from '../sections/Contact'
 import { TransitionContext } from '../components/TransitionLink'
-import { prefersReducedMotion, scrollToTarget } from '../hooks/useLenis.jsx'
+import { scrollToTarget } from '../hooks/useLenis.jsx'
+import { isReducedMotion, useReducedMotion } from '../lib/motion'
+import { MotionHint } from '../components/MotionControls'
+import { site } from '../data/site'
 import { holdRevealsFor } from '../lib/intro'
 import { getProject } from '../data/projects'
 import { getExperience } from '../data/experience'
@@ -35,7 +38,10 @@ const RootLayout = () => {
   const positions = useRef(new Map())
   const currentKey = useRef(location.key)
   const firstLoad = useRef(true)
+  const failsafe = useRef(0)
   const [label, setLabel] = useState('')
+  // Flipping the animation switch remounts the page content so every reveal is set up for the new mode
+  const reduced = useReducedMotion()
 
   // ── Remember the scroll position of every history entry ──────────────────
   useEffect(() => {
@@ -55,9 +61,25 @@ const RootLayout = () => {
   }, [])
 
   // ── Curtain: cover → navigate → (new page renders) → reveal ──────────────
+  const reveal = useCallback(() => {
+    window.clearTimeout(failsafe.current)
+    covered.current = false // lifting now; a second call must not start another lift
+    gsap
+      .timeline({
+        defaults: { ease: 'power4.inOut' },
+        onComplete: () => {
+          gsap.set([greenRef.current, darkRef.current], { visibility: 'hidden' })
+          busy.current = false
+        },
+      })
+      .to(labelRef.current, { yPercent: -60, autoAlpha: 0, duration: 0.35, ease: 'power2.in' }, 0.05)
+      .to(darkRef.current, { yPercent: -100, duration: 0.75 }, 0.2)
+      .to(greenRef.current, { yPercent: -100, duration: 0.75 }, 0.32)
+  }, [])
+
   const cover = useCallback((text, after) => {
     if (busy.current) return
-    if (prefersReducedMotion()) {
+    if (isReducedMotion()) {
       after()
       return
     }
@@ -70,6 +92,9 @@ const RootLayout = () => {
           covered.current = true
           holdRevealsFor(550)
           after()
+          // If the navigation never lands (it always should), don't leave the curtain down
+          window.clearTimeout(failsafe.current)
+          failsafe.current = window.setTimeout(() => covered.current && reveal(), 2000)
         },
       })
       .set([greenRef.current, darkRef.current], { yPercent: 100, visibility: 'visible' })
@@ -77,22 +102,7 @@ const RootLayout = () => {
       .to(greenRef.current, { yPercent: 0, duration: 0.6 })
       .to(darkRef.current, { yPercent: 0, duration: 0.6 }, '-=0.45')
       .to(labelRef.current, { yPercent: 0, autoAlpha: 1, duration: 0.45, ease: 'expo.out' }, '-=0.25')
-  }, [])
-
-  const reveal = useCallback(() => {
-    gsap
-      .timeline({
-        defaults: { ease: 'power4.inOut' },
-        onComplete: () => {
-          gsap.set([greenRef.current, darkRef.current], { visibility: 'hidden' })
-          covered.current = false
-          busy.current = false
-        },
-      })
-      .to(labelRef.current, { yPercent: -60, autoAlpha: 0, duration: 0.35, ease: 'power2.in' }, 0.05)
-      .to(darkRef.current, { yPercent: -100, duration: 0.75 }, 0.2)
-      .to(greenRef.current, { yPercent: -100, duration: 0.75 }, 0.32)
-  }, [])
+  }, [reveal])
 
   const go = useCallback(
     (to) => {
@@ -155,6 +165,13 @@ const RootLayout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.key])
 
+  // ── Each page is its own canonical URL (index.html ships the home page's) ──
+  useEffect(() => {
+    const url = site.url + (location.pathname === '/' ? '/' : location.pathname.replace(/\/+$/, ''))
+    document.querySelector('link[rel="canonical"]')?.setAttribute('href', url)
+    document.querySelector('meta[property="og:url"]')?.setAttribute('content', url)
+  }, [location.pathname])
+
   const ctx = useMemo(() => ({ go }), [go])
 
   return (
@@ -170,13 +187,14 @@ const RootLayout = () => {
       <Emailbar />
       <ScrollProgress />
 
-      <main id="main">
+      <main id="main" key={reduced ? 'calm' : 'full'}>
         <Outlet />
       </main>
-      <Contact />
+      <Contact key={reduced ? 'calm-footer' : 'full-footer'} />
+      <MotionHint />
 
       {/* Page transition curtain */}
-      <div aria-hidden="true" className="pointer-events-none fixed inset-0 z-[200]">
+      <div aria-hidden="true" data-curtain className="pointer-events-none fixed inset-0 z-[200]">
         <div ref={greenRef} className="invisible absolute inset-0 bg-neon" />
         <div ref={darkRef} className="invisible absolute inset-0 flex items-center justify-center overflow-hidden bg-[#0c0c0c]">
           <span

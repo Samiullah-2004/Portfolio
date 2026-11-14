@@ -5,7 +5,7 @@ import { SplitText } from 'gsap/SplitText'
 import { ArrowUpRight, Brain, Briefcase, CreditCard, Globe, GraduationCap, MapPin, Radio, Rocket } from 'lucide-react'
 import SectionHeading from '../components/SectionHeading'
 import { useReveal } from '../hooks/useReveal'
-import { prefersReducedMotion } from '../hooks/useLenis.jsx'
+import { isReducedMotion } from '../lib/motion'
 import { openSource } from '../data/education'
 
 gsap.registerPlugin(SplitText, useGSAP)
@@ -48,7 +48,7 @@ const About = () => {
   useGSAP(
     () => {
       const el = ref.current.querySelector('[data-statement]')
-      if (prefersReducedMotion()) return
+      if (isReducedMotion()) return
       SplitText.create(el, {
         type: 'words',
         autoSplit: true,

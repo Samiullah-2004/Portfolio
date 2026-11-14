@@ -8,6 +8,7 @@ import { socialIcon } from './BrandIcons'
 import { usePageTransition } from './TransitionLink'
 import { lockScroll, scrollToTarget } from '../hooks/useLenis.jsx'
 import { useCopyEmail } from '../hooks/useCopyEmail'
+import { MotionToggle } from './MotionControls'
 
 gsap.registerPlugin(useGSAP)
 
@@ -240,9 +241,12 @@ const Navbar = () => {
             </div>
           </div>
 
-          <div data-menu-fade className="mt-10 flex items-center gap-2.5 border-t border-white/10 pt-6 text-[13px] text-muted">
-            <span className="pulse-dot h-2 w-2 rounded-full bg-neon" />
-            {site.availability}
+          <div data-menu-fade className="mt-10 flex flex-wrap items-center justify-between gap-x-6 gap-y-4 border-t border-white/10 pt-6 text-[13px] text-muted">
+            <span className="flex items-center gap-2.5">
+              <span className="pulse-dot h-2 w-2 rounded-full bg-neon" />
+              {site.availability}
+            </span>
+            <MotionToggle />
           </div>
         </nav>
       </div>

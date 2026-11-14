@@ -3,7 +3,8 @@ import { gsap } from 'gsap'
 import { useGSAP } from '@gsap/react'
 import { ArrowRight } from 'lucide-react'
 import { useReveal } from '../hooks/useReveal'
-import { prefersReducedMotion, scrollToTarget } from '../hooks/useLenis.jsx'
+import { scrollToTarget } from '../hooks/useLenis.jsx'
+import { isReducedMotion } from '../lib/motion'
 import { TLink } from '../components/TransitionLink'
 import { projects } from '../data/projects'
 import { site } from '../data/site'
@@ -21,7 +22,7 @@ const Hero = () => {
   // Content drifts up and fades slightly as the hero scrolls away
   useGSAP(
     () => {
-      if (prefersReducedMotion()) return
+      if (isReducedMotion()) return
       gsap.to('[data-hero-parallax]', {
         yPercent: -18,
         opacity: 0.25,
@@ -34,30 +35,30 @@ const Hero = () => {
 
   return (
     <section id="home" ref={ref} className="relative flex min-h-[100svh] flex-col">
-      <div data-hero-parallax className="container-page flex flex-1 flex-col justify-center pb-24 pt-28 md:pb-20 md:pt-32">
-        <div data-reveal="fade" className="mb-7 inline-flex w-fit items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[12px] text-[#cfcfcf] backdrop-blur-md sm:text-[13px]">
+      <div data-hero-parallax className="container-page flex flex-1 flex-col justify-center pb-24 pt-28 md:pb-20 md:pt-32 short:pb-12 short:pt-[5.5rem]">
+        <div data-reveal="fade" className="mb-7 short:mb-5 inline-flex w-fit items-center gap-2.5 rounded-full border border-white/10 bg-white/[0.04] px-4 py-2 text-[12px] text-[#cfcfcf] backdrop-blur-md sm:text-[13px]">
           <span className="pulse-dot h-2 w-2 rounded-full bg-neon" />
           {site.availability}
         </div>
 
         <h1 className="font-anton uppercase leading-[0.9] tracking-tight">
-          <span data-split="chars" className="block text-[clamp(3.6rem,13.5vw,10.5rem)] text-neon">
+          <span data-split="chars" className="block text-[clamp(3.6rem,min(13.5vw,18svh),10.5rem)] text-neon">
             Full Stack
           </span>
-          <span data-split="chars" className="block pl-[0.35em] text-[clamp(3.6rem,13.5vw,10.5rem)] text-white">
+          <span data-split="chars" className="block pl-[0.35em] text-[clamp(3.6rem,min(13.5vw,18svh),10.5rem)] text-white">
             Developer
           </span>
         </h1>
 
-        <div className="mt-10 grid gap-10 lg:mt-12 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
+        <div className="mt-10 grid gap-10 lg:mt-12 short:mt-7 short:gap-6 lg:grid-cols-[minmax(0,1fr)_auto] lg:items-end">
           <div className="max-w-xl">
-            <p data-reveal className="text-[16px] leading-relaxed text-[#b4b4b4] md:text-[18px]">
+            <p data-reveal className="text-[16px] leading-relaxed text-[#b4b4b4] md:text-[18px] short:md:text-[16px]">
               Hi! I'm <span className="text-white">Samiullah</span>, a Full-Stack Developer who designs, builds and ships
               production web apps: AI-powered SaaS, real-time systems and payment-ready platforms with React, Next.js,
               TypeScript, Node.js and PostgreSQL.
             </p>
 
-            <div data-reveal className="mt-8 flex flex-wrap items-center gap-3">
+            <div data-reveal className="mt-8 short:mt-6 flex flex-wrap items-center gap-3">
               <button
                 type="button"
                 onClick={() => scrollToTarget('contact')}
@@ -78,7 +79,7 @@ const Hero = () => {
             <TLink
               data-reveal
               to={site.current.link}
-              className="group mt-8 flex w-fit items-center gap-3 text-[13px] text-muted transition-colors duration-300 hover:text-white sm:text-[14px]"
+              className="group mt-8 short:mt-5 flex w-fit items-center gap-3 text-[13px] text-muted transition-colors duration-300 hover:text-white sm:text-[14px]"
             >
               <span className="eyebrow !text-[11px] !text-neon">Now</span>
               <span>

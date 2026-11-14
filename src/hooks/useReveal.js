@@ -10,14 +10,14 @@
  *   data-split="chars"       same, character by character (short display titles)
  *
  * Animations run once, ease out, and wait for the preloader / page curtain (see lib/intro).
- * With prefers-reduced-motion everything is simply shown.
+ * When the visitor has switched animations off (lib/motion) everything just fades in quickly.
  */
 
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 import { useGSAP } from '@gsap/react'
-import { prefersReducedMotion } from './useLenis.jsx'
+import { isReducedMotion } from '../lib/motion'
 import { revealDelay, whenRevealsAllowed } from '../lib/intro'
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP)
@@ -40,9 +40,16 @@ export function useReveal(scopeRef, { start = 'top 88%', dependencies = [] } = {
       const pending = [] // reveals queued behind the preloader; cancelled if this unmounts first
       const queue = (fn) => pending.push(whenRevealsAllowed(fn))
 
-      if (prefersReducedMotion()) {
-        gsap.set(items, { autoAlpha: 1, clearProps: 'transform' })
-        return
+      if (isReducedMotion()) {
+        // Calm mode: no movement and no split text — a short fade, still held back by the intro
+        const calm = [...new Set([...items, ...splits])]
+        gsap.set(calm, { autoAlpha: 0 })
+        ScrollTrigger.batch(calm, {
+          start: 'top 96%',
+          onEnter: (batch) =>
+            queue(() => gsap.to(batch, { autoAlpha: 1, duration: 0.45, ease: 'power1.out', stagger: 0.03, delay: revealDelay(), overwrite: true })),
+        })
+        return () => pending.forEach((cancel) => cancel())
       }
 
       // ── Split headings ─────────────────────────────────────────────────────

@@ -4,7 +4,8 @@
  *
  * • Lenis drives the scroll; the GSAP ticker drives Lenis (no second rAF loop).
  * • lenis.on('scroll', ScrollTrigger.update) keeps every trigger in sync.
- * • prefers-reduced-motion: Lenis is never created and native scroll takes over.
+ * • When the visitor has switched animations off (lib/motion), Lenis is not created
+ *   and native scroll takes over; flipping the switch creates/destroys it live.
  * • The instance is exposed through `globalLenis` (non-React code) and
  *   `useLenis()` (React code). `scrollToTarget` / `lockScroll` wrap it so callers
  *   never need to care whether Lenis is running.
@@ -14,6 +15,7 @@ import Lenis from 'lenis'
 import { useEffect, useSyncExternalStore } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
+import { isReducedMotion, useReducedMotion } from '../lib/motion'
 
 gsap.registerPlugin(ScrollTrigger)
 
@@ -29,9 +31,6 @@ const notify = () => listeners.forEach((l) => l())
 
 // Height of the fixed header, so anchored sections don't sit underneath it.
 export const HEADER_OFFSET = 72
-
-export const prefersReducedMotion = () =>
-  typeof window !== 'undefined' && window.matchMedia('(prefers-reduced-motion: reduce)').matches
 
 /** Scroll to a y position, an element, or an element id. */
 export function scrollToTarget(target, { immediate = false, offset = -HEADER_OFFSET, duration = 1.2 } = {}) {
@@ -52,7 +51,7 @@ export function scrollToTarget(target, { immediate = false, offset = -HEADER_OFF
     })
   } else {
     const y = typeof target === 'number' ? target : el.getBoundingClientRect().top + window.scrollY + offset
-    window.scrollTo({ top: y, behavior: immediate || prefersReducedMotion() ? 'auto' : 'smooth' })
+    window.scrollTo({ top: y, behavior: immediate || isReducedMotion() ? 'auto' : 'smooth' })
   }
   return true
 }
@@ -71,11 +70,19 @@ export function lockScroll(locked) {
 }
 
 export function LenisProvider({ children }) {
+  const reduced = useReducedMotion()
+
   useEffect(() => {
     ScrollTrigger.config({ ignoreMobileResize: true })
     if ('scrollRestoration' in window.history) window.history.scrollRestoration = 'manual'
+    // Keep GSAP's lag smoothing: after a long frame animations pause briefly instead of
+    // jumping ahead and skipping frames.
+    gsap.ticker.lagSmoothing(500, 33)
+    document.fonts?.ready.then(() => ScrollTrigger.refresh())
+  }, [])
 
-    if (prefersReducedMotion()) return
+  useEffect(() => {
+    if (reduced) return
 
     const lenis = new Lenis({
       lerp: 0.1, // momentum feel (lower = floatier)
@@ -90,14 +97,9 @@ export function LenisProvider({ children }) {
     if (import.meta.env.DEV) window.__lenis = lenis
     notify()
 
-    // Keep GSAP's default lag smoothing: after a long frame (e.g. WebGL shader compile)
-    // animations pause briefly instead of jumping ahead and skipping frames.
-    gsap.ticker.lagSmoothing(500, 33)
     const tick = (time) => lenis.raf(time * 1000)
     gsap.ticker.add(tick)
     lenis.on('scroll', ScrollTrigger.update)
-
-    document.fonts?.ready.then(() => ScrollTrigger.refresh())
 
     return () => {
       gsap.ticker.remove(tick)
@@ -106,12 +108,12 @@ export function LenisProvider({ children }) {
       if (import.meta.env.DEV) delete window.__lenis
       notify()
     }
-  }, [])
+  }, [reduced])
 
   return children
 }
 
-/** Returns the current Lenis instance (null until mounted, or always null with reduced motion). */
+/** Returns the current Lenis instance (null until mounted, or while animations are switched off). */
 export function useLenis() {
   return useSyncExternalStore(subscribe, getSnapshot, () => null)
 }

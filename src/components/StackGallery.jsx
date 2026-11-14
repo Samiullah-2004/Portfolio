@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
-import { prefersReducedMotion } from '../hooks/useLenis.jsx'
+import { isReducedMotion } from '../lib/motion'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -25,7 +25,7 @@ const StackGallery = ({ images, title }) => {
 
   useGSAP(
     () => {
-      if (prefersReducedMotion()) return
+      if (isReducedMotion()) return
       const cards = gsap.utils.toArray('[data-card]', ref.current)
       cards.forEach((card, i) => {
         const next = cards[i + 1]

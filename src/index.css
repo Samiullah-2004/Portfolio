@@ -16,6 +16,9 @@
   --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
 }
 
+/* Short desktop/laptop screens (e.g. 1366×650, a browser at 125% zoom): tighten vertical rhythm */
+@custom-variant short (@media (min-width: 768px) and (max-height: 820px));
+
 /* ─── Base ──────────────────────────────────────────────────────────────── */
 @layer base {
   html {
@@ -137,15 +140,15 @@
 }
 
 /* ─── Motion preferences ───────────────────────────────────────────────── */
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.001ms !important;
-    animation-iteration-count: 1 !important;
-    transition-duration: 0.001ms !important;
-    scroll-behavior: auto !important;
-  }
+/* Animations are on by default; visitors can switch them off from the menu or the footer
+   (see src/lib/motion.js). The OS "reduce motion" flag only triggers a one-time offer. */
+html[data-motion='reduced'] *,
+html[data-motion='reduced'] *::before,
+html[data-motion='reduced'] *::after {
+  animation-duration: 0.001ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0.12s !important;
+  scroll-behavior: auto !important;
 }
 
 @keyframes pulse-dot {
