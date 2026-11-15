@@ -4,7 +4,7 @@ import { useGSAP } from '@gsap/react'
 import { ArrowRight } from 'lucide-react'
 import { useReveal } from '../hooks/useReveal'
 import { scrollToTarget } from '../hooks/useLenis.jsx'
-import { isReducedMotion } from '../lib/motion'
+import { useReducedMotion } from '../lib/motion'
 import { TLink } from '../components/TransitionLink'
 import { projects } from '../data/projects'
 import { site } from '../data/site'
@@ -17,12 +17,13 @@ const stats = [
 
 const Hero = () => {
   const ref = useRef(null)
+  const reduced = useReducedMotion()
   useReveal(ref, { start: 'top 95%' })
 
   // Content drifts up and fades slightly as the hero scrolls away
   useGSAP(
     () => {
-      if (isReducedMotion()) return
+      if (reduced) return
       gsap.to('[data-hero-parallax]', {
         yPercent: -18,
         opacity: 0.25,
@@ -30,7 +31,7 @@ const Hero = () => {
         scrollTrigger: { trigger: ref.current, start: 'top top', end: 'bottom top', scrub: true },
       })
     },
-    { scope: ref }
+    { scope: ref, dependencies: [reduced], revertOnUpdate: true }
   )
 
   return (

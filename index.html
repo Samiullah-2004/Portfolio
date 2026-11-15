@@ -69,6 +69,8 @@
         z-index: 299;
         background: #0a0a0b;
         pointer-events: none;
+        /* safety net: if JavaScript never starts, don't hide the page forever */
+        animation: boot-out 0.5s ease 12s forwards;
       }
       #boot::after {
         content: '';
@@ -80,6 +82,12 @@
         background: linear-gradient(90deg, #2ef06a 0 18%, rgba(255, 255, 255, 0.1) 18%);
         transform-origin: left;
         animation: boot-in 1.4s cubic-bezier(0.16, 1, 0.3, 1) both;
+      }
+      @keyframes boot-out {
+        to {
+          opacity: 0;
+          visibility: hidden;
+        }
       }
       @keyframes boot-in {
         from {

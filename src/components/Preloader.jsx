@@ -29,6 +29,7 @@ let hasPlayed = false
 const NAME = site.firstName.toUpperCase()
 const WORDS = ['Design', 'Build', 'Ship']
 const WATCHDOG_MS = 9000 // counted only while the tab is visible
+const BOOT_PROGRESS = 18 // matches the green segment of the loading line in index.html
 
 const NameRow = ({ fill = false }) => (
   <p
@@ -66,8 +67,6 @@ const Preloader = () => {
 
   useGSAP(
     (context, contextSafe) => {
-      // The static loading line from index.html has done its job once React is on screen
-      document.getElementById('boot')?.remove()
       if (!active) return
       hasPlayed = true
       lockScroll(true)
@@ -86,7 +85,8 @@ const Preloader = () => {
       let released = false
       let timeline = null
 
-      const progress = { v: 0 }
+      // index.html's boot line already shows 18% — continue from there instead of snapping back
+      const progress = { v: BOOT_PROGRESS }
       const render = () => {
         const v = progress.v
         counter.textContent = String(Math.round(v)).padStart(3, '0')
@@ -108,6 +108,12 @@ const Preloader = () => {
       let armedAt = 0
       let watchdog = 0
       const hurry = () => timeline?.timeScale(2.6) // a click, tap or key press fast-forwards
+      const detach = () => {
+        window.clearTimeout(watchdog)
+        document.removeEventListener('visibilitychange', onVisibility)
+        window.removeEventListener('pointerdown', hurry)
+        window.removeEventListener('keydown', hurry)
+      }
       const onVisibility = () => {
         window.clearTimeout(watchdog)
         if (document.hidden) budget -= performance.now() - armedAt
@@ -116,10 +122,7 @@ const Preloader = () => {
       const finish = () => {
         if (finished) return
         finished = true
-        window.clearTimeout(watchdog)
-        document.removeEventListener('visibilitychange', onVisibility)
-        window.removeEventListener('pointerdown', hurry)
-        window.removeEventListener('keydown', hurry)
+        detach()
         release(0)
         setActive(false)
       }
@@ -136,13 +139,13 @@ const Preloader = () => {
       gsap.set(fill, { clipPath: 'inset(-25% 100% -25% -10%)' })
       gsap.set(q('[data-meta]'), { autoAlpha: 0, y: calm ? 0 : 14 })
       gsap.set(q('[data-tagline]'), { autoAlpha: 0, y: calm ? 0 : 14 })
-      gsap.set(bar, { scaleX: 0 })
+      render()
       if (calm) gsap.set(q('[data-name]'), { autoAlpha: 0 })
       else gsap.set(letters, { yPercent: 118 })
 
       // While the font / background get ready: details arrive and the counter starts ticking
       gsap.to(q('[data-meta]'), { autoAlpha: 1, y: 0, duration: 0.7, stagger: calm ? 0 : 0.06, ease: 'power3.out' })
-      const warmup = gsap.to(progress, { v: 18, duration: 1.4, ease: 'power1.out', onUpdate: render })
+      const warmup = gsap.to(progress, { v: 30, duration: 1.4, ease: 'power1.out', onUpdate: render })
 
       const play = contextSafe(() => {
         if (cancelled || finished) return
@@ -187,10 +190,7 @@ const Preloader = () => {
 
       return () => {
         cancelled = true
-        window.clearTimeout(watchdog)
-        document.removeEventListener('visibilitychange', onVisibility)
-        window.removeEventListener('pointerdown', hurry)
-        window.removeEventListener('keydown', hurry)
+        detach()
         if (!finished) {
           lockScroll(false)
           // Let anything queued run on the next frame — unless a re-mount (React Strict Mode)

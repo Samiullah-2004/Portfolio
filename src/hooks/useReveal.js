@@ -17,7 +17,7 @@ import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { SplitText } from 'gsap/SplitText'
 import { useGSAP } from '@gsap/react'
-import { isReducedMotion } from '../lib/motion'
+import { useReducedMotion } from '../lib/motion'
 import { revealDelay, whenRevealsAllowed } from '../lib/intro'
 
 gsap.registerPlugin(ScrollTrigger, SplitText, useGSAP)
@@ -30,6 +30,8 @@ const FROM = {
 }
 
 export function useReveal(scopeRef, { start = 'top 88%', dependencies = [] } = {}) {
+  // Re-runs (reverting the previous setup first) when the visitor flips the animation switch
+  const reduced = useReducedMotion()
   useGSAP(
     () => {
       const root = scopeRef.current
@@ -40,7 +42,7 @@ export function useReveal(scopeRef, { start = 'top 88%', dependencies = [] } = {
       const pending = [] // reveals queued behind the preloader; cancelled if this unmounts first
       const queue = (fn) => pending.push(whenRevealsAllowed(fn))
 
-      if (isReducedMotion()) {
+      if (reduced) {
         // Calm mode: no movement and no split text — a short fade, still held back by the intro
         const calm = [...new Set([...items, ...splits])]
         gsap.set(calm, { autoAlpha: 0 })
@@ -111,6 +113,6 @@ export function useReveal(scopeRef, { start = 'top 88%', dependencies = [] } = {
 
       return () => pending.forEach((cancel) => cancel())
     },
-    { scope: scopeRef, dependencies }
+    { scope: scopeRef, dependencies: [...dependencies, reduced], revertOnUpdate: true }
   )
 }

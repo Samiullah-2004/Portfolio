@@ -2,7 +2,7 @@ import { useRef } from 'react'
 import { gsap } from 'gsap'
 import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
-import { isReducedMotion } from '../lib/motion'
+import { useReducedMotion } from '../lib/motion'
 
 gsap.registerPlugin(ScrollTrigger, useGSAP)
 
@@ -22,10 +22,11 @@ const refreshSoon = (() => {
  */
 const StackGallery = ({ images, title }) => {
   const ref = useRef(null)
+  const reduced = useReducedMotion()
 
   useGSAP(
     () => {
-      if (isReducedMotion()) return
+      if (reduced) return
       const cards = gsap.utils.toArray('[data-card]', ref.current)
       cards.forEach((card, i) => {
         const next = cards[i + 1]
@@ -38,7 +39,7 @@ const StackGallery = ({ images, title }) => {
           .to(card.querySelector('[data-card-shade]'), { opacity: 0.55, ease: 'none' }, 0)
       })
     },
-    { scope: ref, dependencies: [images.length] }
+    { scope: ref, dependencies: [images.length, reduced], revertOnUpdate: true }
   )
 
   return (

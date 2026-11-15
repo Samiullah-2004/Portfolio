@@ -4,7 +4,7 @@ import { ScrollTrigger } from 'gsap/ScrollTrigger'
 import { useGSAP } from '@gsap/react'
 import { ArrowLeft, ArrowRight } from 'lucide-react'
 import { useReveal } from '../hooks/useReveal'
-import { isReducedMotion } from '../lib/motion'
+import { useReducedMotion } from '../lib/motion'
 import { usePageTransition, TLink } from '../components/TransitionLink'
 import { ButtonLink } from '../components/Buttons'
 import StackGallery from '../components/StackGallery'
@@ -32,13 +32,14 @@ const Eyebrow = ({ children }) => (
 const DetailPage = ({ entry }) => {
   const ref = useRef(null)
   const { go } = usePageTransition()
+  const reduced = useReducedMotion()
   useReveal(ref, { dependencies: [entry.title] })
   useDocumentTitle(entry.title)
 
   // Cover image: the frame opens up from an inset as it scrolls in (nothing is cropped at rest)
   useGSAP(
     () => {
-      if (isReducedMotion()) return
+      if (reduced) return
       const frame = ref.current.querySelector('[data-cover]')
       if (!frame) return
       gsap.fromTo(
@@ -51,7 +52,7 @@ const DetailPage = ({ entry }) => {
         }
       )
     },
-    { scope: ref, dependencies: [entry.title] }
+    { scope: ref, dependencies: [entry.title, reduced], revertOnUpdate: true }
   )
 
   const [cover, ...gallery] = entry.images

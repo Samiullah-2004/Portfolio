@@ -1,6 +1,6 @@
 import { useEffect, useRef } from 'react'
 import { markBackgroundReady } from '../../lib/intro'
-import { isReducedMotion, useReducedMotion } from '../../lib/motion'
+import { useReducedMotion } from '../../lib/motion'
 
 /**
  * GridBackground — the animated perspective grid behind the whole site.
@@ -196,7 +196,8 @@ function createRenderer(canvas, { onReady }) {
   if (!gl) return null
   if (!isGL2 && !gl.getExtension('OES_standard_derivatives')) return null
 
-  const parallel = gl.getExtension('KHR_parallel_shader_compile')
+  // Extensions are invalidated by a context loss, so setup() (re)acquires them every time
+  let parallel = null
   const highp = gl.getShaderPrecisionFormat(gl.FRAGMENT_SHADER, gl.HIGH_FLOAT).precision > 0
   const vertSrc = (isGL2 ? '#version 300 es\n#define attribute in\n#define varying out\n' : '') + VERT
   const fragSrc =
@@ -310,6 +311,12 @@ function createRenderer(canvas, { onReady }) {
 
   const setup = () => {
     ready = false
+    cancelAnimationFrame(pollRaf)
+    if (!isGL2 && !gl.getExtension('OES_standard_derivatives')) {
+      onReady(false)
+      return
+    }
+    parallel = gl.getExtension('KHR_parallel_shader_compile')
     const compile = (type, src) => {
       const s = gl.createShader(type)
       gl.shaderSource(s, src)
@@ -323,8 +330,9 @@ function createRenderer(canvas, { onReady }) {
 
     // Where supported, wait for the driver to finish compiling without blocking the page
     if (parallel) {
+      const pending = program
       const poll = () => {
-        if (disposed) return
+        if (disposed || gl.isContextLost() || pending !== program) return
         if (gl.getProgramParameter(program, parallel.COMPLETION_STATUS_KHR)) finishSetup()
         else pollRaf = requestAnimationFrame(poll)
       }
@@ -350,8 +358,9 @@ function createRenderer(canvas, { onReady }) {
     if (staticMode || !raf) draw(staticMode ? 1.5 : performance.now() / 1000)
   }
   const onLost = (e) => {
-    e.preventDefault()
+    e.preventDefault() // allows the browser to restore the context
     stop()
+    cancelAnimationFrame(pollRaf)
     ready = false
   }
   const onRestored = () => setup()
@@ -413,7 +422,6 @@ const GridBackground = () => {
     }
     // No WebGL: the plain dark background stays, and nothing waits for us
     if (!renderer) markBackgroundReady()
-    else renderer.setStatic(isReducedMotion())
     rendererRef.current = renderer
 
     return () => {

@@ -64,8 +64,20 @@ export function useReducedMotion() {
   return useSyncExternalStore(subscribe, isReducedMotion, () => false)
 }
 
-/** Should we offer "reduce motion" once? (OS asks for it and the visitor has not chosen yet.) */
+// Can we remember things? If storage is blocked we never show the one-time offer,
+// because we couldn't remember that it was shown and it would appear on every visit.
+const storageWorks = () => {
+  try {
+    window.localStorage.setItem('sa-probe', '1')
+    window.localStorage.removeItem('sa-probe')
+    return true
+  } catch {
+    return false
+  }
+}
+
+/** Should we offer "reduce motion" once? (OS asks for it, animations are on, nothing chosen yet.) */
 export const shouldOfferReducedMotion = () =>
-  osPrefersReducedMotion() && storage.get(KEY) === null && storage.get(HINT_KEY) === null
+  !reduced && osPrefersReducedMotion() && storageWorks() && storage.get(KEY) === null && storage.get(HINT_KEY) === null
 
 export const dismissMotionOffer = () => storage.set(HINT_KEY, '1')

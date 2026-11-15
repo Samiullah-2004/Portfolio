@@ -9,7 +9,7 @@ import Preloader from '../components/Preloader'
 import Contact from '../sections/Contact'
 import { TransitionContext } from '../components/TransitionLink'
 import { scrollToTarget } from '../hooks/useLenis.jsx'
-import { isReducedMotion, useReducedMotion } from '../lib/motion'
+import { isReducedMotion } from '../lib/motion'
 import { MotionHint } from '../components/MotionControls'
 import { site } from '../data/site'
 import { holdRevealsFor } from '../lib/intro'
@@ -40,8 +40,6 @@ const RootLayout = () => {
   const firstLoad = useRef(true)
   const failsafe = useRef(0)
   const [label, setLabel] = useState('')
-  // Flipping the animation switch remounts the page content so every reveal is set up for the new mode
-  const reduced = useReducedMotion()
 
   // ── Remember the scroll position of every history entry ──────────────────
   useEffect(() => {
@@ -165,11 +163,36 @@ const RootLayout = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [location.key])
 
-  // ── Each page is its own canonical URL (index.html ships the home page's) ──
+  // ── Keep canonical / og:url in step after client-side navigation (each route's static HTML
+  //    already ships the right ones — see scripts/seo-pages.js). Unknown URLs are the 404 page:
+  //    they get `noindex` and no canonical, so search engines don't index them as real pages.
   useEffect(() => {
-    const url = site.url + (location.pathname === '/' ? '/' : location.pathname.replace(/\/+$/, ''))
-    document.querySelector('link[rel="canonical"]')?.setAttribute('href', url)
-    document.querySelector('meta[property="og:url"]')?.setAttribute('content', url)
+    const path = location.pathname.replace(/\/+$/, '') || '/'
+    const slug = path.slice(1)
+    const known = path === '/' || path === '/all-projects' || !!getProject(slug) || !!getExperience(slug)
+    const head = document.head
+    let canonical = head.querySelector('link[rel="canonical"]')
+    let robots = head.querySelector('meta[name="robots"]')
+    const ogUrl = head.querySelector('meta[property="og:url"]')
+    if (known) {
+      const url = site.url + (path === '/' ? '/' : path)
+      if (!canonical) {
+        canonical = document.createElement('link')
+        canonical.rel = 'canonical'
+        head.appendChild(canonical)
+      }
+      canonical.href = url
+      ogUrl?.setAttribute('content', url)
+      robots?.remove()
+    } else {
+      canonical?.remove()
+      if (!robots) {
+        robots = document.createElement('meta')
+        robots.name = 'robots'
+        head.appendChild(robots)
+      }
+      robots.content = 'noindex'
+    }
   }, [location.pathname])
 
   const ctx = useMemo(() => ({ go }), [go])
@@ -187,10 +210,10 @@ const RootLayout = () => {
       <Emailbar />
       <ScrollProgress />
 
-      <main id="main" key={reduced ? 'calm' : 'full'}>
+      <main id="main">
         <Outlet />
       </main>
-      <Contact key={reduced ? 'calm-footer' : 'full-footer'} />
+      <Contact />
       <MotionHint />
 
       {/* Page transition curtain */}

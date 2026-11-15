@@ -5,7 +5,7 @@ import { SplitText } from 'gsap/SplitText'
 import { ArrowUpRight, Brain, Briefcase, CreditCard, Globe, GraduationCap, MapPin, Radio, Rocket } from 'lucide-react'
 import SectionHeading from '../components/SectionHeading'
 import { useReveal } from '../hooks/useReveal'
-import { isReducedMotion } from '../lib/motion'
+import { useReducedMotion } from '../lib/motion'
 import { openSource } from '../data/education'
 
 gsap.registerPlugin(SplitText, useGSAP)
@@ -42,13 +42,14 @@ const strengths = [
 
 const About = () => {
   const ref = useRef(null)
+  const reduced = useReducedMotion()
   useReveal(ref)
 
   // The statement lights up word by word as it scrolls through the viewport
   useGSAP(
     () => {
       const el = ref.current.querySelector('[data-statement]')
-      if (isReducedMotion()) return
+      if (reduced) return
       SplitText.create(el, {
         type: 'words',
         autoSplit: true,
@@ -66,7 +67,7 @@ const About = () => {
         },
       })
     },
-    { scope: ref }
+    { scope: ref, dependencies: [reduced], revertOnUpdate: true }
   )
 
   return (

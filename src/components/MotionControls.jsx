@@ -36,6 +36,7 @@ export const MotionToggle = ({ className = '' }) => {
  */
 export const MotionHint = () => {
   const [state, setState] = useState('idle') // idle → shown → hidden
+  const reduced = useReducedMotion()
 
   useEffect(() => {
     if (!shouldOfferReducedMotion()) return
@@ -43,6 +44,8 @@ export const MotionHint = () => {
     // wait until the intro has lifted, then a moment more
     const cancel = whenRevealsAllowed(() => {
       timer = window.setTimeout(() => {
+        // the visitor may have switched animations off (or chosen) in the meantime
+        if (!shouldOfferReducedMotion()) return
         dismissMotionOffer() // offered once; never nag
         setState('shown')
         timer = window.setTimeout(() => setState('hidden'), 14000)
@@ -55,7 +58,8 @@ export const MotionHint = () => {
   }, [])
 
   if (state === 'idle') return null
-  const visible = state === 'shown'
+  // switched off from the menu/footer while the offer is up: it no longer applies
+  const visible = state === 'shown' && !reduced
 
   return (
     <div

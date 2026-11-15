@@ -1,3 +1,4 @@
+import { useLayoutEffect } from 'react'
 import { createBrowserRouter, Navigate, RouterProvider } from 'react-router-dom'
 import RootLayout from './layout/RootLayout'
 import HomePage from './pages/HomePage'
@@ -25,7 +26,15 @@ const router = createBrowserRouter([
   },
 ])
 
-const App = () => (
+const App = () => {
+  // index.html paints a static boot screen until React is on screen. Remove it here (after the
+  // first commit, when the preloader — if any — is already painted) rather than inside the
+  // preloader, so every render path clears it, including the router's error page.
+  useLayoutEffect(() => {
+    document.getElementById('boot')?.remove()
+  }, [])
+
+  return (
   <>
     {/* Animated grid background + vignette, fixed behind every page */}
     <div className="pointer-events-none fixed inset-0 z-0" aria-hidden="true">
@@ -39,6 +48,7 @@ const App = () => (
       <RouterProvider router={router} />
     </div>
   </>
-)
+  )
+}
 
 export default App
