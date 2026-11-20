@@ -57,7 +57,7 @@ export const experiences = [
     ],
     groups: [
       {
-        title: 'V1 · Live product',
+        title: 'V1',
         items: [
           { icon: Bug, title: 'Server Crash Fix', desc: 'Diagnosed and fixed a recurring WebSocket / Node.js server crash by adding a WebSocket transport for Supabase Realtime and pinning the Node engine.' },
           { icon: Webcam, title: 'Live Camera Pipeline', desc: 'Fixed a stretched-face rendering bug in the AI live portrait mode of the camera pipeline.' },
