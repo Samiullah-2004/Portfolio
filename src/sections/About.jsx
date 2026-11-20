@@ -112,7 +112,7 @@ const About = () => {
               <span className="text-white">SmokeScreen V2</span> with the Lead Developer, a live AI video streaming SaaS
               now in production: its UI, backend,
               payment integration, admin tools, testing and deployment on Railway and Hostinger. I also fix production
-              issues on the live V1.
+              issues on the live V2.
             </p>
             <p data-reveal>
               Before that I completed web development internships at Qwetrum Technologies and Decode Labs. I'm studying

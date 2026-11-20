@@ -98,7 +98,7 @@ export const projects = [
     ],
     about: [
       'SmokeScreen is a live AI video SaaS. A creator turns on their webcam, picks a scene, and an AI model transforms how they look and where they are in real time. The output is captured through OBS straight into WhatsApp, Telegram, Zoom and Meet, with credit-based billing and tiered plans.',
-      "I work on SmokeScreen with the company's Lead Developer through a pull-request based Git workflow. On V1, the live product, I fixed production bugs and shipped a portrait-mode dashboard. V2 is a complete rebuild, now live, that I co-built with the Lead Developer: the design system and 35+ page frontend, the Express + Supabase backend, card payments and credit billing, AI creative tools, the admin panel, automated tests and deployment to Railway and Hostinger.",
+      "I work on SmokeScreen with the company's Lead Developer through a pull-request based Git workflow. On V1, I fixed production bugs and shipped a portrait-mode dashboard. V2 is a complete rebuild, now live, that I co-built with the Lead Developer: the design system and 35+ page frontend, the Express + Supabase backend, card payments and credit billing, AI creative tools, the admin panel, automated tests and deployment to Railway and Hostinger.",
     ],
     features: [
       {

@@ -53,7 +53,7 @@ export const experiences = [
     ],
     about: [
       "I'm a Full-Stack Developer on SmokeScreen, a live AI video streaming SaaS operated by JayTech Elite Firm. SmokeScreen transforms a creator's live webcam feed with AI and lets them broadcast it into WhatsApp, Telegram, Zoom and Meet through OBS, with credit-based billing and tiered plans.",
-      "I work alongside the company's Lead Developer on both the live V1 product and the V2 rebuild, shipping through feature branches and pull requests. On V2 I designed the design system and co-built the product with the Lead Developer: the UI, backend, payments, admin tools, tests and deployment. Today I handle daily production fixes, monitoring and client feedback on the live V2.",
+      "I work alongside the company's Lead Developer on both V1 and the V2 rebuild, shipping through feature branches and pull requests. On V2 I designed the design system and co-built the product with the Lead Developer: the UI, backend, payments, admin tools, tests and deployment. Today I handle daily production fixes, monitoring and client feedback on the live V2.",
     ],
     groups: [
       {
