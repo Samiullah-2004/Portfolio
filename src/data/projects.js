@@ -169,13 +169,13 @@ export const projects = [
     ai: true,
     year: '2026',
     role: 'Full-Stack Developer',
-    deployed: 'AWS EC2 (signaling server)',
+    deployed: 'Docker · AWS-ready (EC2)',
     repo: 'https://github.com/Samiullah-2004/codemeet-ai',
     tags: ['Next.js', 'TypeScript', 'WebRTC', 'Socket.IO', 'DynamoDB', 'Gemini AI'],
-    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'WebRTC', 'Socket.IO', 'DynamoDB', 'AWS EC2', 'NextAuth.js', 'Monaco Editor', 'Google Gemini', 'Web Audio API', 'GitHub Actions'],
+    stack: ['Next.js', 'TypeScript', 'Tailwind CSS', 'WebRTC', 'Socket.IO', 'DynamoDB', 'AWS EC2', 'Docker', 'NextAuth.js', 'Monaco Editor', 'Google Gemini', 'Web Audio API', 'GitHub Actions'],
     about: [
       'A real-time technical interview platform built from scratch: peer-to-peer WebRTC video, a live shared Monaco code editor, real-time chat and AI code review powered by Google Gemini.',
-      'Built with Next.js, TypeScript and Tailwind CSS. Socket.IO handles signaling on AWS EC2, DynamoDB stores interview sessions and NextAuth handles authentication. CI/CD ran from day one through GitHub Actions with OIDC, on a branch-protected Git workflow.',
+      'Built with Next.js, TypeScript and Tailwind CSS. Socket.IO signaling is built for AWS EC2 and containerised with Docker, DynamoDB stores interview sessions and NextAuth handles authentication. CI/CD ran from day one through GitHub Actions with OIDC, on a branch-protected Git workflow.',
     ],
     features: [
       { icon: Video, title: 'Peer-to-Peer Video', desc: 'WebRTC video calls with Socket.IO signaling and automatic peer negotiation. I fixed a race condition where signaling listeners were not attached until camera permission resolved.' },
