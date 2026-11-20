@@ -37,9 +37,9 @@ export const experiences = [
     period: 'Sept 2026 – Present',
     current: true,
     summary:
-      'Designed and built most of SmokeScreen V2, a live AI video SaaS: design system, 35+ page frontend, Express + Supabase backend, payments, admin panel, tests and deployment.',
+      'Co-built SmokeScreen V2, a live AI video SaaS, with the Lead Developer: design system, 35+ page frontend, Express + Supabase backend, payments, admin panel, tests and deployment.',
     link: 'https://smokescreenapp.com/',
-    linkLabel: 'SmokeScreen (V1 live)',
+    linkLabel: 'SmokeScreen (live)',
     meta: [
       { label: 'Period', value: 'Sept 2026 – Present' },
       { label: 'Role', value: 'Full-Stack Developer' },
@@ -53,7 +53,7 @@ export const experiences = [
     ],
     about: [
       "I'm a Full-Stack Developer on SmokeScreen, a live AI video streaming SaaS operated by JayTech Elite Firm. SmokeScreen transforms a creator's live webcam feed with AI and lets them broadcast it into WhatsApp, Telegram, Zoom and Meet through OBS, with credit-based billing and tiered plans.",
-      "I work alongside the company's Lead Developer on both the live V1 product and the V2 rebuild, shipping through feature branches and pull requests. On V2 I designed the product and built most of it end to end: the UI, backend, payments, admin tools, tests and deployment. Today I handle daily fixes and client feedback rounds as V2 heads to launch.",
+      "I work alongside the company's Lead Developer on both the live V1 product and the V2 rebuild, shipping through feature branches and pull requests. On V2 I designed the design system and co-built the product with the Lead Developer: the UI, backend, payments, admin tools, tests and deployment. Today I handle daily production fixes, monitoring and client feedback on the live V2.",
     ],
     groups: [
       {
@@ -76,7 +76,7 @@ export const experiences = [
           { icon: LayoutDashboard, title: 'Admin Control Center', desc: 'Today screen, customer search and activity, credits, license keys, payment-problem tools, bulk actions with undo, audit log, support tickets, mass email, team roles and maintenance mode.' },
           { icon: ShieldCheck, title: 'Security & Accounts', desc: 'JWT sessions, Google sign-in, password change and reset by email, Supabase Row Level Security, consent records and upload consent with real storage deletion, plus Resend transactional emails.' },
           { icon: TestTubes, title: 'Testing & CI', desc: 'Jest + Supertest suites for the API, payments and pages, run automatically on every pull request with GitHub Actions.' },
-          { icon: Rocket, title: 'Deployment & Daily Support', desc: 'Deployed the API on Railway and the website on Hostinger, and resolve daily production issues and client feedback rounds as V2 heads to launch.' },
+          { icon: Rocket, title: 'Deployment & Daily Support', desc: 'Deployed the API on Railway and the website on Hostinger, and handle daily production fixes and client feedback on the live platform.' },
         ],
       },
     ],
@@ -133,7 +133,7 @@ export const experiences = [
     groups: [
       {
         items: [
-          { icon: FileCheck2, title: 'Weekly Assignments', desc: 'Delivered structured weekly full-stack assignments in a remote, asynchronous environment.' },
+          { icon: FileCheck2, title: 'Weekly Assignments', desc: 'Delivered structured weekly frontend assignments in a remote, asynchronous environment.' },
           { icon: GitBranch, title: 'Clean Git History', desc: 'Maintained clean GitHub commit histories across concurrent deliverables.' },
           { icon: Puzzle, title: 'Vanilla JS DOM Curriculum', desc: 'Completed a vanilla JavaScript DOM manipulation curriculum, approved and certified by supervisors after GitHub-based review.' },
         ],

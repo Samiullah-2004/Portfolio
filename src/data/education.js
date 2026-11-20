@@ -25,14 +25,10 @@ export const certifications = [
     title: 'Full Stack Web Development',
     issuer: 'Amazon · Coursera',
   },
-  {
-    title: 'Technology Job Simulation',
-    issuer: 'Deloitte · Forage',
-  },
 ]
 
 export const openSource = {
   title: 'Open source',
   text: 'First external contributor to get a pull request merged into klorn, after two rounds of maintainer review.',
-  href: 'https://github.com/Samiullah-2004/klorn',
+  href: 'https://github.com/k08200/klorn/pull/1178',
 }

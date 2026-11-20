@@ -89,7 +89,7 @@ Deployed on **Vercel** (`vercel.json` rewrites every route to the SPA).
 ## 📦 Featured Work
 
 ### 🎥 SmokeScreen — Live AI video SaaS *(client project, JayTech Elite Firm)*
-A creator turns on their webcam, picks a scene, and an AI model transforms them live; the output goes through OBS into WhatsApp, Telegram, Zoom and Meet. I designed and built most of V2: the design system and 35+ page frontend, the Express + Supabase backend, Flutterwave/Squad payments with signed webhooks and per-second credit billing, Gemini / fal.ai / MiniMax creative tools, the admin panel, Jest + Supertest tests on GitHub Actions, and deployment to Railway and Hostinger.
+A creator turns on their webcam, picks a scene, and an AI model transforms them live; the output goes through OBS into WhatsApp, Telegram, Zoom and Meet. I co-built V2 (now live) with the Lead Developer: the design system and 35+ page frontend, the Express + Supabase backend, Flutterwave/Squad payments with signed webhooks and per-second credit billing, Gemini / fal.ai / MiniMax creative tools, the admin panel, Jest + Supertest tests on GitHub Actions, and deployment to Railway and Hostinger.
 **Stack:** JavaScript · Node.js · Express · Supabase (PostgreSQL, RLS) · Flutterwave · Squad · Gemini · fal.ai · MiniMax · Jest · Railway · Hostinger
 
 ### 🤖 ChatSpark AI — RAG chatbot SaaS

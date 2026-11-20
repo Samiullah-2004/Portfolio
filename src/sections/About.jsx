@@ -108,8 +108,9 @@ const About = () => {
               the whole product: the design system, the API, the database, the payments, the tests and the deployment.
             </p>
             <p data-reveal>
-              Right now I'm at <span className="text-white">JayTech Elite Firm</span>, where I designed and built most of{' '}
-              <span className="text-white">SmokeScreen V2</span>, a live AI video streaming SaaS: its UI, backend,
+              Right now I'm at <span className="text-white">JayTech Elite Firm</span>, where I co-built{' '}
+              <span className="text-white">SmokeScreen V2</span> with the Lead Developer, a live AI video streaming SaaS
+              now in production: its UI, backend,
               payment integration, admin tools, testing and deployment on Railway and Hostinger. I also fix production
               issues on the live V1.
             </p>
